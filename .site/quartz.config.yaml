@@ -112,6 +112,13 @@ plugins:
     enabled: false
   - source: "@quartz-community/alias-redirects"
     enabled: true
+  # AI Chat: build-time RAG knowledge index (static/knowledge-index.json)
+  # and the client-side WebLLM chat widget (in-browser model + keyword RAG).
+  - source: "./quartz/plugins/local/ai-chat"
+    enabled: true
+    options:
+      role: emitter
+    order: 950
   - source: "@quartz-community/content-index"
     enabled: true
     options:

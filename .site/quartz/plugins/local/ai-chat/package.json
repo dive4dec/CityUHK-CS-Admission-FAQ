@@ -1,0 +1,27 @@
+{
+  "name": "ai-chat",
+  "version": "0.1.0",
+  "description": "In-browser AI chat (WebLLM + keyword RAG) for the CityUHK CS Admission FAQ site.",
+  "type": "module",
+  "exports": {
+    ".": { "import": "./index.js" },
+    "./components": { "import": "./components/index.js" },
+    "./package.json": "./package.json"
+  },
+  "quartz": {
+    "name": "ai-chat",
+    "displayName": "AI Chat",
+    "description": "Build-time knowledge-index emitter + client-side WebLLM chat widget (in-browser RAG).",
+    "version": "0.1.0",
+    "quartzVersion": ">=5.0.0",
+    "category": ["emitter", "component"],
+    "defaultOrder": 950,
+    "components": {
+      "AIChat": {
+        "displayName": "AI Chat",
+        "defaultPosition": "right",
+        "defaultPriority": 60
+      }
+    }
+  }
+}
