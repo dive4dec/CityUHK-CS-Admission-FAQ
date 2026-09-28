@@ -98,7 +98,7 @@ function render() {
   const allGraded = picks.every(p => p !== "Unclassified");
   if (allGraded && total >= 18) {
     const sorted = picks.slice().sort((a, b) => PTS[b] - PTS[a]);
-    const slug = "score-lookup-best-5-=" + sorted.map(p => TITLE[p]).join(",").replace(/ /g, "-");
+    const slug = "score-lookup-best-5-=-" + sorted.map(p => TITLE[p]).join(", ").replace(/ /g, "-");
     noteLink = '<p><a href="../09_score-lookup/' + slug + '.html">📄 Full worked note for this exact profile</a></p>';
   }
   // concrete 1.5x example only when the assumed weighted grades are actually in the set
