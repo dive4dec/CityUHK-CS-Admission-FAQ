@@ -349,8 +349,47 @@
 }
 
 .ai-chat-settings select:focus,
-.ai-chat-settings input[type="text"]:focus {
+.ai-chat-settings input[type="text"]:focus,
+.ai-chat-settings input[type="password"]:focus {
   border-color: var(--secondary, #284b63);
+}
+
+.ai-chat-settings input[type="password"] {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--gray, #b8b8b8);
+  border-radius: 6px;
+  font-size: 13px;
+  margin-bottom: 12px;
+  background: var(--light, #faf8f8);
+  color: var(--dark, #2b2b2b);
+  box-sizing: border-box;
+  outline: none;
+}
+
+.ai-chat-settings .settings-provider {
+  margin: 8px 0 14px 0;
+  padding: 10px 12px;
+  border: 1px solid var(--gray, #b8b8b8);
+  border-radius: 8px;
+  background: var(--highlight, rgba(143, 159, 169, 0.12));
+  font-size: 13px;
+}
+
+.ai-chat-settings .settings-provider label {
+  display: inline;
+  font-weight: 400;
+  margin: 0;
+  color: var(--dark, #2b2b2b);
+  cursor: pointer;
+}
+
+.ai-chat-settings .settings-provider input[type="radio"] {
+  margin-right: 6px;
+}
+
+.ai-chat-settings .settings-section {
+  margin-bottom: 6px;
 }
 
 .ai-chat-settings .settings-hint {

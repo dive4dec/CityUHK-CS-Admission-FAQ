@@ -1,26 +1,34 @@
 /* ================================================================
-   AI Chat Widget — CityUHK CS Admission FAQ
-   In-browser LLM (WebLLM, WebGPU) + keyword RAG over a static
-   knowledge index + a client-side AGENT LOOP with tool calling
-   (search notes, open a page, read the current page).
-   No data leaves the browser.
+ AI Chat Widget — CityUHK CS Admission FAQ
+ In-browser LLM (WebLLM, WebGPU) OR any OpenAI-compatible
+ /chat/completions endpoint (OpenRouter, Groq, OpenAI, local
+ llama.cpp/Ollama/llama-server, vLLM, ...) + keyword RAG over a
+ static knowledge index + a client-side AGENT LOOP with tool calling
+ (search notes, open a page, read the current page).
+ In-browser mode: no data leaves the browser. External mode: your
+ questions go to the endpoint you configure (key kept in this
+ browser's localStorage).
 
-   WebLLM function-calling notes (verified against the 0.2.85
-   bundle source):
-   - Only the Hermes-2-Pro / Hermes-3 8B/7B family is in the
-     bundle's functionCallingModelIds. For those models, passing
-     `tools` makes WebLLM (a) forbid any custom `system` message
-     (it injects its own Hermes tool-prompt), (b) force the output
-     to the Hermes function-call JSON schema, and (c) return the
-     parsed calls as `delta.tool_calls` on the last streaming
-     chunk (finish_reason "tool_calls").
-   - Tool results are fed back as { role: "tool", content: string }.
-   - Non-Hermes small models get RAG-only answers (fast mode).
-   Plain top-level script (no import/export): works both as an ES
-   module (production build) and inside the IIFE-wrapped serve-mode
-   bundle. Mounts into <html> (not document.body) so the SPA
-   router, which morphs document.body, never destroys the widget.
-   ================================================================ */
+ WebLLM function-calling notes (verified against the 0.2.85
+ bundle source):
+ - Only the Hermes-2-Pro / Hermes-3 8B/7B family is in the
+   bundle's functionCallingModelIds. For those models, passing
+   `tools` makes WebLLM (a) forbid any custom `system` message
+   (it injects its own Hermes tool-prompt), (b) force the output
+   to the Hermes function-call JSON schema, and (c) return the
+   parsed calls as `delta.tool_calls` on the last streaming
+   chunk (finish_reason "tool_calls").
+ - Consequence: while `tools` is present the model CANNOT emit a
+   plain-text answer (grammar lock). Hence the two-phase loop:
+   Phase 1 (tools) selects/runs the tool, Phase 2 (no tools)
+   writes the answer. External endpoints do NOT have this
+   restriction, so a single request can answer with tools attached.
+ - Non-Hermes small models get RAG-only answers (fast mode).
+ Plain top-level script (no import/export): works both as an ES
+ module (production build) and inside the IIFE-wrapped serve-mode
+ bundle. Mounts into <html> (not document.body) so the SPA
+ router, which morphs document.body, never destroys the widget.
+ ================================================================ */
 (function () {
   "use strict";
 
@@ -54,6 +62,7 @@
   var TOOL_RESULT_MAX = 1500; // chars of a tool result fed back to the model
   var PAGE_READ_MAX = 1200; // default chars for read_current_page
   var STORAGE_MODEL = "cityu-ai-chat-model";
+  var STORAGE_ENDPOINT = "cityu-ai-chat-endpoint"; // {kind,baseUrl,key,model}
   // The page carries data-basepath from cfg.baseUrl even in local-serve mode,
   // where the site is served at the root. Only use the basepath when the
   // current URL actually lives under it (GitHub Pages); otherwise use root.
@@ -66,6 +75,36 @@
 
   function isAgentModel(modelId) {
     return !!modelId && AGENT_MODELS.indexOf(modelId) >= 0;
+  }
+
+  // ---- Provider config: "inbrowser" (WebLLM/WebGPU, default) or
+  // "external" (any OpenAI-compatible /chat/completions endpoint, e.g.
+  // OpenRouter, Groq, local llama.cpp/Ollama/OpenAI-compatible servers).
+  // The API key is stored in localStorage of THIS browser only. ----
+  function endpointCfg() {
+    try {
+      var o = JSON.parse(localStorage.getItem(STORAGE_ENDPOINT) || "null");
+      if (!o || (o.kind !== "external" && o.kind !== "inbrowser")) return null;
+      return o;
+    } catch (e) { return null; }
+  }
+  function saveEndpointCfg(o) {
+    try { localStorage.setItem(STORAGE_ENDPOINT, JSON.stringify(o)); } catch (e) {}
+  }
+  function clearEndpointCfg() {
+    try { localStorage.removeItem(STORAGE_ENDPOINT); } catch (e) {}
+  }
+  function isExternal() { return !!(endpointCfg() && endpointCfg().kind === "external"); }
+  function providerReady() {
+    return !!(engine || isExternal());
+  }
+  function providerStatusText() {
+    if (isExternal()) return "Server ready: " + endpointModelName();
+    return engine ? "Model ready" : "No model loaded";
+  }
+  function endpointModelName() {
+    var c = endpointCfg();
+    return (c && c.model) ? String(c.model).trim() : "";
   }
 
   // ---- State ----
@@ -272,8 +311,8 @@
       "<p><strong>\uD83C\uDF93 CityUHK CS Admission FAQ Assistant</strong></p>" +
       "<p>Ask about admission, JUPAS scores, programmes, curriculum or tuition fees.</p>" +
       "<p>I can <em>search the 1035 FAQ notes</em>, <em>open the source page</em> for you, and <em>read the page you are on</em> (with an agent model).</p>" +
-      "<p>Everything runs <em>locally in your browser</em> — no data is sent to any server.</p>" +
-      "<p>Open \u2699\uFE0F settings to load a model (first load downloads it, then cached).</p>";
+      "<p>Retrieval runs <em>locally in your browser</em>. With the in-browser model nothing else leaves this machine; if you configure an OpenAI-compatible server in \u2699\uFE0F settings, the conversation is sent to that server.</p>" +
+      "<p>Open \u2699\uFE0F settings to load a model or connect a server.</p>";
     box.appendChild(w);
   }
 
@@ -334,7 +373,68 @@
     }
   }
 
-  // ---- Agent tools (executed client-side; nothing leaves the browser) ----
+  // ---- OpenAI-compatible endpoint (external provider) ----
+  // Streams a standard POST {base}/chat/completions (OpenAI format) and
+  // yields OpenAI-format chunks, so the agent loop and streaming UI are
+  // shared between the in-browser WebLLM engine and any remote endpoint
+  // (OpenRouter, Groq, OpenAI, vLLM, Ollama/llama.cpp local servers).
+  function endpointBase() {
+    var c = endpointCfg();
+    return (c && c.baseUrl) ? String(c.baseUrl).replace(/\/+$/, "") : "";
+  }
+  async function openaiStream(request) {
+    var c = endpointCfg();
+    var body = Object.assign({}, request, {
+      model: endpointModelName(),
+      stream: true
+    });
+    var headers = { "Content-Type": "application/json" };
+    if (c && c.key) headers["Authorization"] = "Bearer " + c.key;
+    var res = await fetch(endpointBase() + "/chat/completions", {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify(body)
+    });
+    if (!res.ok) {
+      var detail = "";
+      try { detail = (await res.text()).slice(0, 300); } catch (e) {}
+      throw new Error("Endpoint HTTP " + res.status + (detail ? ": " + detail : ""));
+    }
+    var ct = (res.headers.get("content-type") || "").toLowerCase();
+    if (ct.indexOf("text/event-stream") < 0) {
+      // Non-stream JSON response: wrap it as a single chunk.
+      var data = await res.json();
+      return (async function* () { yield data; })();
+    }
+    var reader = res.body.getReader();
+    var decoder = new TextDecoder("utf-8");
+    var buf = "";
+    return (async function* () {
+      while (true) {
+        var part = await reader.read();
+        if (part.done) break;
+        buf += decoder.decode(part.value, { stream: true });
+        var lines = buf.split("\n");
+        buf = lines.pop();
+        for (var i = 0; i < lines.length; i++) {
+          var line = lines[i].trim();
+          if (!line || line.indexOf("data:") !== 0) continue;
+          var payload = line.slice(5).trim();
+          if (payload === "[DONE]") return;
+          try { yield JSON.parse(payload); } catch (e) { /* keep-alive or partial line */ }
+        }
+      }
+    })();
+  }
+  // Dispatch a completions request to the active provider. Both paths
+  // return an async iterable of OpenAI-format chunks.
+  function providerCreate(request) {
+    if (isExternal()) return openaiStream(request);
+    return engine.chat.completions.create(request);
+  }
+
+  // ---- Agent tools (executed client-side; the model call goes to the
+  // active provider: in-browser WebLLM, or the configured external endpoint) ----
   var TOOLS = [
     {
       type: "function",
@@ -539,7 +639,109 @@
     return s;
   }
 
+  // ---- Agent loop for EXTERNAL OpenAI-compatible endpoints.
+  // Standard OpenAI tool-calling loop: no grammar lock, so the model can
+  // answer directly or call tools; tool results go back as role:"tool".
+  async function runAgentExternal(query) {
+    var history = [];
+    var plain = conversationHistory.filter(function (m) {
+      return (m.role === "user" || m.role === "assistant") && typeof m.content === "string";
+    });
+    if (plain.length && plain[plain.length - 1].role === "user" && plain[plain.length - 1].content === query) {
+      plain = plain.slice(0, -1);
+    }
+    plain.slice(-AGENT_HISTORY).forEach(function (m) {
+      var c = m.content;
+      if (m.role === "assistant" && c.length > AGENT_TURN_TRIM) c = c.slice(0, AGENT_TURN_TRIM) + "\u2026";
+      history.push({ role: m.role, content: c });
+    });
+
+    var cited = {};
+    var page = currentPageMeta();
+    var systemPrompt =
+      "You are the FAQ assistant for the CityUHK (City University of Hong Kong) " +
+      "Computer Science undergraduate admission site. Use the provided tools when " +
+      "needed: for questions about the current/this page use read_current_page " +
+      "and answer from its text; for other admission questions use " +
+      "search_knowledge_base and answer from the results; use navigate_to_page " +
+      "only when the user wants the source note opened. Be concise and factual. " +
+      (page.title ? "Current page: " + page.title + " (slug: " + page.slug + ")." : "");
+    var msgs = [{ role: "system", content: systemPrompt }]
+      .concat(history)
+      .concat([{ role: "user", content: buildAgentUserTurn(query) }]);
+
+    for (var round = 0; round < MAX_AGENT_TURNS; round++) {
+      showTyping(true);
+      var req = {
+        messages: msgs.slice(),
+        temperature: 0.3,
+        max_tokens: 1024,
+        stream: true,
+        tool_choice: "auto",
+        tools: TOOLS
+      };
+      if (window.__aiChatLog) console.log("[ai-chat] EXT round " + round + " REQUEST", JSON.parse(JSON.stringify(req)));
+      var stream = await providerCreate(req);
+      var content = "";
+      var toolCalls = null;
+      var liveEl = null;
+      for await (var chunk of stream) {
+        var choice = chunk.choices && chunk.choices[0];
+        if (!choice) continue;
+        var delta = choice.delta;
+        if (delta && delta.content) {
+          content += delta.content;
+          if (!liveEl) {
+            showTyping(false);
+            liveEl = appendMessage("assistant", "");
+          }
+          liveEl.innerHTML = renderMarkdown(content);
+          scrollBottom();
+        }
+        if (delta && delta.tool_calls) toolCalls = mergeToolCallsDelta(toolCalls, delta.tool_calls);
+      }
+      showTyping(false);
+      if (window.__aiChatLog) console.log("[ai-chat] EXT round " + round + " RESPONSE", JSON.stringify({ content: content, toolCalls: toolCalls }));
+
+      if (!toolCalls || !toolCalls.length) {
+        // Final answer.
+        var finalEl = liveEl;
+        if (!finalEl && content) finalEl = appendMessage("assistant", content);
+        if (finalEl && content) {
+          finalEl.innerHTML = renderMarkdown(content);
+          appendCitations(finalEl, cited);
+          scrollBottom();
+        }
+        conversationHistory.push({ role: "assistant", content: content });
+        if (!content.trim()) addSystemMessage("(The model returned an empty answer)");
+        return;
+      }
+
+      // Tool-call turn: raw JSON text streamed — swap it for chips.
+      if (liveEl) liveEl.remove();
+      var tcArr = [];
+      for (var ti = 0; ti < toolCalls.length; ti++) {
+        var tc = toolCalls[ti];
+        var argsObj = safeParseArgs(tc.arguments);
+        var t = { name: tc.name, arguments: argsObj, id: tc.id || ("call_" + ti) };
+        addToolChip(t.name, t.arguments);
+        tcArr.push({
+          id: t.id,
+          type: "function",
+          function: { name: t.name, arguments: JSON.stringify(t.arguments) }
+        });
+      }
+      msgs.push({ role: "assistant", content: content || null, tool_calls: tcArr });
+      for (var k = 0; k < tcArr.length; k++) {
+        var result = executeTool(tcArr[k].function.name, safeParseArgs(tcArr[k].function.arguments), cited);
+        msgs.push({ role: "tool", tool_call_id: tcArr[k].id, content: JSON.stringify(result).slice(0, TOOL_RESULT_MAX) });
+      }
+    }
+    addSystemMessage("Stopped after " + MAX_AGENT_TURNS + " steps — please rephrase or split the question.");
+  }
+
   async function runAgent(query) {
+    if (isExternal()) return runAgentExternal(query);
     // Recent plain exchanges (tool turns are not kept in history). The
     // current user query was already pushed by sendMessage — exclude it
     // here; Phase 1 appends the context-wrapped version.
@@ -579,7 +781,7 @@
       tools: TOOLS
     };
     if (window.__aiChatLog) console.log("[ai-chat] PHASE1 (tools) REQUEST", JSON.parse(JSON.stringify(toolRequest)));
-    var stream1 = await engine.chat.completions.create(toolRequest);
+    var stream1 = await providerCreate(toolRequest);
     var content1 = "";
     var toolCalls = null;
     var liveEl = null;
@@ -650,7 +852,7 @@
       stream: true
     };
     if (window.__aiChatLog) console.log("[ai-chat] PHASE2 (answer) REQUEST", JSON.parse(JSON.stringify(answerRequest)));
-    var stream2 = await engine.chat.completions.create(answerRequest);
+    var stream2 = await providerCreate(answerRequest);
     var reply = "";
     var msgEl = appendMessage("assistant", "");
     // Render markdown into an inner wrapper so the citations element (a
@@ -707,7 +909,7 @@
     var messages = [{ role: "system", content: context }].concat(
       conversationHistory.slice(-HISTORY_KEEP)
     );
-    var stream = await engine.chat.completions.create({
+    var stream = await providerCreate({
       messages: messages,
       temperature: 0.3,
       max_tokens: 1024,
@@ -756,9 +958,9 @@
     inputEl.value = "";
     if (inputEl.style.height) inputEl.style.height = "";
 
-    if (!engine) {
+    if (!providerReady()) {
       addSystemMessage(
-        "No model loaded yet. Open \u2699\uFE0F settings and click \u201CLoad model\u201D, then try again."
+        "No model loaded yet. Open \u2699\uFE0F settings and load a model or connect a server, then try again."
       );
       openSettings();
       return;
@@ -771,7 +973,7 @@
     showTyping(true);
 
     try {
-      if (isAgentModel(currentModelId)) await runAgent(query);
+      if (isExternal() || isAgentModel(currentModelId)) await runAgent(query);
       else await fastAnswer(query);
     } catch (e) {
       showTyping(false);
@@ -793,6 +995,21 @@
     });
     var modal = el("div", { className: "ai-chat-settings" });
     modal.appendChild(el("h3", { textContent: "AI Chat Settings" }));
+
+    // ---- Provider toggle: in-browser (WebGPU) vs OpenAI-compatible server
+    var providerGroup = el("div", { className: "settings-provider" });
+    var radioIn = el("input", { type: "radio", name: "ai-chat-provider", id: "ai-chat-prov-in", value: "inbrowser" });
+    var radioOut = el("input", { type: "radio", name: "ai-chat-provider", id: "ai-chat-prov-out", value: "external" });
+    var save = endpointCfg() || {};
+    if (save.kind === "external") radioOut.checked = true; else radioIn.checked = true;
+    providerGroup.appendChild(radioIn);
+    providerGroup.appendChild(el("label", { for: "ai-chat-prov-in", textContent: " In-browser model (WebGPU — runs locally, no server)" }));
+    providerGroup.appendChild(el("br"));
+    providerGroup.appendChild(radioOut);
+    providerGroup.appendChild(el("label", { for: "ai-chat-prov-out", textContent: " OpenAI-compatible server (e.g. OpenRouter, Groq, OpenAI, local llama.cpp/Ollama)" }));
+    modal.appendChild(providerGroup);
+
+    var inSection = el("div", { className: "settings-section", id: "ai-chat-section-in" });
 
     var label = el("label", { textContent: "Model (runs in your browser via WebGPU)" });
     var select = el("select", { id: "ai-chat-setting-model" });
@@ -816,35 +1033,104 @@
     });
     select.appendChild(ogAgent);
     select.appendChild(ogFast);
-    modal.appendChild(label);
-    modal.appendChild(select);
+    inSection.appendChild(label);
+    inSection.appendChild(select);
 
     var hint = el("p", { className: "settings-hint" });
     hint.textContent =
       "Agent models can call tools: search the 1035 FAQ notes, open the source page in your browser, and read the page you are viewing. " +
       "Fast models answer from the notes I retrieve for you. " +
       "The model downloads once and is cached in your browser. Nothing is sent to any server.";
-    modal.appendChild(hint);
+    inSection.appendChild(hint);
+    modal.appendChild(inSection);
+
+    // ---- OpenAI-compatible server section
+    var outSection = el("div", { className: "settings-section", id: "ai-chat-section-out" });
+    var baseLabel = el("label", { textContent: "Base URL (no trailing /chat/completions)" });
+    var baseInput = el("input", {
+      type: "text", id: "ai-chat-set-base",
+      placeholder: "https://openrouter.ai/api/v1  or  http://localhost:8080/v1",
+      value: (save && save.kind === "external") ? (save.baseUrl || "") : ""
+    });
+    var keyLabel = el("label", { textContent: "API key (optional for local servers; stored only in this browser)" });
+    var keyInput = el("input", {
+      type: "password", id: "ai-chat-set-key",
+      placeholder: "sk-...",
+      value: (save && save.kind === "external") ? (save.key || "") : ""
+    });
+    var modelLabel = el("label", { textContent: "Model name (must support tool calling for agent features)" });
+    var modelInput = el("input", {
+      type: "text", id: "ai-chat-set-model",
+      placeholder: "openai/gpt-4o-mini  or  meta-llama/Llama-3.1-8B-Instruct",
+      value: (save && save.kind === "external") ? (save.model || "") : ""
+    });
+    outSection.appendChild(baseLabel); outSection.appendChild(baseInput);
+    outSection.appendChild(keyLabel); outSection.appendChild(keyInput);
+    outSection.appendChild(modelLabel); outSection.appendChild(modelInput);
+    outSection.appendChild(el("p", { className: "settings-hint", textContent:
+      "Any OpenAI-compatible /chat/completions endpoint works (OpenRouter, Groq, OpenAI, Azure, vLLM, Ollama, llama.cpp llama-server). " +
+      "Note: in this mode your questions are sent to that server." }));
+    modal.appendChild(outSection);
+
+    function refreshSections() {
+      var out = radioOut.checked;
+      inSection.style.display = out ? "none" : "";
+      outSection.style.display = out ? "" : "none";
+    }
+    radioIn.addEventListener("change", refreshSections);
+    radioOut.addEventListener("change", refreshSections);
+    refreshSections();
 
     var actions = el("div", { className: "settings-actions" });
     actions.appendChild(el("button", {
       textContent: "Cancel",
       onclick: function () { overlay.remove(); }
     }));
-    actions.appendChild(el("button", {
-      className: "primary",
-      textContent: "Load model",
-      onclick: function () {
+    var applyBtn = el("button", { className: "primary" });
+    function applyProvider() {
+      if (radioOut.checked) {
+        var base = baseInput.value.trim();
+        var key = keyInput.value.trim();
+        var model = modelInput.value.trim();
+        if (!base || !model) {
+          addSystemMessage("External server needs both a Base URL and a Model name.");
+          return;
+        }
+        saveEndpointCfg({ kind: "external", baseUrl: base, key: key, model: model });
+        overlay.remove();
+        activateExternal();
+      } else {
+        clearEndpointCfg();
         var chosen = select.value;
         storageSetModel(chosen);
         overlay.remove();
         addSystemMessage("Loading " + chosen + " \u2026 (first time takes a while)");
         loadEngine(chosen);
       }
-    }));
+    }
+    applyBtn.onclick = applyProvider;
+    function refreshButton() {
+      applyBtn.textContent = radioOut.checked ? "Use server" : "Load model";
+    }
+    radioIn.addEventListener("change", refreshButton);
+    radioOut.addEventListener("change", refreshButton);
+    refreshButton();
+    actions.appendChild(applyBtn);
     modal.appendChild(actions);
     overlay.appendChild(modal);
     document.documentElement.appendChild(overlay);
+  }
+
+  // Switch to the external provider: no model download needed.
+  function activateExternal() {
+    var c = endpointCfg();
+    if (!c || c.kind !== "external") return;
+    currentModelId = c.model;
+    setStatus("ready", "Server ready: " + c.model);
+    addSystemMessage(
+      "Connected to OpenAI-compatible server (" + c.model + "). " +
+      "I can search the FAQ notes, open source pages and read your current page."
+    );
   }
 
   function clearChat() {
@@ -884,7 +1170,16 @@
     header.appendChild(el("h3", { textContent: "CS Admission FAQ" }));
     var actions = el("div", { className: "ai-chat-header-actions" });
     actions.appendChild(el("button", { title: "Settings", textContent: "\u2699\uFE0F", onclick: openSettings }));
-    actions.appendChild(el("button", { title: "Clear chat", textContent: "\uD83D\uDDD7\uFE0F", onclick: clearChat }));
+    // Inline SVG (not an emoji): emoji rendering depends on the OS emoji
+    // font, which is exactly what made the clear button look broken.
+    var clearBtn = el("button", { title: "Clear chat", onclick: clearChat, "aria-label": "Clear chat" });
+    clearBtn.innerHTML =
+      '<svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" fill="none" ' +
+      'stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' +
+      '<path d="M3 6h18"/><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/>' +
+      '<path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>' +
+      '<path d="M10 11v6M14 11v6"/></svg>';
+    actions.appendChild(clearBtn);
     actions.appendChild(el("button", { title: "Close", textContent: "\u2715", onclick: togglePanel }));
     header.appendChild(actions);
     panel.appendChild(header);
@@ -928,7 +1223,10 @@
     setEngine: function (e, modelId) {
       engine = e;
       if (modelId) currentModelId = modelId;
+      if (e) clearEndpointCfg(); // a real in-browser engine supersedes external
     },
+    setExternal: function (cfg) { saveEndpointCfg(cfg); },
+    getExternal: function () { return endpointCfg(); },
     getModel: function () { return currentModelId; },
     history: function () { return conversationHistory.slice(); },
     tools: TOOLS
@@ -939,11 +1237,16 @@
     buildUI();
     showWelcome();
     loadKnowledgeIndex();
-    var saved = storageGetModel();
-    if (saved) {
-      loadEngine(saved);
+    var savedCfg = endpointCfg();
+    if (savedCfg && savedCfg.kind === "external") {
+      activateExternal();
     } else {
-      setStatus("ready", "Open \u2699 settings to load a model (in-browser)");
+      var saved = storageGetModel();
+      if (saved) {
+        loadEngine(saved);
+      } else {
+        setStatus("ready", "Open \u2699 settings to load a model or connect a server");
+      }
     }
   }
 

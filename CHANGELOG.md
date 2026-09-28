@@ -7,6 +7,15 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 ## [Unreleased]
 
 ### Added
+- **OpenAI-compatible server as an alternative model backend** (⚙️ settings):
+  pick *In-browser model* (WebGPU, default) or *OpenAI-compatible server* and
+  enter Base URL + API key + model name (works with OpenRouter, Groq, OpenAI,
+  Azure, vLLM, Ollama, local llama.cpp `llama-server`). Requests stream over
+  SSE in standard OpenAI `/chat/completions` format; the API key is stored only
+  in this browser's `localStorage` and sent as a Bearer token. External models
+  use a standard OpenAI tool loop (no grammar lock, so the two-phase WebLLM
+  workaround is not needed). The welcome text now states clearly that in
+  server mode the conversation is sent to that server.
 - **In-browser AI chat widget** (Quartz local plugin, `.site/quartz/plugins/local/ai-chat/`):
   - Runs a fully **client-side LLM via WebLLM (WebGPU)** — no data leaves the browser;
     the model is downloaded on first use and cached locally.
@@ -23,6 +32,12 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   local tooling state (`.dsh/`).
 
 ### Fixed
+- **Clear-chat button glyph** kept rendering as a missing-glyph box (🗗):
+  the parallel session that built the agent loop rewrote `chat.js` and
+  dropped the earlier U+1F5D7 → U+1F5D1 fix, re-introducing the obscure
+  "tear-off calendar" emoji. Emoji rendering is OS-font-dependent, so the
+  icon is now an **inline SVG trash can** (4 paths, `currentColor`) — it
+  renders identically on every OS/browser with no emoji font involved.
 - **Tool-calling loop / "stopped after 4 steps".** Root cause: WebLLM 0.2.85
   grammar-locks *every* response to the tool-call JSON schema whenever `tools`
   is present, so the model could never emit a plain-text final answer while
