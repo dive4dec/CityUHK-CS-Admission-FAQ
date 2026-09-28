@@ -154,8 +154,10 @@ plugins:
     layout:
       position: right
       priority: 50
+  # Disabled: every note body already carries an H1 title; the article-title
+  # component rendered the frontmatter title on top of it, duplicating it.
   - source: "@quartz-community/article-title"
-    enabled: true
+    enabled: false
     layout:
       position: beforeBody
       priority: 10
@@ -204,7 +206,7 @@ plugins:
     enabled: true
     options:
       links:
-        GitHub: https://github.com/dive4dec/obsidian-vault
+        GitHub: https://github.com/dive4dec/CityUHK-CS-Admission-FAQ
         Obsidian: https://obsidian.md
     layout:
       position: footer
