@@ -29,9 +29,10 @@
  bundle. Mounts into <html> (not document.body) so the SPA
  router, which morphs document.body, never destroys the widget.
  ================================================================ */
-(function () {
-  "use strict";
-
+  // NOTE: this file is concatenated AFTER tools.js and wrapped in a SINGLE
+  // IIFE by the plugin loader (index.js), so tools.js and this file share one
+  // scope (tools.js reads knowledgeIndex/BASE defined here). Do NOT add an
+  // outer function wrapper here.
   if (window.__aiChatLoaded) return;
   window.__aiChatLoaded = true;
 
@@ -59,7 +60,7 @@
   var AGENT_HISTORY = 4; // plain-text messages kept for agent mode
   var AGENT_TURN_TRIM = 400; // trim old assistant replies in agent history
   var MAX_AGENT_TURNS = 4; // max model calls per user query (agent)
-  var TOOL_RESULT_MAX = 1500; // chars of a tool result fed back to the model
+  var TOOL_RESULT_MAX = 2600; // chars of a tool result fed back to the model
   var PAGE_READ_MAX = 1200; // default chars for read_current_page
   var STORAGE_MODEL = "cityu-ai-chat-model";
   var STORAGE_ENDPOINT = "cityu-ai-chat-endpoint"; // {kind,baseUrl,key,model}
@@ -433,35 +434,22 @@
     return engine.chat.completions.create(request);
   }
 
-  // ---- Agent tools (executed client-side; the model call goes to the
-  // active provider: in-browser WebLLM, or the configured external endpoint) ----
-  var TOOLS = [
-    {
-      type: "function",
-      function: {
-        name: "search_knowledge_base",
-        description:
-          "Keyword-search the site's 1035 CityUHK CS admission FAQ notes. Use for factual admission questions (scores, fees, programmes, requirements). Do NOT use it to answer questions about the page the user is currently on — use read_current_page for those.",
-        parameters: {
-          type: "object",
-          properties: {
-            query: { type: "string", description: "Search keywords, e.g. \"JUPAS 2026 CS admission score\"" },
-            limit: { type: "integer", description: "Max results to return (default 5, max 8)" }
-          },
-          required: ["query"]
-        }
-      }
-    },
+  // ---- Agent tools ----
+  // Most tools live in tools.js (same scope): TOOL_LIB (executors) and
+  // TOOL_SCHEMAS (OpenAI function schemas). The two browser-bound tools
+  // (navigate_to_page, read_current_page) need DOM access, so their
+  // schemas are defined here and their execution handled in executeTool.
+  var TOOLS = TOOL_SCHEMAS.concat([
     {
       type: "function",
       function: {
         name: "navigate_to_page",
         description:
-          "Open a FAQ note page in the user's browser so they can read it. Use a slug returned by search_knowledge_base. The user sees the page change.",
+          "Open a FAQ note page in the user's browser so they can read it. Use ONLY when the user explicitly wants the page opened ('show me the page', 'open it'). Use a slug returned by a search/lookup tool. After opening, still write the answer.",
         parameters: {
           type: "object",
           properties: {
-            slug: { type: "string", description: "Note slug exactly as returned by search_knowledge_base" }
+            slug: { type: "string", description: "Note slug exactly as returned by a tool" }
           },
           required: ["slug"]
         }
@@ -472,7 +460,7 @@
       function: {
         name: "read_current_page",
         description:
-          "Read the text of the page the user is currently viewing. This is the ONLY tool for questions about \"this page\", \"the current page\", \"summarize this page\", or anything the current page says. Call it first (NOT search_knowledge_base) for those, then answer directly from its returned text.",
+          "Read the text of the page the user is currently viewing. This is the ONLY tool for questions about 'this page' / 'the current page' / 'summarize this page'. Call it first (NOT search_notes) for those, then answer directly from its returned text.",
         parameters: {
           type: "object",
           properties: {
@@ -482,7 +470,7 @@
         }
       }
     }
-  ];
+  ]);
 
   function findEntryBySlug(slug) {
     if (!knowledgeIndex) return null;
@@ -515,28 +503,35 @@
     return (start > 0 ? "\u2026" : "") + text.slice(start, end) + (end < text.length ? "\u2026" : "");
   }
 
-  function executeTool(name, args, cited) {
-    if (name === "search_knowledge_base") {
-      var q = String((args && args.query) || "").trim();
-      if (!q) return { ok: false, error: "query is required" };
-      var limit = Math.max(1, Math.min(parseInt(args.limit, 10) || 5, 8));
-      var hits = retrieve(q, limit);
-      if (!hits.length) {
-        return { ok: true, count: 0, results: [], hint: "No matching notes; try fewer or different keywords." };
+  // Collect source slugs from a tool result (for the citations footer) so
+  // we don't have to special-case every tool.
+  function collectCited(result, cited) {
+    if (!result || typeof result !== "object") return;
+    var found = {};
+    (function walk(o, depth) {
+      if (!o || depth > 3 || foundCount(found) >= 4) return;
+      if (typeof o === "object" && !Array.isArray(o)) {
+        if (o.slug && o.title) found[o.slug] = o.title;
+        for (var k in o) if (o[k] && typeof o[k] === "object") walk(o[k], depth + 1);
+      } else if (Array.isArray(o)) {
+        for (var i = 0; i < o.length && foundCount(found) < 4; i++) walk(o[i], depth + 1);
       }
-      var results = [];
-      for (var i = 0; i < hits.length; i++) {
-        if (i < 3) cited[hits[i].slug] = hits[i].title;
-        results.push({ slug: hits[i].slug, title: hits[i].title, snippet: snippetFor(hits[i], q) });
-      }
-      return { ok: true, count: hits.length, results: results };
-    }
+    })(result, 0);
+    var n = 0;
+    for (var s in found) { if (!cited[s] && n < 4) { cited[s] = found[s]; n++; } }
+  }
+  function foundCount(found) { var c = 0; for (var k in found) c++; return c; }
+
+  // Run a tool. Registry tools (tools.js) are async-aware; the two
+  // browser-bound tools are handled inline. Always returns a plain object.
+  async function executeTool(name, args, cited) {
+    args = args || {};
     if (name === "navigate_to_page") {
-      var slug = String((args && args.slug) || "").trim();
+      var slug = normStrLocal(args.slug);
       if (!slug) return { ok: false, error: "slug is required" };
       var entry = findEntryBySlug(slug);
       if (!entry) {
-        return { ok: false, error: "No note with slug \"" + slug + "\". Call search_knowledge_base first and use one of the returned slugs." };
+        return { ok: false, error: "No note with slug \"" + slug + "\". Use a slug returned by a search/lookup tool." };
       }
       var url;
       try { url = new URL(BASE + "/" + slug, location.href); }
@@ -560,8 +555,17 @@
         text: text.slice(0, max)
       };
     }
-    return { ok: false, error: "Unknown tool: " + name };
+    var fn = TOOL_LIB[name];
+    if (!fn) return { ok: false, error: "Unknown tool: " + name };
+    var result = await fn(args, {
+      BASE: BASE,
+      document: document,
+      location: location
+    });
+    collectCited(result, cited);
+    return result;
   }
+  function normStrLocal(v) { return String(v == null ? "" : v).trim(); }
 
   // ---- Agent loop (WebLLM OpenAI-style tool calling) ----
   //
@@ -601,14 +605,20 @@
     var ctx =
       "You are the FAQ assistant for the CityUHK (City University of Hong Kong) " +
       "Computer Science undergraduate admission site (1035 notes). " +
-      "Decision rule, follow it exactly:\n" +
-      "- If the user refers to the current/this page (e.g. \"summarize this page\", " +
-      "\"what does this page say\"): call read_current_page IMMEDIATELY and do NOT call " +
-      "search_knowledge_base — the page IS the source.\n" +
-      "- Any other question: call search_knowledge_base, then answer from the results; " +
-      "call navigate_to_page only if the user wants the source note opened.\n" +
-      "Be concise and factual. Answer only from what the notes and the page contain; " +
-      "if they have no answer, say so.";
+      "How to use your tools:\n" +
+      "- If the user refers to the current/this page (e.g. \"summarize this page\"): " +
+      "call read_current_page IMMEDIATELY and do NOT call search_notes — the page IS the source.\n" +
+      "- For any other question: pick the MOST SPECIFIC tool that matches the intent. " +
+      "There are purpose-specific tools — for JUPAS codes use get_jupas_code, for non-JUPAS " +
+      "codes get_nonjupas_code, for a score get_cityu_score (or get_rival_score), for grades " +
+      "lookup_grade_score, for fees get_tuition_fees, for a programme get_programme_info, for a " +
+      "course get_course_info, and so on. Only use the generic search_notes when no specific tool fits.\n" +
+      "- After a tool returns data with ok=true, that data IS your source: answer from it. " +
+      "Do NOT call the same or a similar tool again to \"double-check\". At most 2 tool calls " +
+      "per question, then answer.\n" +
+      "Be concise and factual. Answer only from what the tools and the page return; if they " +
+      "have no answer, say so plainly. If the user asked you to open/show a page, call " +
+      "navigate_to_page once AND still write the answer.\n";
     if (page.title) ctx += " Current page: " + page.title + " (slug: " + page.slug + ").";
     return ctx + "\n\n" + query;
   }
@@ -660,12 +670,17 @@
     var page = currentPageMeta();
     var systemPrompt =
       "You are the FAQ assistant for the CityUHK (City University of Hong Kong) " +
-      "Computer Science undergraduate admission site. Use the provided tools when " +
-      "needed: for questions about the current/this page use read_current_page " +
-      "and answer from its text; for other admission questions use " +
-      "search_knowledge_base and answer from the results; use navigate_to_page " +
-      "only when the user wants the source note opened. Be concise and factual. " +
-      (page.title ? "Current page: " + page.title + " (slug: " + page.slug + ")." : "");
+      "Computer Science undergraduate admission site. You have many purpose-specific " +
+      "tools. Rules: (1) For questions about the current/this page, use read_current_page " +
+      "and answer from its text. (2) For other questions, call the MOST SPECIFIC tool that " +
+      "matches the intent (e.g. get_jupas_code, get_cityu_score, get_tuition_fees, " +
+      "get_programme_info, lookup_grade_score, run_python for computation); use the generic " +
+      "search_notes only when nothing specific fits. (3) Once a tool returns ok=true data, " +
+      "answer from it — do NOT re-call a similar tool to double-check; at most 2 tool calls " +
+      "per question, then answer. (4) Be concise and factual; if the tools have no answer, " +
+      "say so. (5) If the user wants a page opened, call navigate_to_page once AND still " +
+      "write the answer." +
+      (page.title ? " Current page: " + page.title + " (slug: " + page.slug + ")." : "");
     var msgs = [{ role: "system", content: systemPrompt }]
       .concat(history)
       .concat([{ role: "user", content: buildAgentUserTurn(query) }]);
@@ -733,11 +748,44 @@
       }
       msgs.push({ role: "assistant", content: content || null, tool_calls: tcArr });
       for (var k = 0; k < tcArr.length; k++) {
-        var result = executeTool(tcArr[k].function.name, safeParseArgs(tcArr[k].function.arguments), cited);
+        var result = await executeTool(tcArr[k].function.name, safeParseArgs(tcArr[k].function.arguments), cited);
         msgs.push({ role: "tool", tool_call_id: tcArr[k].id, content: JSON.stringify(result).slice(0, TOOL_RESULT_MAX) });
       }
     }
-    addSystemMessage("Stopped after " + MAX_AGENT_TURNS + " steps — please rephrase or split the question.");
+    // Loop exhausted without a plain answer: force a final answer round with
+    // NO tools (mirrors the WebLLM two-phase pattern) so the user still gets
+    // an answer assembled from the tool results gathered so far.
+    if (window.__aiChatLog) console.log("[ai-chat] EXT: forcing final answer (no tools)");
+    showTyping(true);
+    var forcedReq = {
+      messages: msgs.slice().concat([{
+        role: "user",
+        content: "You have already gathered the tool results above. Now write the final answer to the user's question in plain text (no JSON, no more tool calls). Be concise and factual; if the results don't contain the answer, say so."
+      }]),
+      temperature: 0.3,
+      max_tokens: 1024,
+      stream: true
+    };
+    var fStream = await providerCreate(forcedReq);
+    var fReply = "";
+    var fEl = appendMessage("assistant", "");
+    var fInner = el("div", { className: "ai-chat-md" });
+    if (fEl) fEl.appendChild(fInner);
+    var fSrcDone = false;
+    for await (var fChunk of fStream) {
+      var fd = (fChunk.choices && fChunk.choices[0] && fChunk.choices[0].delta && fChunk.choices[0].delta.content) || "";
+      if (!fd) continue;
+      fReply += fd;
+      if (fEl) {
+        fInner.innerHTML = renderMarkdown(fReply);
+        if (!fSrcDone) { appendCitations(fEl, cited); fSrcDone = true; }
+        scrollBottom();
+      }
+    }
+    showTyping(false);
+    if (window.__aiChatLog) console.log("[ai-chat] EXT forced RESPONSE", JSON.stringify(fReply));
+    conversationHistory.push({ role: "assistant", content: fReply });
+    if (!fReply.trim()) addSystemMessage("I ran out of steps and could not assemble an answer — please rephrase or split the question.");
   }
 
   async function runAgent(query) {
@@ -813,7 +861,7 @@
         var argsObj = safeParseArgs(tc.arguments);
         var t = { name: tc.name, arguments: argsObj };
         addToolChip(t.name, t.arguments);
-        var result = executeTool(t.name, t.arguments, cited);
+        var result = await executeTool(t.name, t.arguments, cited);
         toolNote +=
           "Tool " + t.name + "(" + JSON.stringify(t.arguments) + ") returned:\n" +
           JSON.stringify(result).slice(0, TOOL_RESULT_MAX) + "\n\n";
@@ -1229,7 +1277,9 @@
     getExternal: function () { return endpointCfg(); },
     getModel: function () { return currentModelId; },
     history: function () { return conversationHistory.slice(); },
-    tools: TOOLS
+    tools: TOOLS,
+    // Headless testing: run any registered tool by name; returns a promise.
+    callTool: function (name, args) { return executeTool(name, args || {}, {}); }
   };
 
   // ---- Init ----
@@ -1255,4 +1305,4 @@
   } else {
     init();
   }
-})();
+// (single IIFE wrapper is added by index.js around tools.js + this file)

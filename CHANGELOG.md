@@ -7,6 +7,53 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 ## [Unreleased]
 
 ### Added
+- **Expanded agent tool suite (62 tools) + in-browser Python (Pyodide).** The
+  agent previously had 3 tools and often re-searched in a loop without
+  answering. It now has **62 purpose-specific tools** (new `tools.js`) that map
+  common question intents directly to structured lookups, so it returns concrete
+  answers instead of re-searching:
+  - *Discovery:* `search_notes`, `search_exact`, `find_notes_mentioning`,
+    `list_folders`, `list_notes`, `list_all_notes`, `read_note`,
+    `get_related_notes`.
+  - *Programmes & codes:* `get_jupas_code`, `get_nonjupas_code`,
+    `get_programme_info`, `list_all_programmes`, `compare_programmes`,
+    `get_programme_streams`, `get_double_degree_info`, `get_cs_department`.
+  - *Scores:* `get_cityu_score`, `get_rival_score`, `get_all_cityu_scores`,
+    `score_history`, `lookup_grade_score`, `get_subject_weights`,
+    `get_hkdse_best5`.
+  - *Courses & curriculum:* `get_course_info`, `list_courses`,
+    `get_course_prerequisites`, `get_course_units`, `get_core_courses`,
+    `list_stream_courses`, `get_elective_list`, `get_curriculum_overview`,
+    `get_graduation_requirements`.
+  - *Practical:* `get_tuition_fees`, `get_application_fee`,
+    `get_jupas_key_dates`, `get_entry_requirements`, `get_language_requirement`,
+    `get_programme_duration`, `get_application_routes`, `get_scholarships`,
+    `get_rankings`, `get_employment_outcomes`, `get_placement_career`,
+    `get_campus_location`, `get_accommodation`, `get_finance_loan`,
+    `get_medium_of_instruction`, `get_contact_info`, plus policy tools
+    (`get_admission_process`, `get_flexible_admission`, `get_international_admission`,
+    `get_advancement_transfer`, `get_jupas_choices`, `get_admission_rounds`,
+    `get_1_5x_weighting`, `get_oae_info`, `get_deferred_admission`).
+  - *Python:* **`run_python`** runs real Python via Pyodide (WebAssembly, in the
+    browser). The full 1035-note knowledge index is exposed as a Python
+    variable `knowledge`; built-in packages (numpy, pandas, scipy, sympy,
+    matplotlib, …) load on demand and any other PyPI package installs at runtime
+    via micropip. First use downloads the ~10 MB runtime once, then caches it.
+    `python_packages_available` lists what's preinstalled.
+- **Fixed the "re-searches and stops" loop.** The agent loops now steer the model
+  to the single most specific tool and tell it to answer from the returned data
+  (max 2 tool calls). When the external (OpenAI-compatible) loop exhausts its
+  step budget, it now **forces a final plain-text answer** assembled from the
+  tool results it already gathered — instead of the old dead-end
+  "Stopped after 4 steps". Verified headlessly: a model that re-calls the same
+  tool every round now still ends with a correct answer.
+- **Tools return real structured data** (not thin snippets): score lookups parse
+  published median/lower-quartile by year; grade lookup computes the weighted
+  score and compares it to the quartile; code lookups read the programme-code
+  table; `short_answer` extracts each note's tip callout. `read_note(id)` returns
+  full note text when a snippet is insufficient.
+
+### Added (earlier, same release)
 - **OpenAI-compatible server as an alternative model backend** (⚙️ settings):
   pick *In-browser model* (WebGPU, default) or *OpenAI-compatible server* and
   enter Base URL + API key + model name (works with OpenRouter, Groq, OpenAI,

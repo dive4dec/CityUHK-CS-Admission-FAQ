@@ -27,7 +27,20 @@ const widgetCSS = fs.readFileSync(path.join(pluginDir, "styles.css"), "utf8")
 // so it works both as an ES module (production: emitted as an individual
 // static/scripts/script-N-hash.js) and wrapped in an IIFE (serve mode: joined
 // into the monolithic postscript bundle).
-const widgetScript = fs.readFileSync(path.join(pluginDir, "chat.js"), "utf8")
+//
+// tools.js (the 50+ tool registry + Pyodide run_python) is PREPENDED and the
+// two files are wrapped in a SINGLE IIFE so they share one scope: tools.js
+// reads knowledgeIndex / BASE which are declared in chat.js. chat.js is
+// authored WITHOUT its own wrapper (see its header note), so this single
+// IIFE is the only one.
+const toolsScript = fs.readFileSync(path.join(pluginDir, "tools.js"), "utf8")
+const chatScript = fs.readFileSync(path.join(pluginDir, "chat.js"), "utf8")
+const widgetScript =
+  '(function () {\n  "use strict";\n\n' +
+  toolsScript +
+  "\n" +
+  chatScript +
+  "\n})()\n"
 
 // --- Minimal ports of quartz helpers (this file runs under plain Node, so it
 // --- cannot reach into the Quartz TypeScript source tree).
