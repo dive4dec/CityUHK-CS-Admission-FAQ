@@ -3,9 +3,14 @@ title: "HKU 6315 Bachelor of Engineering in Data and Systems Engi (2025 Score)"
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # HKU 6315 Bachelor of Engineering in Data and Systems Engi (2025 Score)
+
+> [!tip] Short answer
+> HKU 6315 Bachelor of Engineering in Data and Systems Engine (2025 entry): published median admission score **26**, lower quartile 25 under HKU's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

@@ -3,9 +3,14 @@ title: "PolyU JS3612 Radiography - BSc (Hons) Scheme in Medical Labor (2024 Scor
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # PolyU JS3612 Radiography - BSc (Hons) Scheme in Medical Labor (2024 Score)
+
+> [!tip] Short answer
+> PolyU JS3612 Radiography - BSc (Hons) Scheme in Medical Laborat (2024 entry): published median admission score **320**, lower quartile 318.5 under PolyU's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

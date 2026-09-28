@@ -3,9 +3,14 @@ title: "Rival University Score Scales Explained"
 type: faq
 area: 10_Compare
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # Rival University Score Scales Explained
+
+> [!tip] Short answer
+> Every JUPAS university computes its admission score from HKDSE results but with its own weighting formula, so the raw numbers are on different scales and cannot be compared across universities:
 
 ## Question
 

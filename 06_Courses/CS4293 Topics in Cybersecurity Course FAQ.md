@@ -3,9 +3,14 @@ title: "CS4293 Topics in Cybersecurity Course FAQ"
 type: faq
 area: 06_Courses
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # CS4293 Topics in Cybersecurity Course FAQ
+
+> [!tip] Short answer
+> **CS4293 Topics in Cybersecurity** is a CityUHK CS undergraduate course in the Security / Cybersecurity area (?-series, typically the degree of the degree).
 
 ## Question
 

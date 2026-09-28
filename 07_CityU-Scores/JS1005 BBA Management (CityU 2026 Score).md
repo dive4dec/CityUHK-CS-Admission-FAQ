@@ -3,9 +3,14 @@ title: "JS1005 BBA Management (CityU 2026 Score)"
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1005 BBA Management (CityU 2026 Score)
+
+> [!tip] Short answer
+> JS1005 BBA Management, 2025 entry: published median admission score **22**, lower quartile 21.5 (weighted, formula: Best 5 subjects (include Mathematics)). Reference point, not a cut-off.
 
 ## Question
 

@@ -3,9 +3,14 @@ title: "JS1208 BSc Physics (CityU 2024 Score)"
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1208 BSc Physics (CityU 2024 Score)
+
+> [!tip] Short answer
+> JS1208 BSc Physics, 2023 entry: published median admission score **22**, lower quartile 21.25 (weighted, formula: Best 4 subjects (include Mathematics) 22 21.25). Reference point, not a cut-off.
 
 ## Question
 

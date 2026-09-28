@@ -3,9 +3,14 @@ title: "PolyU JS3220 Applied Mathematics and Finance Analytics - BSc  (2025 Scor
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # PolyU JS3220 Applied Mathematics and Finance Analytics - BSc  (2025 Score)
+
+> [!tip] Short answer
+> PolyU JS3220 Applied Mathematics and Finance Analytics - BSc (H (2025 entry): published median admission score **193.5**, lower quartile 189.5 under PolyU's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

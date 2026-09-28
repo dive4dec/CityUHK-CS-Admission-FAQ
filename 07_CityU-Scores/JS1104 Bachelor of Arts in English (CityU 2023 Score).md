@@ -3,9 +3,14 @@ title: "JS1104 Bachelor of Arts in English (CityU 2023 Score)"
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1104 Bachelor of Arts in English (CityU 2023 Score)
+
+> [!tip] Short answer
+> JS1104 Bachelor of Arts in English, 2022 entry: published median admission score **32**, lower quartile 31 (weighted, formula: Best 6 subjects (include English) (with weightings applied where appropriate)). Reference point, not a cut-off.
 
 ## Question
 

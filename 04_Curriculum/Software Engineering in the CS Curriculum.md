@@ -3,9 +3,14 @@ title: "Software Engineering in the CS Curriculum"
 type: faq
 area: 04_Curriculum
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # Software Engineering in the CS Curriculum
+
+> [!tip] Short answer
+> A substantial amount. Beyond the core, there is a whole Software Engineering and Project Management stream (CS3343 Software Engineering Practice, CS3346 Software Testing and Maintenance, CS3347 SE Principles and Practice, CS3356 Managing Software…
 
 ## Question
 

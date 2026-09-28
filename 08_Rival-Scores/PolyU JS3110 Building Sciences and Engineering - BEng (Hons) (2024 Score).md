@@ -3,9 +3,14 @@ title: "PolyU JS3110 Building Sciences and Engineering - BEng (Hons)  (2024 Scor
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # PolyU JS3110 Building Sciences and Engineering - BEng (Hons)  (2024 Score)
+
+> [!tip] Short answer
+> PolyU JS3110 Building Sciences and Engineering - BEng (Hons) Sc (2024 entry): published median admission score **176.5**, lower quartile 175 under PolyU's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

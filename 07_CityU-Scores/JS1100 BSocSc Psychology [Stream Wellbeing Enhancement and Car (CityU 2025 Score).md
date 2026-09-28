@@ -3,9 +3,14 @@ title: "JS1100 BSocSc Psychology [Stream: Wellbeing Enhancement and Car (CityU 2
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1100 BSocSc Psychology [Stream: Wellbeing Enhancement and Car (CityU 2025 Score)
+
+> [!tip] Short answer
+> JS1100 BSocSc Psychology [Stream: Wellbeing Enhancement and Car, 2024 entry: no Main Round median published for this programme that cycle (new or cross-faculty listing).
 
 ## Question
 

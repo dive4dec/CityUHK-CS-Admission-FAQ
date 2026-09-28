@@ -3,9 +3,14 @@ title: "JS1061 Bachelor of Laws (CityU 2023 Score)"
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1061 Bachelor of Laws (CityU 2023 Score)
+
+> [!tip] Short answer
+> JS1061 Bachelor of Laws, 2022 entry: published median admission score **27**, lower quartile 26 (weighted, formula: Best 6 subjects (include English) (with weightings applied where appropriate)). Reference point, not a cut-off.
 
 ## Question
 

@@ -3,9 +3,14 @@ title: "JS1044 BAS New Media (CityU 2024 Score)"
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1044 BAS New Media (CityU 2024 Score)
+
+> [!tip] Short answer
+> JS1044 BAS New Media, 2023 entry: published median admission score **22**, lower quartile 22 (weighted, formula: Best 5 subjects (include English) 2: English 22 22 School of Data Science). Reference point, not a cut-off.
 
 ## Question
 

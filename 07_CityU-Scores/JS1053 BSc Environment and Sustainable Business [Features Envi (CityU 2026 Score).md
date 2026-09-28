@@ -3,9 +3,14 @@ title: "JS1053 BSc Environment and Sustainable Business [Features: Envi (CityU 2
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1053 BSc Environment and Sustainable Business [Features: Envi (CityU 2026 Score)
+
+> [!tip] Short answer
+> JS1053 BSc Environment and Sustainable Business [Features: Envi, 2025 entry: published median admission score **40**, lower quartile 39.5 (weighted, formula: Best 5 subjects (include English, Mathematics and one subject from Biology, Chemistry or Physics) Physics in 1st Elective Accounting and Financial Studies in 2nd Elective Geography / M1/M2 / Physics in 2nd Elective). Reference point, not a cut-off.
 
 ## Question
 

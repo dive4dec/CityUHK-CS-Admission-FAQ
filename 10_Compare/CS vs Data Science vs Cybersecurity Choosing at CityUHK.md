@@ -3,9 +3,14 @@ title: "CS vs Data Science vs Cybersecurity: Choosing at CityUHK"
 type: faq
 area: 10_Compare
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # CS vs Data Science vs Cybersecurity: Choosing at CityUHK
+
+> [!tip] Short answer
+> BSc Computer Science (JS1204) is the broadest programme: a common core (programming, algorithms, data structures, systems) then five streams - Artificial Intelligence, Cybersecurity, Data Science, Multimedia Computing, and Software Engineering &…
 
 ## Question
 

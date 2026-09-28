@@ -3,9 +3,14 @@ title: "IB Diploma Admission to CS"
 type: faq
 area: 03_NonJUPAS
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # IB Diploma Admission to CS
+
+> [!tip] Short answer
+> Yes. An IB Diploma qualifies you for non-JUPAS first-year admission. For Advanced Standing I (Year 2) admission you need a minimum diploma point score of 30 out of 45. You also need Grade 4 or above in English A: Language and Literatur
 
 ## Question
 

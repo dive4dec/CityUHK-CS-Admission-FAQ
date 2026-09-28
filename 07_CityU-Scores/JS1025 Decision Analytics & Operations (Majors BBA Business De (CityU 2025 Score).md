@@ -3,9 +3,14 @@ title: "JS1025 Decision Analytics & Operations (Majors: BBA Business De (CityU 2
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1025 Decision Analytics & Operations (Majors: BBA Business De (CityU 2025 Score)
+
+> [!tip] Short answer
+> JS1025 Decision Analytics & Operations (Majors: BBA Business De, 2024 entry: published median admission score **20**, lower quartile 19.5 (weighted, formula: 3 core + 2 elective subjects). Reference point, not a cut-off.
 
 ## Question
 

@@ -3,9 +3,14 @@ title: "CS4297 Cloud Robotics and Automation Course FAQ"
 type: faq
 area: 06_Courses
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # CS4297 Cloud Robotics and Automation Course FAQ
+
+> [!tip] Short answer
+> **CS4297 Cloud Robotics and Automation** is a CityUHK CS undergraduate course in the Core / Foundational area (?-series, typically the degree of the degree).
 
 ## Question
 

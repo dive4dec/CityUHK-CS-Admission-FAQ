@@ -3,9 +3,14 @@ title: "CityUHK - Columbia Joint Bachelor's Degree"
 type: faq
 area: 05_Programmes
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # CityUHK - Columbia Joint Bachelor's Degree
+
+> [!tip] Short answer
+> CityUHK and Columbia University run a Joint Bachelor's Degree Programme (JBDP): students spend two years at CityUHK and two years at Columbia, graduating with two bachelor's degrees (one from each university). From 2026/27, high-school applicants…
 
 ## Question
 

@@ -3,9 +3,14 @@ title: "CS4187 Computer Vision for Interactivity Course FAQ"
 type: faq
 area: 06_Courses
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # CS4187 Computer Vision for Interactivity Course FAQ
+
+> [!tip] Short answer
+> **CS4187 Computer Vision for Interactivity** is a CityUHK CS undergraduate course in the Multimedia / Graphics area (?-series, typically the degree of the degree).
 
 ## Question
 

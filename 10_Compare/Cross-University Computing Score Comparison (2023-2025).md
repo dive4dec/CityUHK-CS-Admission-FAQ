@@ -3,9 +3,14 @@ title: "Cross-University Computing Score Comparison (2023-2025)"
 type: faq
 area: 10_Compare
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # Cross-University Computing Score Comparison (2023-2025)
+
+> [!tip] Short answer
+> Published median admission scores for flagship computing/data/AI programmes (each on its OWN university scale - see 'Rival University Score Scales Explained' before comparing):
 
 ## Question
 

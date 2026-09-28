@@ -3,9 +3,14 @@ title: "JS1221 BSc Computer Science and BSc Computational Finance and F (CityU 2
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1221 BSc Computer Science and BSc Computational Finance and F (CityU 2026 Score)
+
+> [!tip] Short answer
+> JS1221 BSc Computer Science and BSc Computational Finance and F, 2025 entry: published median admission score **23**, lower quartile 22 (weighted, formula: Best 5 subjects). Reference point, not a cut-off.
 
 ## Question
 

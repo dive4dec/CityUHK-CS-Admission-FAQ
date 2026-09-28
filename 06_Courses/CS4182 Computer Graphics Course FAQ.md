@@ -3,9 +3,14 @@ title: "CS4182 Computer Graphics Course FAQ"
 type: faq
 area: 06_Courses
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # CS4182 Computer Graphics Course FAQ
+
+> [!tip] Short answer
+> **CS4182 Computer Graphics** is a CityUHK CS undergraduate course in the Multimedia / Graphics area (?-series, typically the degree of the degree).
 
 ## Question
 

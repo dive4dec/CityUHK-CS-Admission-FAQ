@@ -3,9 +3,14 @@ title: "HKU 6925 Bachelor of Engineering in Biomedical Engineerin (2023 Score)"
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # HKU 6925 Bachelor of Engineering in Biomedical Engineerin (2023 Score)
+
+> [!tip] Short answer
+> HKU 6925 Bachelor of Engineering in Biomedical Engineering (2023 entry): published median admission score **28**, lower quartile 27 under HKU's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

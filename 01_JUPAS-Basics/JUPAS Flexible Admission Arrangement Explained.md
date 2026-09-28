@@ -3,9 +3,14 @@ title: "JUPAS Flexible Admission Arrangement Explained"
 type: faq
 area: 01_JUPAS-Basics
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JUPAS Flexible Admission Arrangement Explained
+
+> [!tip] Short answer
+> The Flexible Admissions Arrangement lets CityUHK consider applicants who fall slightly short of the main admission score but meet a lower threshold, typically when their weaker subject is exactly at the minimum required level. For 2026 entry the…
 
 ## Question
 

@@ -3,9 +3,14 @@ title: "Double Major and Minor Options in Computing"
 type: faq
 area: 04_Curriculum
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # Double Major and Minor Options in Computing
+
+> [!tip] Short answer
+> Yes, within university rules. CityUHK allows double majors and minors (a minor is 15-18 credit units) for students who meet the requirements. Within the College of Computing this is especially natural because CS, Cybersecurity and the Data…
 
 ## Question
 

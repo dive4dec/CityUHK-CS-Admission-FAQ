@@ -3,9 +3,14 @@ title: "CS vs Cybersecurity: Key Differences"
 type: faq
 area: 04_Curriculum
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # CS vs Cybersecurity: Key Differences
+
+> [!tip] Short answer
+> Both are 4-year degrees in the same College of Computing and share the first-year base and much of the CS core. The difference is focus and outcomes:
 
 ## Question
 

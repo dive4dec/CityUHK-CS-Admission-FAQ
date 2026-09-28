@@ -3,9 +3,14 @@ title: "JS1062 Bachelor of Laws and BBA Accountancy (CityU 2025 Score)"
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1062 Bachelor of Laws and BBA Accountancy (CityU 2025 Score)
+
+> [!tip] Short answer
+> JS1062 Bachelor of Laws and BBA Accountancy, 2024 entry: published median admission score **29**, lower quartile 24.5 (weighted, formula: Best 5 subjects (include English) 1.5: English). Reference point, not a cut-off.
 
 ## Question
 

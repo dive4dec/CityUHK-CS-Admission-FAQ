@@ -3,9 +3,14 @@ title: "CS2612 Seminars on Contemporary Cybersecurity Course FAQ"
 type: faq
 area: 06_Courses
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # CS2612 Seminars on Contemporary Cybersecurity Course FAQ
+
+> [!tip] Short answer
+> **CS2612 Seminars on Contemporary Cybersecurity** is a CityUHK CS undergraduate course in the Security / Cybersecurity area (?-series, typically the degree of the degree).
 
 ## Question
 

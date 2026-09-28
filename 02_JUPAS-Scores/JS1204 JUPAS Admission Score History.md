@@ -3,9 +3,14 @@ title: "JS1204 JUPAS Admission Score History"
 type: faq
 area: 02_JUPAS-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1204 JUPAS Admission Score History
+
+> [!tip] Short answer
+> JS1204 BSc Computer Science - weighted admission score (median / lower quartile):
 
 ## Question
 

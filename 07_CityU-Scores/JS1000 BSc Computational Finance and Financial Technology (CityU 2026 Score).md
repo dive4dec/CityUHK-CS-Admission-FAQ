@@ -3,9 +3,14 @@ title: "JS1000 BSc Computational Finance and Financial Technology (CityU 2026 Sc
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1000 BSc Computational Finance and Financial Technology (CityU 2026 Score)
+
+> [!tip] Short answer
+> JS1000 BSc Computational Finance and Financial Technology, 2025 entry: published median admission score **24.5**, lower quartile 23.5 (weighted, formula: Best 5 subjects (include English and Mathematics) 1). Reference point, not a cut-off.
 
 ## Question
 

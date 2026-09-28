@@ -3,9 +3,14 @@ title: "CS4490 Generative AI Essentials and Applications Course FAQ"
 type: faq
 area: 06_Courses
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # CS4490 Generative AI Essentials and Applications Course FAQ
+
+> [!tip] Short answer
+> **CS4490 Generative AI Essentials and Applications** is a CityUHK CS undergraduate course in the AI / Data Science area (?-series, typically the degree of the degree).
 
 ## Question
 

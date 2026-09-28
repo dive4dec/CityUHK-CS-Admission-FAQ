@@ -3,9 +3,14 @@ title: "JS1043 BSc Creative Media (CityU 2026 Score)"
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1043 BSc Creative Media (CityU 2026 Score)
+
+> [!tip] Short answer
+> JS1043 BSc Creative Media, 2025 entry: published median admission score **26.5**, lower quartile 25.5 (weighted, formula: Best 5 subjects (include English and Mathematics)). Reference point, not a cut-off.
 
 ## Question
 

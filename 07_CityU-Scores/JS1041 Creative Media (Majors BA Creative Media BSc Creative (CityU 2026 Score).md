@@ -3,9 +3,14 @@ title: "JS1041 Creative Media (Majors: BA Creative Media / BSc Creative (CityU 2
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1041 Creative Media (Majors: BA Creative Media / BSc Creative (CityU 2026 Score)
+
+> [!tip] Short answer
+> JS1041 Creative Media (Majors: BA Creative Media / BSc Creative, 2025 entry: published median admission score **25.5**, lower quartile 25 (weighted, formula: Best 5 subjects (include English)). Reference point, not a cut-off.
 
 ## Question
 

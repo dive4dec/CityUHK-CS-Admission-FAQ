@@ -3,9 +3,14 @@ title: "JS1074 Bachelor of Science in Data and Systems Engineering (CityU 2023 S
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1074 Bachelor of Science in Data and Systems Engineering (CityU 2023 Score)
+
+> [!tip] Short answer
+> JS1074 Bachelor of Science in Data and Systems Engineering, 2022 entry: published median admission score **30**, lower quartile 29 (weighted, formula: 4 core + 2 elective subjects (with weightings applied where appropriate)). Reference point, not a cut-off.
 
 ## Question
 

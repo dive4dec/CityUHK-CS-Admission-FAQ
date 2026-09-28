@@ -3,9 +3,14 @@ title: "CS2066 IT Professionals and Society Course FAQ"
 type: faq
 area: 06_Courses
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # CS2066 IT Professionals and Society Course FAQ
+
+> [!tip] Short answer
+> **CS2066 IT Professionals and Society** is a CityUHK CS undergraduate course in the Professional / Internship area (?-series, typically the degree of the degree).
 
 ## Question
 

@@ -3,9 +3,14 @@ title: "Transfer and Overseas Students to CityUHK CS"
 type: faq
 area: 03_NonJUPAS
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # Transfer and Overseas Students to CityUHK CS
+
+> [!tip] Short answer
+> Yes, via non-JUPAS. Transfer students from local or overseas bachelor's degree programmes may apply; 'Bachelor's degree study of one year or more / postgraduate study' is listed as an eligible qualification for first-year and ASI entry. Overseas…
 
 ## Question
 

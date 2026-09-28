@@ -3,9 +3,14 @@ title: "CS4285 High Speed Multimedia Networks Course FAQ"
 type: faq
 area: 06_Courses
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # CS4285 High Speed Multimedia Networks Course FAQ
+
+> [!tip] Short answer
+> **CS4285 High Speed Multimedia Networks** is a CityUHK CS undergraduate course in the Multimedia / Graphics area (?-series, typically the degree of the degree).
 
 ## Question
 

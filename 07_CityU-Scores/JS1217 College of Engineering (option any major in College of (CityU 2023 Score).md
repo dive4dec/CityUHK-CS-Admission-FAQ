@@ -3,9 +3,14 @@ title: "JS1217 College of Engineering (option: any major in College of (CityU 20
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1217 College of Engineering (option: any major in College of (CityU 2023 Score)
+
+> [!tip] Short answer
+> JS1217 College of Engineering (option: any major in College of, 2022 entry: published median admission score **38**, lower quartile 37 (weighted, formula: Best 6 subjects (include English) (with weightings applied where appropriate)). Reference point, not a cut-off.
 
 ## Question
 

@@ -3,9 +3,14 @@ title: "Double Degree Requirements and Structure"
 type: faq
 area: 05_Programmes
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # Double Degree Requirements and Structure
+
+> [!tip] Short answer
+> JS1221 is a 5-year double degree requiring a minimum of 151 credit units for the double-degree award. The structure splits requirements between the two degrees:
 
 ## Question
 

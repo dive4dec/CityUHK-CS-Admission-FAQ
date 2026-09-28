@@ -3,9 +3,14 @@ title: "JS1052 BEng Environmental Science and Engineering and BBA Finan (CityU 2
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1052 BEng Environmental Science and Engineering and BBA Finan (CityU 2025 Score)
+
+> [!tip] Short answer
+> JS1052 BEng Environmental Science and Engineering and BBA Finan, 2024 entry: published median admission score **36**, lower quartile 35 (weighted, formula: Best 5 subjects (include English, Mathematics and one subject from Biology, Chemistry or Physics) Physics in 1st Elective Geography / M1/M2 / Physics in 2nd Elective). Reference point, not a cut-off.
 
 ## Question
 

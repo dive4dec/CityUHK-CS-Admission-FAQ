@@ -3,9 +3,14 @@ title: "CityUHK CS Admission FAQ Vault Map"
 type: faq
 area: 00_Vault-Map
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # CityUHK CS Admission FAQ Vault Map
+
+> [!tip] Short answer
+> 1,033 notes organised by the admission journey (JUPAS scoring, published scores, non-JUPAS, curriculum, comparison, careers). Start with the BSc CS / BSc Cybersecurity overviews, then the JUPAS score-formula notes.
 
 ## Question
 

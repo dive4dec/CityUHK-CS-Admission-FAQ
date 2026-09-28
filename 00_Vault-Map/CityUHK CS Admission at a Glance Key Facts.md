@@ -3,9 +3,14 @@ title: "CityUHK CS Admission at a Glance: Key Facts"
 type: faq
 area: 00_Vault-Map
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # CityUHK CS Admission at a Glance: Key Facts
+
+> [!tip] Short answer
+> Headline numbers: ~85 local CS places, best-5 weight-1 JUPAS formula, no interview, non-JUPAS ASI/ASII routes for AD/HD/IB/A-Level, and 97.5% graduate employment.
 
 ## Question
 

@@ -3,9 +3,14 @@ title: "JS1218 BSc Cybersecurity Admission Score History"
 type: faq
 area: 02_JUPAS-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1218 BSc Cybersecurity Admission Score History
+
+> [!tip] Short answer
+> JS1218 BSc Cybersecurity - weighted admission score:
 
 ## Question
 

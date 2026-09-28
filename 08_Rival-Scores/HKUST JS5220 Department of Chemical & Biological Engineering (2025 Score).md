@@ -3,9 +3,14 @@ title: "HKUST JS5220 Department of Chemical & Biological Engineering (2025 Score
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # HKUST JS5220 Department of Chemical & Biological Engineering (2025 Score)
+
+> [!tip] Short answer
+> HKUST JS5220 Department of Chemical & Biological Engineering (2025 entry): published median admission score **41.49**, lower quartile 39.59 under HKUST's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

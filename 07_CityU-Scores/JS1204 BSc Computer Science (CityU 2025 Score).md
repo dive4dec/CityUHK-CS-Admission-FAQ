@@ -3,9 +3,14 @@ title: "JS1204 BSc Computer Science (CityU 2025 Score)"
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1204 BSc Computer Science (CityU 2025 Score)
+
+> [!tip] Short answer
+> JS1204 BSc Computer Science, 2024 entry: published median admission score **20.5**, lower quartile 19.5 (weighted, formula: Best 5 subjects). Reference point, not a cut-off.
 
 ## Question
 

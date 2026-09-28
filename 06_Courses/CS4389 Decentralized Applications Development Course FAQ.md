@@ -3,9 +3,14 @@ title: "CS4389 Decentralized Applications Development Course FAQ"
 type: faq
 area: 06_Courses
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # CS4389 Decentralized Applications Development Course FAQ
+
+> [!tip] Short answer
+> **CS4389 Decentralized Applications Development** is a CityUHK CS undergraduate course in the Programming area (?-series, typically the degree of the degree).
 
 ## Question
 

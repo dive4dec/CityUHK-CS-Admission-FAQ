@@ -3,9 +3,14 @@ title: "JUPAS Score Conversion 5** 5* 5 4 3 2 1"
 type: faq
 area: 01_JUPAS-Basics
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JUPAS Score Conversion 5** 5* 5 4 3 2 1
+
+> [!tip] Short answer
+> Since the 2025 entry, CityUHK (and all JUPAS institutions) use the following conversion for Category A core and elective subjects:
 
 ## Question
 

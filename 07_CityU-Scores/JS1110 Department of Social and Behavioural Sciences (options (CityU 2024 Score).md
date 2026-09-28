@@ -3,9 +3,14 @@ title: "JS1110 Department of Social and Behavioural Sciences (options: (CityU 20
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1110 Department of Social and Behavioural Sciences (options: (CityU 2024 Score)
+
+> [!tip] Short answer
+> JS1110 Department of Social and Behavioural Sciences (options:, 2023 entry: published median admission score **22**, lower quartile 22 (weighted, formula: Best 4 subjects (include English) 2: English). Reference point, not a cut-off.
 
 ## Question
 

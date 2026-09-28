@@ -3,9 +3,14 @@ title: "JS1052 BEng Environmental Science and Engineering and BBA in Fi (CityU 2
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1052 BEng Environmental Science and Engineering and BBA in Fi (CityU 2024 Score)
+
+> [!tip] Short answer
+> JS1052 BEng Environmental Science and Engineering and BBA in Fi, 2023 entry: no Main Round median published for this programme that cycle (new or cross-faculty listing).
 
 ## Question
 

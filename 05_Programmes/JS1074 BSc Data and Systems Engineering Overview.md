@@ -3,9 +3,14 @@ title: "JS1074 BSc Data and Systems Engineering Overview"
 type: faq
 area: 05_Programmes
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1074 BSc Data and Systems Engineering Overview
+
+> [!tip] Short answer
+> JS1074 BSc Data and Systems Engineering (Features: Data Science / FinTech & Decision Analytics / Industrial AI / Smart City / Internet of Things) is the systems/FinTech-flavoured data programme. Its 2026 formula is 3 core + 2 elective subjects,…
 
 ## Question
 

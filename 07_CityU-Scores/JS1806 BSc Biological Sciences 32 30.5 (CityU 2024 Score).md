@@ -3,9 +3,14 @@ title: "JS1806 BSc Biological Sciences 32 30.5 (CityU 2024 Score)"
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1806 BSc Biological Sciences 32 30.5 (CityU 2024 Score)
+
+> [!tip] Short answer
+> JS1806 BSc Biological Sciences 32 30.5, 2023 entry: published median admission score **32**, lower quartile 30.5 (weighted, formula: best-5 weighted score). Reference point, not a cut-off.
 
 ## Question
 

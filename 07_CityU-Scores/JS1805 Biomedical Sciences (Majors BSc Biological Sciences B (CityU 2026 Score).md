@@ -3,9 +3,14 @@ title: "JS1805 Biomedical Sciences (Majors: BSc Biological Sciences / B (CityU 2
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1805 Biomedical Sciences (Majors: BSc Biological Sciences / B (CityU 2026 Score)
+
+> [!tip] Short answer
+> JS1805 Biomedical Sciences (Majors: BSc Biological Sciences / B, 2025 entry: published median admission score **38.5**, lower quartile 37.5 (weighted, formula: best-5 weighted score). Reference point, not a cut-off.
 
 ## Question
 

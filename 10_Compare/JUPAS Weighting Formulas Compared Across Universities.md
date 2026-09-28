@@ -3,9 +3,14 @@ title: "JUPAS Weighting Formulas Compared Across Universities"
 type: faq
 area: 10_Compare
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JUPAS Weighting Formulas Compared Across Universities
+
+> [!tip] Short answer
+> CityUHK (published 2026): BSc CS JS1204 and BSc Cybersecurity JS1218 - Best 5 subjects, weight 1 (e.g. 23 / 20.5 medians). The new 1.5x policy (Eng, Math, ICT, M1, M2, Phy, Chem, Bio at 1.5x) is being promoted by the CS admissions team but is not…
 
 ## Question
 

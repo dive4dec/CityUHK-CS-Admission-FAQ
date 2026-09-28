@@ -3,9 +3,14 @@ title: "JS1204 BSc Computer Science Overview"
 type: faq
 area: 05_Programmes
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1204 BSc Computer Science Overview
+
+> [!tip] Short answer
+> BSc Computer Science (JS1204) is the flagship 4-year programme of the Department of Computer Science, offering a well-balanced curriculum in both the theoretical and practical aspects of computing, with five streams: Artificial Intelligence, Cybersecurity, Data Science, Multimedia Computing, and Software Engineering and Project Management.
 
 ## Question
 

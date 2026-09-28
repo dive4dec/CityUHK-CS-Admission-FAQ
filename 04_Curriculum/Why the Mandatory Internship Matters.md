@@ -3,9 +3,14 @@ title: "Why the Mandatory Internship Matters"
 type: faq
 area: 04_Curriculum
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # Why the Mandatory Internship Matters
+
+> [!tip] Short answer
+> It removes the single biggest objection parents and students have about a CS degree - 'will this get me a job?'. Because ITPP is mandatory, every CS graduate leaves with a full 9-month, industry-supervised work experience and a reference from a…
 
 ## Question
 

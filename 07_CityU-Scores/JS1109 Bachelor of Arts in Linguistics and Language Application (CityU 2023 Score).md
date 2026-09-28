@@ -3,9 +3,14 @@ title: "JS1109 Bachelor of Arts in Linguistics and Language Application (CityU 2
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1109 Bachelor of Arts in Linguistics and Language Application (CityU 2023 Score)
+
+> [!tip] Short answer
+> JS1109 Bachelor of Arts in Linguistics and Language Application, 2022 entry: published median admission score **32**, lower quartile 31 (weighted, formula: 4 core + 2 elective subjects (with weightings applied where appropriate)). Reference point, not a cut-off.
 
 ## Question
 

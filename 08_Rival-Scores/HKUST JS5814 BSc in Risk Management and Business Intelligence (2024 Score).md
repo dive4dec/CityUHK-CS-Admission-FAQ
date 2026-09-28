@@ -3,9 +3,14 @@ title: "HKUST JS5814 BSc in Risk Management and Business Intelligence (2024 Scor
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # HKUST JS5814 BSc in Risk Management and Business Intelligence (2024 Score)
+
+> [!tip] Short answer
+> HKUST JS5814 BSc in Risk Management and Business Intelligence (2024 entry): published median admission score **45**, lower quartile 42.88 under HKUST's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

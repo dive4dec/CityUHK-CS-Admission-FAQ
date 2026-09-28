@@ -3,9 +3,14 @@ title: "JS1053 BSc Environment and Sustainable Business (Features: Envi (CityU 2
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1053 BSc Environment and Sustainable Business (Features: Envi (CityU 2025 Score)
+
+> [!tip] Short answer
+> JS1053 BSc Environment and Sustainable Business (Features: Envi, 2024 entry: no Main Round median published for this programme that cycle (new or cross-faculty listing).
 
 ## Question
 

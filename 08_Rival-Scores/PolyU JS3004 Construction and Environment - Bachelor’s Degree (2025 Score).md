@@ -3,9 +3,14 @@ title: "PolyU JS3004 Construction and Environment - Bachelor’s Degree (2025 Sc
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # PolyU JS3004 Construction and Environment - Bachelor’s Degree (2025 Score)
+
+> [!tip] Short answer
+> PolyU JS3004 Construction and Environment - Bachelor’s Degree S (2025 entry): published median admission score **184** under PolyU's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

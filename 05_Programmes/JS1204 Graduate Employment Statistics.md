@@ -3,9 +3,14 @@ title: "JS1204 Graduate Employment Statistics"
 type: faq
 area: 05_Programmes
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1204 Graduate Employment Statistics
+
+> [!tip] Short answer
+> From the Graduate Employment Survey 2024 (BSc Computer Science), the headline outcome is 97.5% full-time employment (ratio of full-time employed graduates to total full-time/part-time employed and unemployed).
 
 ## Question
 

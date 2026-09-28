@@ -3,9 +3,14 @@ title: "PolyU JS3070 Global Business and Logistics, Aviation, Maritim (2025 Scor
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # PolyU JS3070 Global Business and Logistics, Aviation, Maritim (2025 Score)
+
+> [!tip] Short answer
+> PolyU JS3070 Global Business and Logistics, Aviation, Maritime  (2025 entry): published median admission score **179**, lower quartile 175 under PolyU's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

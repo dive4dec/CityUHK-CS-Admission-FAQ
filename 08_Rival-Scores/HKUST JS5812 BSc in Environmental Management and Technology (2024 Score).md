@@ -3,9 +3,14 @@ title: "HKUST JS5812 BSc in Environmental Management and Technology (2024 Score)
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # HKUST JS5812 BSc in Environmental Management and Technology (2024 Score)
+
+> [!tip] Short answer
+> HKUST JS5812 BSc in Environmental Management and Technology (2024 entry): published median admission score **31.4**, lower quartile 30.55 under HKUST's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

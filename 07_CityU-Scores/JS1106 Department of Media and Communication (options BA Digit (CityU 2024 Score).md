@@ -3,9 +3,14 @@ title: "JS1106 Department of Media and Communication (options: BA Digit (CityU 2
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1106 Department of Media and Communication (options: BA Digit (CityU 2024 Score)
+
+> [!tip] Short answer
+> JS1106 Department of Media and Communication (options: BA Digit, 2023 entry: published median admission score **18**, lower quartile 18 (weighted, formula: Best 4 subjects (include English) 1.25: English / Chinese). Reference point, not a cut-off.
 
 ## Question
 

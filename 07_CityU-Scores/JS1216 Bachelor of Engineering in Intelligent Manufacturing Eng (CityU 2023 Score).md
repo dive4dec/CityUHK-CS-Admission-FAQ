@@ -3,9 +3,14 @@ title: "JS1216 Bachelor of Engineering in Intelligent Manufacturing Eng (CityU 2
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1216 Bachelor of Engineering in Intelligent Manufacturing Eng (CityU 2023 Score)
+
+> [!tip] Short answer
+> JS1216 Bachelor of Engineering in Intelligent Manufacturing Eng, 2022 entry: published median admission score **30**, lower quartile 30 (weighted, formula: Best 5 subjects (include English and Mathematics) (with weightings applied where appropriate)). Reference point, not a cut-off.
 
 ## Question
 

@@ -3,9 +3,14 @@ title: "PolyU JS3330 Language Sciences, Translation, and Speech Thera (2024 Scor
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # PolyU JS3330 Language Sciences, Translation, and Speech Thera (2024 Score)
+
+> [!tip] Short answer
+> PolyU JS3330 Language Sciences, Translation, and Speech Therapy (2024 entry): published median admission score **242**, lower quartile 231.5 under PolyU's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

@@ -3,9 +3,14 @@ title: "JS1108 BSocSc Public Affairs and Management (CityU 2026 Score)"
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1108 BSocSc Public Affairs and Management (CityU 2026 Score)
+
+> [!tip] Short answer
+> JS1108 BSocSc Public Affairs and Management, 2025 entry: published median admission score **23.5**, lower quartile 23 (weighted, formula: 3 core + 2 elective subjects). Reference point, not a cut-off.
 
 ## Question
 

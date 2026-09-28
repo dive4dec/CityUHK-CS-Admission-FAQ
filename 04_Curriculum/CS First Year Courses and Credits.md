@@ -3,9 +3,14 @@ title: "CS First Year Courses and Credits"
 type: faq
 area: 04_Curriculum
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # CS First Year Courses and Credits
+
+> [!tip] Short answer
+> Year 1 (33 credit units), by subject area:
 
 ## Question
 

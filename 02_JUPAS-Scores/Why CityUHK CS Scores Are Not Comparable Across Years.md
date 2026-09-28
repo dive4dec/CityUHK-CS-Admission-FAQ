@@ -3,9 +3,14 @@ title: "Why CityUHK CS Scores Are Not Comparable Across Years"
 type: faq
 area: 02_JUPAS-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # Why CityUHK CS Scores Are Not Comparable Across Years
+
+> [!tip] Short answer
+> Three reasons. (1) Conversion scale changed: from 2025 entry, Category A levels map to 5=8.5, 5*=7, 5=5.5, 4=4, 3=3, 2=2, 1=1. Before that, the scale was different, so a '20' in 2024 is not the same as a '20' in 2025. (2) Weightings change per p
 
 ## Question
 

@@ -3,9 +3,14 @@ title: "JS1026 BBA Business Decision Analytics 19 19 (CityU 2024 Score)"
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1026 BBA Business Decision Analytics 19 19 (CityU 2024 Score)
+
+> [!tip] Short answer
+> JS1026 BBA Business Decision Analytics 19 19, 2023 entry: published median admission score **19**, lower quartile 19 (weighted, formula: best-5 weighted score). Reference point, not a cut-off.
 
 ## Question
 

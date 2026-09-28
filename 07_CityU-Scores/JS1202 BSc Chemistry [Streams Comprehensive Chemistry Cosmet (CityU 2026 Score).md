@@ -3,9 +3,14 @@ title: "JS1202 BSc Chemistry [Streams: Comprehensive Chemistry / Cosmet (CityU 2
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1202 BSc Chemistry [Streams: Comprehensive Chemistry / Cosmet (CityU 2026 Score)
+
+> [!tip] Short answer
+> JS1202 BSc Chemistry [Streams: Comprehensive Chemistry / Cosmet, 2025 entry: published median admission score **27.5**, lower quartile 27 (weighted, formula: Best 4 subjects). Reference point, not a cut-off.
 
 ## Question
 

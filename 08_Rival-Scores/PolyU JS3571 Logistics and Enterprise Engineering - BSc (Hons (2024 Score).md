@@ -3,9 +3,14 @@ title: "PolyU JS3571 Logistics and Enterprise Engineering - BSc (Hons (2024 Scor
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # PolyU JS3571 Logistics and Enterprise Engineering - BSc (Hons (2024 Score)
+
+> [!tip] Short answer
+> PolyU JS3571 Logistics and Enterprise Engineering - BSc (Hons)  (2024 entry): published median admission score **146**, lower quartile 143 under PolyU's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

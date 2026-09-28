@@ -3,9 +3,14 @@ title: "JUPAS Minimum Entrance Requirements for CS"
 type: faq
 area: 01_JUPAS-Basics
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JUPAS Minimum Entrance Requirements for CS
+
+> [!tip] Short answer
+> For JS1204 BSc Computer Science (and the same structure applies to JS1218 Cybersecurity and JS1221, except JS1221 needs Math 4):
 
 ## Question
 

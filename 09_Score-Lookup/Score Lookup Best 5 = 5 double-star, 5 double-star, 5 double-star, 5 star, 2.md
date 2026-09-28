@@ -3,9 +3,14 @@ title: "Score Lookup: Best 5 = 5 double-star, 5 double-star, 5 double-star, 5 st
 type: faq
 area: 09_Score-Lookup
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # Score Lookup: Best 5 = 5 double-star, 5 double-star, 5 double-star, 5 star, 2
+
+> [!tip] Short answer
+> Best 5 = 5**, 5**, 5**, 5*, 2 is **34.5 points** (published weight-1), or **34.5-51.75** under the 1.5x policy. That is **above the 2026 CS median (23)** - a realistic Main Round offer for JS1204.
 
 ## Question
 

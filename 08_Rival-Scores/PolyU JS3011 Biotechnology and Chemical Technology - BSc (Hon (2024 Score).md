@@ -3,9 +3,14 @@ title: "PolyU JS3011 Biotechnology and Chemical Technology - BSc (Hon (2024 Scor
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # PolyU JS3011 Biotechnology and Chemical Technology - BSc (Hon (2024 Score)
+
+> [!tip] Short answer
+> PolyU JS3011 Biotechnology and Chemical Technology - BSc (Hons) (2024 entry): published median admission score **196**, lower quartile 190 under PolyU's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

@@ -3,9 +3,14 @@ title: "PolyU JS3375 Environmental Engineering and Sustainable Develo (2025 Scor
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # PolyU JS3375 Environmental Engineering and Sustainable Develo (2025 Score)
+
+> [!tip] Short answer
+> PolyU JS3375 Environmental Engineering and Sustainable Developm (2025 entry): published median admission score **220** under PolyU's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

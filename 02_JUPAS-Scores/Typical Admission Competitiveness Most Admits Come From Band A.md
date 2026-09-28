@@ -3,9 +3,14 @@ title: "Typical Admission Competitiveness: Most Admits Come From Band A"
 type: faq
 area: 02_JUPAS-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # Typical Admission Competitiveness: Most Admits Come From Band A
+
+> [!tip] Short answer
+> CityUHK CS is among the more competitive local computing programmes but sits below HKU/HKUST top-ranked computing in raw JUPAS scores. The 2026 median JS1204 score of 23 corresponds to a typical admitted profile of roughly 544AA-plus in the…
 
 ## Question
 

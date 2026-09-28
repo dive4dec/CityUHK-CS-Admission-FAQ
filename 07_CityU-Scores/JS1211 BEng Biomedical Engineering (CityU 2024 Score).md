@@ -3,9 +3,14 @@ title: "JS1211 BEng Biomedical Engineering (CityU 2024 Score)"
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1211 BEng Biomedical Engineering (CityU 2024 Score)
+
+> [!tip] Short answer
+> JS1211 BEng Biomedical Engineering, 2023 entry: published median admission score **33**, lower quartile 32 (weighted, formula: Best 5 subjects (If a student takes both Mathematics and M1/M2, only one subject will be included) Biology / Chemistry / M1/M2 / Physics). Reference point, not a cut-off.
 
 ## Question
 

@@ -3,9 +3,14 @@ title: "JS1040 Creative Arts and Technology Excellence (CREATE) (Option (CityU 2
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1040 Creative Arts and Technology Excellence (CREATE) (Option (CityU 2025 Score)
+
+> [!tip] Short answer
+> JS1040 Creative Arts and Technology Excellence (CREATE) (Option, 2024 entry: no Main Round median published for this programme that cycle (new or cross-faculty listing).
 
 ## Question
 

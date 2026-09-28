@@ -3,9 +3,14 @@ title: "BSc Data Science vs CS Data Science Stream"
 type: faq
 area: 05_Programmes
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # BSc Data Science vs CS Data Science Stream
+
+> [!tip] Short answer
+> Decide by what the 'core' of your degree should be:
 
 ## Question
 

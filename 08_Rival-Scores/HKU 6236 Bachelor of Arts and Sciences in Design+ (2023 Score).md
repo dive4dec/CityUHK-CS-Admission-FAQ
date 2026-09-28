@@ -3,9 +3,14 @@ title: "HKU 6236 Bachelor of Arts and Sciences in Design+ (2023 Score)"
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # HKU 6236 Bachelor of Arts and Sciences in Design+ (2023 Score)
+
+> [!tip] Short answer
+> HKU 6236 Bachelor of Arts and Sciences in Design+ (2023 entry): published median admission score **35**, lower quartile 35 under HKU's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

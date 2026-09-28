@@ -3,9 +3,14 @@ title: "JS1062 Bachelor of Laws and BBA Accountancy (CityU 2024 Score)"
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1062 Bachelor of Laws and BBA Accountancy (CityU 2024 Score)
+
+> [!tip] Short answer
+> JS1062 Bachelor of Laws and BBA Accountancy, 2023 entry: no Main Round median published for this programme that cycle (new or cross-faculty listing).
 
 ## Question
 

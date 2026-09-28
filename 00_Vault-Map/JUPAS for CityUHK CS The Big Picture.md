@@ -3,9 +3,14 @@ title: "JUPAS for CityUHK CS: The Big Picture"
 type: faq
 area: 00_Vault-Map
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JUPAS for CityUHK CS: The Big Picture
+
+> [!tip] Short answer
+> JUPAS is the single application to 9 universities, including CityUHK. CS (JS1204) and Cybersecurity (JS1218) admit mainly on a weighted HKDSE score, with no blanket interview - selection is on results, OEA, Principal's Nominations and band choice.
 
 ## Question
 

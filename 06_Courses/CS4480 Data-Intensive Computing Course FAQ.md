@@ -3,9 +3,14 @@ title: "CS4480 Data-Intensive Computing Course FAQ"
 type: faq
 area: 06_Courses
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # CS4480 Data-Intensive Computing Course FAQ
+
+> [!tip] Short answer
+> **CS4480 Data-Intensive Computing** is a CityUHK CS undergraduate course in the AI / Data Science area (?-series, typically the degree of the degree).
 
 ## Question
 

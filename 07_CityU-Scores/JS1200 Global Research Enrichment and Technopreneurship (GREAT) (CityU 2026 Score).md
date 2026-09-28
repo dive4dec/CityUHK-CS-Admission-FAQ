@@ -3,9 +3,14 @@ title: "JS1200 Global Research Enrichment and Technopreneurship (GREAT) (CityU 2
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1200 Global Research Enrichment and Technopreneurship (GREAT) (CityU 2026 Score)
+
+> [!tip] Short answer
+> JS1200 Global Research Enrichment and Technopreneurship (GREAT), 2025 entry: published median admission score **37**, lower quartile 36.5 (weighted, formula: Best 4 subjects Physics M1). Reference point, not a cut-off.
 
 ## Question
 

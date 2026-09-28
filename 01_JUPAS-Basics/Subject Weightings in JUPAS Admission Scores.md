@@ -3,9 +3,14 @@ title: "Subject Weightings in JUPAS Admission Scores"
 type: faq
 area: 01_JUPAS-Basics
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # Subject Weightings in JUPAS Admission Scores
+
+> [!tip] Short answer
+> CityUHK weights each subject differently per programme. A subject marked "1.5" contributes 1.5 x its level points to the total; "2" contributes 2x, etc. The admission score is the sum over the subjects in the programme's formula.
 
 ## Question
 

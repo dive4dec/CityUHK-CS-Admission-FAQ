@@ -3,9 +3,14 @@ title: "CityUHK Tuition Fees"
 type: faq
 area: 11_Misc
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # CityUHK Tuition Fees
+
+> [!tip] Short answer
+> For 2026/27 entry, the local (JUPAS/Non-JUPAS local) undergraduate tuition fee at CityUHK is approximately HK$47,000 per year for the standard four-year JUPAS programmes. Non-local (international) tuition is set separately and is higher;…
 
 ## Question
 

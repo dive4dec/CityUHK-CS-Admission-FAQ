@@ -3,9 +3,14 @@ title: "HKU 6456 Bachelor of Medicine and Bachelor of Surgery (2024 Score)"
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # HKU 6456 Bachelor of Medicine and Bachelor of Surgery (2024 Score)
+
+> [!tip] Short answer
+> HKU 6456 Bachelor of Medicine and Bachelor of Surgery (2024 entry): published median admission score **44**, lower quartile 42 under HKU's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

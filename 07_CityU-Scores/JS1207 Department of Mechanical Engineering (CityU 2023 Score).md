@@ -3,9 +3,14 @@ title: "JS1207 Department of Mechanical Engineering (CityU 2023 Score)"
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1207 Department of Mechanical Engineering (CityU 2023 Score)
+
+> [!tip] Short answer
+> JS1207 Department of Mechanical Engineering, 2022 entry: published median admission score **31**, lower quartile 30 (weighted, formula: Best 6 subjects (include Mathematics) (with weightings applied where appropriate)). Reference point, not a cut-off.
 
 ## Question
 

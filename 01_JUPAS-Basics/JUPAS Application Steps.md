@@ -3,9 +3,14 @@ title: "JUPAS Application Steps"
 type: faq
 area: 01_JUPAS-Basics
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JUPAS Application Steps
+
+> [!tip] Short answer
+> 1. Register a JUPAS account (jupas.edu.hk) and submit the main application 7 Oct 2026 – 2 Dec 2026.
 
 ## Question
 

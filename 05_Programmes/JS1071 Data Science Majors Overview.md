@@ -3,9 +3,14 @@ title: "JS1071 Data Science Majors Overview"
 type: faq
 area: 05_Programmes
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1071 Data Science Majors Overview
+
+> [!tip] Short answer
+> JS1071 'Data Science' is a College of Computing programme offering two majors: BSc Data Science and BSc Data and Systems Engineering, with free choice of major after entry. Its 2026 formula is 3 core + 2 elective subjects with weights…
 
 ## Question
 

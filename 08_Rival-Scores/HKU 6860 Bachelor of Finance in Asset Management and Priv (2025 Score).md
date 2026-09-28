@@ -3,9 +3,14 @@ title: "HKU 6860 Bachelor of Finance in Asset Management and Priv (2025 Score)"
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # HKU 6860 Bachelor of Finance in Asset Management and Priv (2025 Score)
+
+> [!tip] Short answer
+> HKU 6860 Bachelor of Finance in Asset Management and Privat (2025 entry): published median admission score **47**, lower quartile 46 under HKU's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

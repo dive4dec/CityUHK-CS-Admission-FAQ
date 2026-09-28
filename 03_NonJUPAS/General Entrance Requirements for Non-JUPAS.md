@@ -3,9 +3,14 @@ title: "General Entrance Requirements for Non-JUPAS"
 type: faq
 area: 03_NonJUPAS
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # General Entrance Requirements for Non-JUPAS
+
+> [!tip] Short answer
+> By qualification type:
 
 ## Question
 

@@ -3,9 +3,14 @@ title: "JS1202 Bachelor of Science in Chemistry (CityU 2023 Score)"
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1202 Bachelor of Science in Chemistry (CityU 2023 Score)
+
+> [!tip] Short answer
+> JS1202 Bachelor of Science in Chemistry, 2022 entry: published median admission score **28**, lower quartile 27 (weighted, formula: Best 5 subjects (with weightings applied where appropriate)). Reference point, not a cut-off.
 
 ## Question
 

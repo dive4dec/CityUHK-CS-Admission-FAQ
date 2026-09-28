@@ -3,9 +3,14 @@ title: "JS1300 Integrative Bioscience & Bioengineering Programme (Bio3) (CityU 2
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1300 Integrative Bioscience & Bioengineering Programme (Bio3) (CityU 2026 Score)
+
+> [!tip] Short answer
+> JS1300 Integrative Bioscience & Bioengineering Programme (Bio3), 2025 entry: no Main Round median published for this programme that cycle (new or cross-faculty listing).
 
 ## Question
 

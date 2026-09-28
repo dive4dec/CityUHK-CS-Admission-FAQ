@@ -3,9 +3,14 @@ title: "HKU 6262 Bachelor of Engineering in Data Science and Engi (2024 Score)"
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # HKU 6262 Bachelor of Engineering in Data Science and Engi (2024 Score)
+
+> [!tip] Short answer
+> HKU 6262 Bachelor of Engineering in Data Science and Engine (2024 entry): published median admission score **29**, lower quartile 29 under HKU's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

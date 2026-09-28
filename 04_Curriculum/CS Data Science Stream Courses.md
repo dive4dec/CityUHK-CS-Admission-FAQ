@@ -3,9 +3,14 @@ title: "CS Data Science Stream Courses"
 type: faq
 area: 04_Curriculum
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # CS Data Science Stream Courses
+
+> [!tip] Short answer
+> The Data Science stream leans on the CS core plus data-focused courses. Representative titles from the catalogue: CS2402 Introduction to Computational Probability Modeling, CS2468 Data Structures and Data Management, CS2403 Data Management and…
 
 ## Question
 

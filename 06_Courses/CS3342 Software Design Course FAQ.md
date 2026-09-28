@@ -3,9 +3,14 @@ title: "CS3342 Software Design Course FAQ"
 type: faq
 area: 06_Courses
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # CS3342 Software Design Course FAQ
+
+> [!tip] Short answer
+> **CS3342 Software Design** is a CityUHK CS undergraduate course in the Software Engineering area (?-series, typically the degree of the degree).
 
 ## Question
 

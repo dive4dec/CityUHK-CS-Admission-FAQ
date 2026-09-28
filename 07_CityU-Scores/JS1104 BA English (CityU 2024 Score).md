@@ -3,9 +3,14 @@ title: "JS1104 BA English (CityU 2024 Score)"
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1104 BA English (CityU 2024 Score)
+
+> [!tip] Short answer
+> JS1104 BA English, 2023 entry: published median admission score **27**, lower quartile 26 (weighted, formula: Best 5 subjects (include English)). Reference point, not a cut-off.
 
 ## Question
 

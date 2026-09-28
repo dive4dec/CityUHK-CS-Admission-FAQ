@@ -3,9 +3,14 @@ title: "JUPAS Score Calculator for CityUHK CS"
 type: faq
 area: 02_JUPAS-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JUPAS Score Calculator for CityUHK CS
+
+> [!tip] Short answer
+> Yes. CityUHK publishes a JUPAS Score Calculator (linked from the 'Admission Score Formula and Admissions Scores' page). You enter your HKDSE subject levels and the tool applies the correct formula and weightings to return your weighted
 
 ## Question
 

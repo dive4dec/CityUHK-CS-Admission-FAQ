@@ -3,9 +3,14 @@ title: "JS1106 Media and Communication (Majors: BA Digital Television a (CityU 2
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1106 Media and Communication (Majors: BA Digital Television a (CityU 2025 Score)
+
+> [!tip] Short answer
+> JS1106 Media and Communication (Majors: BA Digital Television a, 2024 entry: published median admission score **19.5**, lower quartile 19 (weighted, formula: Best 4 subjects (include English) 1.25: English / Chinese). Reference point, not a cut-off.
 
 ## Question
 

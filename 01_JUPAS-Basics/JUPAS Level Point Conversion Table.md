@@ -3,9 +3,14 @@ title: "JUPAS Level Point Conversion Table"
 type: faq
 area: 01_JUPAS-Basics
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JUPAS Level Point Conversion Table
+
+> [!tip] Short answer
+> This table applies to all JUPAS programmes at CityUHK for 2025 and later entries. Note the jump structure: the difference between 5** and 5* is 1.5 points, between 5* and 5 is 1.5, but between 5 and 4 only 1.5 - the scale is fairly smooth at the…
 
 ## Question
 

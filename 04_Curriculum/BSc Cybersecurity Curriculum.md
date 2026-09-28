@@ -3,9 +3,14 @@ title: "BSc Cybersecurity Curriculum"
 type: faq
 area: 04_Curriculum
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # BSc Cybersecurity Curriculum
+
+> [!tip] Short answer
+> BSc Cybersecurity (JS1218) shares the same first-year base as CS (programming, calculus, linear algebra, computer organisation) and the same core CS courses, but adds a cybersecurity focus. The curriculum is described as a set of highly focused…
 
 ## Question
 

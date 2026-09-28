@@ -3,9 +3,14 @@ title: "PolyU JS3237 Intelligent Supply Chain and Engineering Managem (2025 Scor
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # PolyU JS3237 Intelligent Supply Chain and Engineering Managem (2025 Score)
+
+> [!tip] Short answer
+> PolyU JS3237 Intelligent Supply Chain and Engineering Managemen (2025 entry): published median admission score **195**, lower quartile 193 under PolyU's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

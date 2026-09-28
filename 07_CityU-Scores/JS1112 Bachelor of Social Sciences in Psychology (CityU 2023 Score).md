@@ -3,9 +3,14 @@ title: "JS1112 Bachelor of Social Sciences in Psychology (CityU 2023 Score)"
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1112 Bachelor of Social Sciences in Psychology (CityU 2023 Score)
+
+> [!tip] Short answer
+> JS1112 Bachelor of Social Sciences in Psychology, 2022 entry: published median admission score **26**, lower quartile 26 (weighted, formula: Best 5 subjects (include English) (with weightings applied where appropriate)). Reference point, not a cut-off.
 
 ## Question
 

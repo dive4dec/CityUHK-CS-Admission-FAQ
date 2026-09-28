@@ -3,9 +3,14 @@ title: "CS Study Streams Explained"
 type: faq
 area: 04_Curriculum
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # CS Study Streams Explained
+
+> [!tip] Short answer
+> BSc CS (JS1204) lets students specialise in one of five streams:
 
 ## Question
 

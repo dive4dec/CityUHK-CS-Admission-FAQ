@@ -3,9 +3,14 @@ title: "JS1204 BSc Computer Science Streams List"
 type: faq
 area: 05_Programmes
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1204 BSc Computer Science Streams List
+
+> [!tip] Short answer
+> The official JS1204 stream list (as shown on the JUPAS catalogue and admission site) is: Artificial Intelligence / Cybersecurity / Data Science / Multimedia Computing / Software Engineering and Project Management.
 
 ## Question
 

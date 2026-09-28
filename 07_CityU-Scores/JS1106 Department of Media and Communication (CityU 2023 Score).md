@@ -3,9 +3,14 @@ title: "JS1106 Department of Media and Communication (CityU 2023 Score)"
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1106 Department of Media and Communication (CityU 2023 Score)
+
+> [!tip] Short answer
+> JS1106 Department of Media and Communication, 2022 entry: published median admission score **22**, lower quartile 22 (weighted, formula: Best 5 subjects (include English) (with weightings applied where appropriate)). Reference point, not a cut-off.
 
 ## Question
 

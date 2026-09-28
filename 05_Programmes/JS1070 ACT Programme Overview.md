@@ -3,9 +3,14 @@ title: "JS1070 ACT Programme Overview"
 type: faq
 area: 05_Programmes
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1070 ACT Programme Overview
+
+> [!tip] Short answer
+> JS1070 'AI, Computing and Transformation (ACT)' (called DELTA in 2025) is a College of Computing programme with a free choice of major plus signature features: one-to-one advisor, elite work placement, executive mentor scheme, premium overseas…
 
 ## Question
 

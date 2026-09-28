@@ -3,9 +3,14 @@ title: "Worked Example Computing JS1204 Admission Score"
 type: faq
 area: 02_JUPAS-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # Worked Example Computing JS1204 Admission Score
+
+> [!tip] Short answer
+> Formula (2026, published): best 5 countable subjects, each at weight 1, using the 2025+ conversion (5**=8.5, 5*=7, 5=5.5, 4=4, 3=3, 2=2, 1=1). CSD and Liberal Studies are excluded.
 
 ## Question
 

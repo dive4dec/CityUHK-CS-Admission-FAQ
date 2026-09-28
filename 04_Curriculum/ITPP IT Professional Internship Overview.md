@@ -3,9 +3,14 @@ title: "ITPP IT Professional Internship Overview"
 type: faq
 area: 04_Curriculum
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # ITPP IT Professional Internship Overview
+
+> [!tip] Short answer
+> The IT Professional Internship (ITPP) is a mandatory, credit-bearing, 9-month placement taken in the third year (after completing the first two years of full-time study). It is an integral component of the CS curriculum - all students acquire…
 
 ## Question
 

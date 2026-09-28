@@ -2,9 +2,10 @@
 #
 # Usage:
 #   make site-init     # One-time: install Quartz dependencies (needs node >= 22, npm >= 10.9.2)
+#   make verify        # Check vault integrity (dangling wikilinks + split tables)
 #   make site-build    # Build static site into .site/public/
 #   make site-serve    # Preview locally at http://localhost:8080
-#   make site-deploy   # Build + push to gh-pages branch (requires push access to origin)
+#   make site-deploy   # Verify + build + push to gh-pages branch (needs push access)
 #   make site-clean    # Remove build output
 
 QUARTZ_DIR := .site
@@ -15,7 +16,14 @@ PORT := 8080
 # Branch for GitHub Pages
 PAGES_BRANCH := gh-pages
 
-.PHONY: site-init site-build site-serve site-deploy site-clean
+# Verify vault integrity: dangling wikilinks + split GFM tables.
+# Fails (exit 1) on any problem, so it can gate a deploy.
+verify:
+	python3 verify_vault.py
+
+.PHONY: site-init site-build site-serve site-deploy site-clean verify
+
+.PHONY: site-init site-build site-serve site-deploy site-clean verify
 
 # One-time setup: install Quartz npm dependencies
 site-init:
@@ -32,7 +40,7 @@ site-serve:
 # Deploy to GitHub Pages (gh-pages branch).
 # Copies the built site into a throwaway repo that points at the SAME origin,
 # then force-pushes it as the gh-pages branch. Needs push access to origin.
-site-deploy: site-build
+site-deploy: verify site-build
 	@echo "Deploying to $(PAGES_BRANCH) branch..."
 	@ORIGIN=$$(git remote get-url origin) && \
 	 if [ -z "$$ORIGIN" ]; then echo "error: no origin remote. Run: git remote add origin git@github.com:dive4dec/CityUHK-CS-Admission-FAQ.git"; exit 1; fi && \

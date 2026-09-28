@@ -3,9 +3,14 @@ title: "What Does the CS Department's Research Focus Mean for Students"
 type: faq
 area: 00_Vault-Map
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # What Does the CS Department's Research Focus Mean for Students
+
+> [!tip] Short answer
+> The department's research (AI, data science, security, systems, multimedia) shapes the electives and final-year project topics you can choose, and feeds MSc/PhD pathways.
 
 ## Question
 

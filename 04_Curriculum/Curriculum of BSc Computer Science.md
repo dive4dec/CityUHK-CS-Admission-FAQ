@@ -3,9 +3,14 @@ title: "Curriculum of BSc Computer Science"
 type: faq
 area: 04_Curriculum
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # Curriculum of BSc Computer Science
+
+> [!tip] Short answer
+> BSc CS is a 4-year degree (~120 credit units) built in four layers: (1) Gateway Education (31 CU) - Chinese Civilisation, University English + discipline-specific English, Whole-Person Development, and distributional areas; (2) College-specified courses (Computing) - e.g., CS1302A Introduction to Computer Programming; (3) College Requirement - MA1508 Calculus (4 CU) and MA1503 Linear Algebra with Applications (4 CU); and (4) Major Requirements - CS core courses plus 15 CU of electives.
 
 ## Question
 

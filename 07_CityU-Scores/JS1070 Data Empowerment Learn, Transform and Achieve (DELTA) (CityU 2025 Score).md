@@ -3,9 +3,14 @@ title: "JS1070 Data Empowerment: Learn, Transform and Achieve (DELTA) (CityU 202
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1070 Data Empowerment: Learn, Transform and Achieve (DELTA) (CityU 2025 Score)
+
+> [!tip] Short answer
+> JS1070 Data Empowerment: Learn, Transform and Achieve (DELTA), 2024 entry: no Main Round median published for this programme that cycle (new or cross-faculty listing).
 
 ## Question
 

@@ -3,9 +3,14 @@ title: "Is CityUHK CS a College of Computing Programme"
 type: faq
 area: 00_Vault-Map
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # Is CityUHK CS a College of Computing Programme
+
+> [!tip] Short answer
+> BSc CS, BSc Cybersecurity and the Data Science programmes all sit in the College of Computing, sharing first-year requirements, one application portal, and easier cross-programme switching.
 
 ## Question
 

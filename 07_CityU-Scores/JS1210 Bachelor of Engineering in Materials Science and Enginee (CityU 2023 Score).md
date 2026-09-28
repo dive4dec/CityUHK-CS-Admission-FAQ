@@ -3,9 +3,14 @@ title: "JS1210 Bachelor of Engineering in Materials Science and Enginee (CityU 2
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1210 Bachelor of Engineering in Materials Science and Enginee (CityU 2023 Score)
+
+> [!tip] Short answer
+> JS1210 Bachelor of Engineering in Materials Science and Enginee, 2022 entry: published median admission score **30**, lower quartile 29 (weighted, formula: Best 6 subjects (include English, Mathematics and one subject from Biology, Chemistry, Combined Science (Biology and). Reference point, not a cut-off.
 
 ## Question
 

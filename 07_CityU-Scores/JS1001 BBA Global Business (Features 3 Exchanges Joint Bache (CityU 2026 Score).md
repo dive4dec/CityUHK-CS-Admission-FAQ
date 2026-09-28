@@ -3,9 +3,14 @@ title: "JS1001 BBA Global Business (Features: 3 Exchanges / Joint Bache (CityU 2
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1001 BBA Global Business (Features: 3 Exchanges / Joint Bache (CityU 2026 Score)
+
+> [!tip] Short answer
+> JS1001 BBA Global Business (Features: 3 Exchanges / Joint Bache, 2025 entry: published median admission score **29.5**, lower quartile 28 (weighted, formula: Best 5 subjects). Reference point, not a cut-off.
 
 ## Question
 

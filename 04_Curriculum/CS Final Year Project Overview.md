@@ -3,9 +3,14 @@ title: "CS Final Year Project Overview"
 type: faq
 area: 04_Curriculum
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # CS Final Year Project Overview
+
+> [!tip] Short answer
+> CS students undertake a major design and development project (CS4514 Project / CS4552 Guided Study) in areas such as e-commerce, virtual reality, multimedia, computer vision, cloud computing, information security and data science. It is a…
 
 ## Question
 

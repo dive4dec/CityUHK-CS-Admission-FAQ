@@ -3,9 +3,14 @@ title: "HKUST JS5313 BBA in Global Business (2025 Score)"
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # HKUST JS5313 BBA in Global Business (2025 Score)
+
+> [!tip] Short answer
+> HKUST JS5313 BBA in Global Business (2025 entry): published median admission score **52.43**, lower quartile 50.4 under HKUST's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

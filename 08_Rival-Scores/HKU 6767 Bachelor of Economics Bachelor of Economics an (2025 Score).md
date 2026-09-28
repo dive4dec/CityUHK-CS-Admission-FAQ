@@ -3,9 +3,14 @@ title: "HKU 6767 Bachelor of Economics / Bachelor of Economics an (2025 Score)"
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # HKU 6767 Bachelor of Economics / Bachelor of Economics an (2025 Score)
+
+> [!tip] Short answer
+> HKU 6767 Bachelor of Economics / Bachelor of Economics and  (2025 entry): published median admission score **40**, lower quartile 39 under HKU's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

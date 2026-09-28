@@ -3,9 +3,14 @@ title: "Non-JUPAS Application Steps"
 type: faq
 area: 03_NonJUPAS
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # Non-JUPAS Application Steps
+
+> [!tip] Short answer
+> 1. Create an account at cityu.edu.hk/admo/apply-now.
 
 ## Question
 

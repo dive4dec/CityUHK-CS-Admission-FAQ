@@ -3,9 +3,14 @@ title: "Minor in Computing"
 type: faq
 area: 04_Curriculum
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # Minor in Computing
+
+> [!tip] Short answer
+> Yes. CityUHK offers a Minor in Computing for students outside the computing programmes, with its own aims, curriculum, structures, award and application process (there is a dedicated FAQ on the CS site). It lets a business, science or 
 
 ## Question
 

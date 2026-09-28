@@ -3,9 +3,14 @@ title: "CS2115 Computer Organisation Course FAQ"
 type: faq
 area: 06_Courses
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # CS2115 Computer Organisation Course FAQ
+
+> [!tip] Short answer
+> **CS2115 Computer Organisation** is a CityUHK CS undergraduate course in the Core / Foundational area (?-series, typically the degree of the degree).
 
 ## Question
 

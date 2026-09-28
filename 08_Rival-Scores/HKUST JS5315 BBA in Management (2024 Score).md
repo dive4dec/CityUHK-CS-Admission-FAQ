@@ -3,9 +3,14 @@ title: "HKUST JS5315 BBA in Management (2024 Score)"
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # HKUST JS5315 BBA in Management (2024 Score)
+
+> [!tip] Short answer
+> HKUST JS5315 BBA in Management (2024 entry): published median admission score **33.55**, lower quartile 32.04 under HKUST's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

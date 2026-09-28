@@ -3,9 +3,14 @@ title: "JS1206 BSc Computing Mathematics (CityU 2024 Score)"
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1206 BSc Computing Mathematics (CityU 2024 Score)
+
+> [!tip] Short answer
+> JS1206 BSc Computing Mathematics, 2023 entry: published median admission score **28**, lower quartile 26.5 (weighted, formula: Best 4 subjects (include Mathematics) Physics 28). Reference point, not a cut-off.
 
 ## Question
 

@@ -3,9 +3,14 @@ title: "CS4394 Information Security and Management Course FAQ"
 type: faq
 area: 06_Courses
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # CS4394 Information Security and Management Course FAQ
+
+> [!tip] Short answer
+> **CS4394 Information Security and Management** is a CityUHK CS undergraduate course in the Security / Cybersecurity area (?-series, typically the degree of the degree).
 
 ## Question
 

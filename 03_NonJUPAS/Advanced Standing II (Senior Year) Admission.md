@@ -3,9 +3,14 @@ title: "Advanced Standing II (Senior Year) Admission"
 type: faq
 area: 03_NonJUPAS
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # Advanced Standing II (Senior Year) Admission
+
+> [!tip] Short answer
+> Advanced Standing II (ASII), also called senior-year admission, admits students to the final (Year 3) year of a four-year degree, taking a minimum of 60 credit units instead of 120-121. It is only available to local students.
 
 ## Question
 

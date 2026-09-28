@@ -3,9 +3,14 @@ title: "JS1012 Economics and Finance (Majors: BBA Business Economics / (CityU 20
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1012 Economics and Finance (Majors: BBA Business Economics / (CityU 2025 Score)
+
+> [!tip] Short answer
+> JS1012 Economics and Finance (Majors: BBA Business Economics /, 2024 entry: published median admission score **21.5**, lower quartile 21.5 (weighted, formula: Best 5 subjects (include Mathematics)). Reference point, not a cut-off.
 
 ## Question
 

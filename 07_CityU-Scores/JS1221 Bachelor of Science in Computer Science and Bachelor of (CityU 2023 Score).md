@@ -3,9 +3,14 @@ title: "JS1221 Bachelor of Science in Computer Science and Bachelor of (CityU 20
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1221 Bachelor of Science in Computer Science and Bachelor of (CityU 2023 Score)
+
+> [!tip] Short answer
+> JS1221 Bachelor of Science in Computer Science and Bachelor of, 2022 entry: published median admission score **24**, lower quartile 23 (weighted, formula: 4 core + 2 elective subjects (with weightings applied where appropriate)). Reference point, not a cut-off.
 
 ## Question
 

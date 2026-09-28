@@ -3,9 +3,14 @@ title: "JS1042 BA Creative Media (CityU 2025 Score)"
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1042 BA Creative Media (CityU 2025 Score)
+
+> [!tip] Short answer
+> JS1042 BA Creative Media, 2024 entry: published median admission score **27**, lower quartile 26.5 (weighted, formula: Best 5 subjects (include English) 2: English). Reference point, not a cut-off.
 
 ## Question
 

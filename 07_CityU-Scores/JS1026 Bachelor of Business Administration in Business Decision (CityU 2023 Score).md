@@ -3,9 +3,14 @@ title: "JS1026 Bachelor of Business Administration in Business Decision (CityU 2
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1026 Bachelor of Business Administration in Business Decision (CityU 2023 Score)
+
+> [!tip] Short answer
+> JS1026 Bachelor of Business Administration in Business Decision, 2022 entry: published median admission score **23**, lower quartile 23 (weighted, formula: 4 core + 2 elective subjects (with weightings applied where appropriate)). Reference point, not a cut-off.
 
 ## Question
 

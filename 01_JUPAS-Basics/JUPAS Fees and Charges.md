@@ -3,9 +3,14 @@ title: "JUPAS Fees and Charges"
 type: faq
 area: 01_JUPAS-Basics
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JUPAS Fees and Charges
+
+> [!tip] Short answer
+> Separately, CityUHK non-JUPAS applications cost HK$200 per programme, and international non-JUPAS applications cost HK$600 for up to 2 choices.
 
 ## Question
 

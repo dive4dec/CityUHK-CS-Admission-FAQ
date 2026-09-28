@@ -3,9 +3,14 @@ title: "JS1012 Department of Economics and Finance (options: BBA Busine (CityU 2
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1012 Department of Economics and Finance (options: BBA Busine (CityU 2024 Score)
+
+> [!tip] Short answer
+> JS1012 Department of Economics and Finance (options: BBA Busine, 2023 entry: published median admission score **20**, lower quartile 20 (weighted, formula: Best 5 subjects (include Mathematics) 1). Reference point, not a cut-off.
 
 ## Question
 

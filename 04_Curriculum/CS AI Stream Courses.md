@@ -3,9 +3,14 @@ title: "CS AI Stream Courses"
 type: faq
 area: 04_Curriculum
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # CS AI Stream Courses
+
+> [!tip] Short answer
+> The Artificial Intelligence stream builds on the CS core and leads into AI-specialised courses. From the CS course list, representative AI/ML courses include: CS4486 Artificial Intelligence, CS4487 Machine Learning, CS4489 Optimization…
 
 ## Question
 

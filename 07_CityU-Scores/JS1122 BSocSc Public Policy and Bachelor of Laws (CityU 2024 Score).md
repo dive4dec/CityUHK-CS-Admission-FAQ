@@ -3,9 +3,14 @@ title: "JS1122 BSocSc Public Policy and Bachelor of Laws (CityU 2024 Score)"
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1122 BSocSc Public Policy and Bachelor of Laws (CityU 2024 Score)
+
+> [!tip] Short answer
+> JS1122 BSocSc Public Policy and Bachelor of Laws, 2023 entry: no Main Round median published for this programme that cycle (new or cross-faculty listing).
 
 ## Question
 

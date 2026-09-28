@@ -3,9 +3,14 @@ title: "JS1219 BEng Innovation and Enterprise Engineering (CityU 2025 Score)"
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1219 BEng Innovation and Enterprise Engineering (CityU 2025 Score)
+
+> [!tip] Short answer
+> JS1219 BEng Innovation and Enterprise Engineering, 2024 entry: no Main Round median published for this programme that cycle (new or cross-faculty listing).
 
 ## Question
 

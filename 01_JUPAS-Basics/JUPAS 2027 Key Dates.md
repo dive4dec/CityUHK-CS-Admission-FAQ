@@ -3,9 +3,14 @@ title: "JUPAS 2027 Key Dates"
 type: faq
 area: 01_JUPAS-Basics
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JUPAS 2027 Key Dates
+
+> [!tip] Short answer
+> Key dates for the 2027 JUPAS cycle (V1.1, subject to change):
 
 ## Question
 

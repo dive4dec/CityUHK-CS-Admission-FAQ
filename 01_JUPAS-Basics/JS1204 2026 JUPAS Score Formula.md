@@ -3,9 +3,14 @@ title: "JS1204 2026 JUPAS Score Formula"
 type: faq
 area: 01_JUPAS-Basics
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1204 2026 JUPAS Score Formula
+
+> [!tip] Short answer
+> JS1204 BSc Computer Science (2026 JUPAS):
 
 ## Question
 

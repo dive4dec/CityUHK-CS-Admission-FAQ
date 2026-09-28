@@ -3,9 +3,14 @@ title: "JS1110 Department of Social and Behavioural Sciences (CityU 2023 Score)"
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1110 Department of Social and Behavioural Sciences (CityU 2023 Score)
+
+> [!tip] Short answer
+> JS1110 Department of Social and Behavioural Sciences, 2022 entry: published median admission score **26**, lower quartile 26 (weighted, formula: Best 5 subjects (include English) (with weightings applied where appropriate)). Reference point, not a cut-off.
 
 ## Question
 

@@ -3,9 +3,14 @@ title: "JS1807 BSc Biomedical Sciences (Features: Clinical Chemistry, H (CityU 2
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1807 BSc Biomedical Sciences (Features: Clinical Chemistry, H (CityU 2026 Score)
+
+> [!tip] Short answer
+> JS1807 BSc Biomedical Sciences (Features: Clinical Chemistry, H, 2025 entry: published median admission score **45.5**, lower quartile 43 (weighted, formula: best-5 weighted score). Reference point, not a cut-off.
 
 ## Question
 

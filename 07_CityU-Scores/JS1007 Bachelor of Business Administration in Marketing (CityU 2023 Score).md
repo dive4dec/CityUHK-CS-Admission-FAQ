@@ -3,9 +3,14 @@ title: "JS1007 Bachelor of Business Administration in Marketing (CityU 2023 Scor
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1007 Bachelor of Business Administration in Marketing (CityU 2023 Score)
+
+> [!tip] Short answer
+> JS1007 Bachelor of Business Administration in Marketing, 2022 entry: published median admission score **26**, lower quartile 25 (weighted, formula: 4 core + 2 elective subjects (with weightings applied where appropriate)). Reference point, not a cut-off.
 
 ## Question
 

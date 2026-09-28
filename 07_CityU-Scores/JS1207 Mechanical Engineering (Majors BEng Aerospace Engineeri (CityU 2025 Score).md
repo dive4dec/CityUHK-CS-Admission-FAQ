@@ -3,9 +3,14 @@ title: "JS1207 Mechanical Engineering (Majors: BEng Aerospace Engineeri (CityU 2
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1207 Mechanical Engineering (Majors: BEng Aerospace Engineeri (CityU 2025 Score)
+
+> [!tip] Short answer
+> JS1207 Mechanical Engineering (Majors: BEng Aerospace Engineeri, 2024 entry: published median admission score **31**, lower quartile 30.5 (weighted, formula: Best 5 subjects (include Mathematics) Physics Applied Technology / M1/M2). Reference point, not a cut-off.
 
 ## Question
 

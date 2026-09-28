@@ -3,9 +3,14 @@ title: "HKUST JS5101 International Research Enrichment (2025 Score)"
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # HKUST JS5101 International Research Enrichment (2025 Score)
+
+> [!tip] Short answer
+> HKUST JS5101 International Research Enrichment (2025 entry): published median admission score **38.25**, lower quartile 37.88 under HKUST's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

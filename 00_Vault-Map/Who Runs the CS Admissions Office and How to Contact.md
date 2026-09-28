@@ -3,9 +3,14 @@ title: "Who Runs the CS Admissions Office and How to Contact"
 type: faq
 area: 00_Vault-Map
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # Who Runs the CS Admissions Office and How to Contact
+
+> [!tip] Short answer
+> CS admission office: csadm@cityu.edu.hk, +852 3442 8580. University-wide admissions and the non-JUPAS portal are at cityu.edu.hk/admo (+852 3442 7640).
 
 ## Question
 

@@ -3,9 +3,14 @@ title: "HKUST JS5270 Department of Mechanical & Aerospace Engineering (2025 Scor
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # HKUST JS5270 Department of Mechanical & Aerospace Engineering (2025 Score)
+
+> [!tip] Short answer
+> HKUST JS5270 Department of Mechanical & Aerospace Engineering (2025 entry): published median admission score **41.14**, lower quartile 39.72 under HKUST's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

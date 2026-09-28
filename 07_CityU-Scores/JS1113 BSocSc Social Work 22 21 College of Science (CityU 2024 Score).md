@@ -3,9 +3,14 @@ title: "JS1113 BSocSc Social Work 22 21 College of Science (CityU 2024 Score)"
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1113 BSocSc Social Work 22 21 College of Science (CityU 2024 Score)
+
+> [!tip] Short answer
+> JS1113 BSocSc Social Work 22 21 College of Science, 2023 entry: published median admission score **22**, lower quartile 21 (weighted, formula: best-5 weighted score). Reference point, not a cut-off.
 
 ## Question
 

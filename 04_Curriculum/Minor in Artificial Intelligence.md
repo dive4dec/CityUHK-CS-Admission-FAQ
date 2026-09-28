@@ -3,9 +3,14 @@ title: "Minor in Artificial Intelligence"
 type: faq
 area: 04_Curriculum
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # Minor in Artificial Intelligence
+
+> [!tip] Short answer
+> Yes. CityUHK offers a Minor in Artificial Intelligence that students from other programmes can add to their degree to gain structured AI coursework (aimed at broadening their technical base). It has its own aims, curriculum overview, s
 
 ## Question
 

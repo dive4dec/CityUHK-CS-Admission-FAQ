@@ -3,9 +3,14 @@ title: "Score Lookup: Best 5 = 5 star, 4, 4, 2, 2"
 type: faq
 area: 09_Score-Lookup
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # Score Lookup: Best 5 = 5 star, 4, 4, 2, 2
+
+> [!tip] Short answer
+> Best 5 = 5*, 4, 4, 2, 2 is **19 points** (published weight-1), or **19-28.5** under the 1.5x policy. That is **below the 2026 CS lower quartile (22)** - a Main Round CS offer was unlikely without flexible admission or a non-JUPAS route.
 
 ## Question
 

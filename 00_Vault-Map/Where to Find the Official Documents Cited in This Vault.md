@@ -3,9 +3,14 @@ title: "Where to Find the Official Documents Cited in This Vault"
 type: faq
 area: 00_Vault-Map
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # Where to Find the Official Documents Cited in This Vault
+
+> [!tip] Short answer
+> Every figure traces to a public PDF on cityu.edu.hk/admo, jupas.edu.hk and cs.cityu.edu.hk. Each note in the vault carries a Source line naming its specific document.
 
 ## Question
 

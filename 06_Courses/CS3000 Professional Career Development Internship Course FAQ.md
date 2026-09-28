@@ -3,9 +3,14 @@ title: "CS3000 Professional Career Development Internship Course FAQ"
 type: faq
 area: 06_Courses
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # CS3000 Professional Career Development Internship Course FAQ
+
+> [!tip] Short answer
+> **CS3000 Professional Career Development Internship** is a CityUHK CS undergraduate course in the Professional / Internship area (?-series, typically the degree of the degree).
 
 ## Question
 

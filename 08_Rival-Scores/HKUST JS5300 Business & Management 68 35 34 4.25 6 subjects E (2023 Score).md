@@ -3,9 +3,14 @@ title: "HKUST JS5300 Business & Management 68 35 34 4.25 6 subjects E (2023 Scor
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # HKUST JS5300 Business & Management 68 35 34 4.25 6 subjects E (2023 Score)
+
+> [!tip] Short answer
+> HKUST JS5300 Business & Management 68 35 34 4.25 6 subjects Eng (2023 entry): published median admission score **52.75**, lower quartile 51.25 under HKUST's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

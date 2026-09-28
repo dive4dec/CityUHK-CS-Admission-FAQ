@@ -3,9 +3,14 @@ title: "JS1806 Bachelor of Science in Biological Sciences (CityU 2023 Score)"
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1806 Bachelor of Science in Biological Sciences (CityU 2023 Score)
+
+> [!tip] Short answer
+> JS1806 Bachelor of Science in Biological Sciences, 2022 entry: published median admission score **35**, lower quartile 35 (weighted, formula: 4 core + 2 elective subjects (with weightings applied where appropriate)). Reference point, not a cut-off.
 
 ## Question
 

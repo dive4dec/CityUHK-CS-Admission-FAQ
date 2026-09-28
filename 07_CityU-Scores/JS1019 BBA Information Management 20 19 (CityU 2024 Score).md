@@ -3,9 +3,14 @@ title: "JS1019 BBA Information Management 20 19 (CityU 2024 Score)"
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1019 BBA Information Management 20 19 (CityU 2024 Score)
+
+> [!tip] Short answer
+> JS1019 BBA Information Management 20 19, 2023 entry: published median admission score **20**, lower quartile 19 (weighted, formula: best-5 weighted score). Reference point, not a cut-off.
 
 ## Question
 

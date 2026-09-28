@@ -3,9 +3,14 @@ title: "JS1221 Double Degree Overview"
 type: faq
 area: 05_Programmes
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1221 Double Degree Overview
+
+> [!tip] Short answer
+> JS1221 is a 5-year double degree jointly offered by the Department of Computer Science and the College of Business, training professionals who blend computer science with computational finance and financial technology (AI, big data analytics, derivatives pricing, financial econometrics, portfolio management, software engineering, blockchain).
 
 ## Question
 

@@ -3,9 +3,14 @@ title: "PolyU JS3636 Physiotherapy - BSc (Hons) (2025 Score)"
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # PolyU JS3636 Physiotherapy - BSc (Hons) (2025 Score)
+
+> [!tip] Short answer
+> PolyU JS3636 Physiotherapy - BSc (Hons) (2025 entry): published median admission score **320**, lower quartile 320 under PolyU's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

@@ -3,9 +3,14 @@ title: "JS1041 School of Creative Media (options: BA Creative Media, BS (CityU 2
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1041 School of Creative Media (options: BA Creative Media, BS (CityU 2023 Score)
+
+> [!tip] Short answer
+> JS1041 School of Creative Media (options: BA Creative Media, BS, 2022 entry: published median admission score **29**, lower quartile 28 (weighted, formula: 4 core + 2 elective subjects (with weightings applied where appropriate)). Reference point, not a cut-off.
 
 ## Question
 

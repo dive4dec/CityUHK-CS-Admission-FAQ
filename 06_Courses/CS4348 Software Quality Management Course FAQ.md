@@ -3,9 +3,14 @@ title: "CS4348 Software Quality Management Course FAQ"
 type: faq
 area: 06_Courses
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # CS4348 Software Quality Management Course FAQ
+
+> [!tip] Short answer
+> **CS4348 Software Quality Management** is a CityUHK CS undergraduate course in the Software Engineering area (?-series, typically the degree of the degree).
 
 ## Question
 

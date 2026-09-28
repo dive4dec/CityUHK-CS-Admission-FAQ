@@ -3,9 +3,14 @@ title: "JS1218 BSc Cybersecurity (CityU 2025 Score)"
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1218 BSc Cybersecurity (CityU 2025 Score)
+
+> [!tip] Short answer
+> JS1218 BSc Cybersecurity, 2024 entry: no Main Round median published for this programme that cycle (new or cross-faculty listing).
 
 ## Question
 

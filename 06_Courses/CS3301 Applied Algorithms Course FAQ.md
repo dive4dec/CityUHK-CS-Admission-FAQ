@@ -3,9 +3,14 @@ title: "CS3301 Applied Algorithms Course FAQ"
 type: faq
 area: 06_Courses
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # CS3301 Applied Algorithms Course FAQ
+
+> [!tip] Short answer
+> **CS3301 Applied Algorithms** is a CityUHK CS undergraduate course in the Core / Foundational area (?-series, typically the degree of the degree).
 
 ## Question
 

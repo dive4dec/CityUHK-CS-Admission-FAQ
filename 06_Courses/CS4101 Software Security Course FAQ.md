@@ -3,9 +3,14 @@ title: "CS4101 Software Security Course FAQ"
 type: faq
 area: 06_Courses
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # CS4101 Software Security Course FAQ
+
+> [!tip] Short answer
+> **CS4101 Software Security** is a CityUHK CS undergraduate course in the Security / Cybersecurity area (?-series, typically the degree of the degree).
 
 ## Question
 

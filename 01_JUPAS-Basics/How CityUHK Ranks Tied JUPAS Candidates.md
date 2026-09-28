@@ -3,9 +3,14 @@ title: "How CityUHK Ranks Tied JUPAS Candidates"
 type: faq
 area: 01_JUPAS-Basics
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # How CityUHK Ranks Tied JUPAS Candidates
+
+> [!tip] Short answer
+> CityUHK's published JS1204 selection criteria say that with equal scores, the university refers to: (1) results in discipline-related subjects (e.g., Mathematics, ICT, Physics), (2) band choices, (3) school principal's nominations, and (4) OEA.…
 
 ## Question
 

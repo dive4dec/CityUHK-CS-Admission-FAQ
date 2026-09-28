@@ -3,9 +3,14 @@ title: "HKUST JS5813 BSc in Mathematics and Economics (2025 Score)"
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # HKUST JS5813 BSc in Mathematics and Economics (2025 Score)
+
+> [!tip] Short answer
+> HKUST JS5813 BSc in Mathematics and Economics (2025 entry): published median admission score **44.1**, lower quartile 39.2 under HKUST's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

@@ -3,9 +3,14 @@ title: "CS4385 Topics in Software Engineering Course FAQ"
 type: faq
 area: 06_Courses
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # CS4385 Topics in Software Engineering Course FAQ
+
+> [!tip] Short answer
+> **CS4385 Topics in Software Engineering** is a CityUHK CS undergraduate course in the Software Engineering area (?-series, typically the degree of the degree).
 
 ## Question
 

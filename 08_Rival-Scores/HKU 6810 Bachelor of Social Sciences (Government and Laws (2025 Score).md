@@ -3,9 +3,14 @@ title: "HKU 6810 Bachelor of Social Sciences (Government and Laws (2025 Score)"
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # HKU 6810 Bachelor of Social Sciences (Government and Laws (2025 Score)
+
+> [!tip] Short answer
+> HKU 6810 Bachelor of Social Sciences (Government and Laws)  (2025 entry): published median admission score **37**, lower quartile 36 under HKU's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

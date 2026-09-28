@@ -3,9 +3,14 @@ title: "JS1221 Double Degree Admission Score History"
 type: faq
 area: 02_JUPAS-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1221 Double Degree Admission Score History
+
+> [!tip] Short answer
+> JS1221 BSc Computer Science and BSc Computational Finance and Financial Technology - weighted admission score:
 
 ## Question
 

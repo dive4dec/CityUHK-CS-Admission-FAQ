@@ -3,9 +3,14 @@ title: "JUPAS Band Choices Explained"
 type: faq
 area: 01_JUPAS-Basics
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JUPAS Band Choices Explained
+
+> [!tip] Short answer
+> In JUPAS you list up to 10 programme choices, each in one of three bands: Band A (up to 3 choices), Band B (up to 3), Band C (up to 4). You can hold at most one offer in each band. Band A is for your strongest preferences. For a student who wants…
 
 ## Question
 

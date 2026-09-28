@@ -3,9 +3,14 @@ title: "JS1074 BSc Data and Systems Engineering (CityU 2025 Score)"
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1074 BSc Data and Systems Engineering (CityU 2025 Score)
+
+> [!tip] Short answer
+> JS1074 BSc Data and Systems Engineering, 2024 entry: published median admission score **27**, lower quartile 27 (weighted, formula: 3 core + 2 elective subjects 2: English / Mathematics). Reference point, not a cut-off.
 
 ## Question
 

@@ -3,9 +3,14 @@ title: "JS1050 International Sustainability Programme for Innovation, R (CityU 2
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1050 International Sustainability Programme for Innovation, R (CityU 2025 Score)
+
+> [!tip] Short answer
+> JS1050 International Sustainability Programme for Innovation, R, 2024 entry: no Main Round median published for this programme that cycle (new or cross-faculty listing).
 
 ## Question
 

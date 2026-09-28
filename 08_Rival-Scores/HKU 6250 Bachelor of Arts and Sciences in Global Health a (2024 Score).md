@@ -3,9 +3,14 @@ title: "HKU 6250 Bachelor of Arts and Sciences in Global Health a (2024 Score)"
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # HKU 6250 Bachelor of Arts and Sciences in Global Health a (2024 Score)
+
+> [!tip] Short answer
+> HKU 6250 Bachelor of Arts and Sciences in Global Health and (2024 entry): published median admission score **28**, lower quartile 26 under HKU's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

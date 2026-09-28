@@ -3,9 +3,14 @@ title: "JUPAS Admissions Scores: What Median and Lower Quartile Mean"
 type: faq
 area: 02_JUPAS-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JUPAS Admissions Scores: What Median and Lower Quartile Mean
+
+> [!tip] Short answer
+> CityUHK reports two reference scores per programme, computed from the HKDSE results of applicants who received Main Round offers in the prior entry:
 
 ## Question
 

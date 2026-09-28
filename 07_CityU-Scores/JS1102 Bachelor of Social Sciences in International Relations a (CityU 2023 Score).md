@@ -3,9 +3,14 @@ title: "JS1102 Bachelor of Social Sciences in International Relations a (CityU 2
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1102 Bachelor of Social Sciences in International Relations a (CityU 2023 Score)
+
+> [!tip] Short answer
+> JS1102 Bachelor of Social Sciences in International Relations a, 2022 entry: published median admission score **20**, lower quartile 20 (weighted, formula: Best 5 subjects (include English and Liberal Studies) (with weightings applied where appropriate)). Reference point, not a cut-off.
 
 ## Question
 

@@ -3,9 +3,14 @@ title: "GCE A Level Admission to CS"
 type: faq
 area: 03_NonJUPAS
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # GCE A Level Admission to CS
+
+> [!tip] Short answer
+> Yes. The General Entrance Requirement is: minimum Grade E or above in three GCE A Level (or A2) / International A Level subjects, where two AS subjects count as one A Level, and the same subject cannot be counted at both A Level and AS
 
 ## Question
 

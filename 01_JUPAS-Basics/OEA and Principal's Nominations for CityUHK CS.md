@@ -3,9 +3,14 @@ title: "OEA and Principal's Nominations for CityUHK CS"
 type: faq
 area: 01_JUPAS-Basics
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # OEA and Principal's Nominations for CityUHK CS
+
+> [!tip] Short answer
+> Yes, but only in specific ways. Under JUPAS you can submit OEA (Other Experiences and Achievements in Competitions/Activities) - e.g., a nationally ranked olympiad in math or informatics, robotics, or IT projects. CityUHK's selection criteria for…
 
 ## Question
 

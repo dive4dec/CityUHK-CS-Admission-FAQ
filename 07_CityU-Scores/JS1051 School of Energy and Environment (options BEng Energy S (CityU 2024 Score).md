@@ -3,9 +3,14 @@ title: "JS1051 School of Energy and Environment (options: BEng Energy S (CityU 2
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1051 School of Energy and Environment (options: BEng Energy S (CityU 2024 Score)
+
+> [!tip] Short answer
+> JS1051 School of Energy and Environment (options: BEng Energy S, 2023 entry: published median admission score **34**, lower quartile 33.5 (weighted, formula: Best 5 subjects (include English, Mathematics and one subject from Biology, Chemistry or Physics) Physics in 1st Elective Geography / M1/M2 / Physics in 2nd Elective). Reference point, not a cut-off.
 
 ## Question
 

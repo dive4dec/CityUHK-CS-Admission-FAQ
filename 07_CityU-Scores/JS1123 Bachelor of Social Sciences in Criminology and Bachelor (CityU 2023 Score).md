@@ -3,9 +3,14 @@ title: "JS1123 Bachelor of Social Sciences in Criminology and Bachelor (CityU 20
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1123 Bachelor of Social Sciences in Criminology and Bachelor (CityU 2023 Score)
+
+> [!tip] Short answer
+> JS1123 Bachelor of Social Sciences in Criminology and Bachelor, 2022 entry: published median admission score **25**, lower quartile 25 (weighted, formula: Best 6 subjects (include English) (with weightings applied where appropriate)). Reference point, not a cut-off.
 
 ## Question
 

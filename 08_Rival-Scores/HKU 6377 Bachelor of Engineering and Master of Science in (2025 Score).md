@@ -3,9 +3,14 @@ title: "HKU 6377 Bachelor of Engineering and Master of Science in (2025 Score)"
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # HKU 6377 Bachelor of Engineering and Master of Science in (2025 Score)
+
+> [!tip] Short answer
+> HKU 6377 Bachelor of Engineering and Master of Science in E (2025 entry): published median admission score **33**, lower quartile 31 under HKU's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

@@ -3,9 +3,14 @@ title: "JS1113 BSocSc Social Work (CityU 2025 Score)"
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1113 BSocSc Social Work (CityU 2025 Score)
+
+> [!tip] Short answer
+> JS1113 BSocSc Social Work, 2024 entry: published median admission score **22.5**, lower quartile 21.5 (weighted, formula: Best 4 subjects (include English) 2: English). Reference point, not a cut-off.
 
 ## Question
 

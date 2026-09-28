@@ -3,9 +3,14 @@ title: "CS2611 Seminars on Contemporary Technology I Course FAQ"
 type: faq
 area: 06_Courses
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # CS2611 Seminars on Contemporary Technology I Course FAQ
+
+> [!tip] Short answer
+> **CS2611 Seminars on Contemporary Technology I** is a CityUHK CS undergraduate course in the Professional / Internship area (?-series, typically the degree of the degree).
 
 ## Question
 

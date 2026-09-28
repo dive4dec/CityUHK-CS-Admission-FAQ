@@ -3,9 +3,14 @@ title: "CS Multimedia and SE Stream Courses"
 type: faq
 area: 04_Curriculum
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # CS Multimedia and SE Stream Courses
+
+> [!tip] Short answer
+> Multimedia Computing stream representative courses: CS4182 Computer Graphics, CS4185 Multimedia Technologies and Applications, CS4186 Computer Vision and Image Processing, CS4187 Computer Vision for Interactivity, CS4188 Virtual Reality, CS4367 Computer Games Design, CS4386 AI Game Programming, CS3382 Web Usability Design and Engineering, and CS4383 Multimodal Interface Design.
 
 ## Question
 

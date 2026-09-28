@@ -3,9 +3,14 @@ title: "CS Core Courses Explained"
 type: faq
 area: 04_Curriculum
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # CS Core Courses Explained
+
+> [!tip] Short answer
+> The core courses form the technical spine of the degree. From the programme and catalogue pages, representative core/foundational courses include: CS1302A/CS2310 Computer Programming, CS2115 Computer Organisation, CS2116 Computer Systems, CS2066…
 
 ## Question
 

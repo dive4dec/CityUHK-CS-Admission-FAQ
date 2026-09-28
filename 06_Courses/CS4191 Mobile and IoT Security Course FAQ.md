@@ -3,9 +3,14 @@ title: "CS4191 Mobile and IoT Security Course FAQ"
 type: faq
 area: 06_Courses
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # CS4191 Mobile and IoT Security Course FAQ
+
+> [!tip] Short answer
+> **CS4191 Mobile and IoT Security** is a CityUHK CS undergraduate course in the Security / Cybersecurity area (?-series, typically the degree of the degree).
 
 ## Question
 

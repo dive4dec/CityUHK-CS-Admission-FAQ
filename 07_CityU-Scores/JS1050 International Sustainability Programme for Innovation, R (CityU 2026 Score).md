@@ -3,9 +3,14 @@ title: "JS1050 International Sustainability Programme for Innovation, R (CityU 2
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1050 International Sustainability Programme for Innovation, R (CityU 2026 Score)
+
+> [!tip] Short answer
+> JS1050 International Sustainability Programme for Innovation, R, 2025 entry: published median admission score **38**, lower quartile 36.5 (weighted, formula: Best 5 subjects (include English, Mathematics and one subject from Biology, Chemistry or Physics) Physics in 1st Elective Geography / M1/M2 / Physics in 2nd Elective). Reference point, not a cut-off.
 
 ## Question
 

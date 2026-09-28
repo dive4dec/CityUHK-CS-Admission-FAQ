@@ -3,9 +3,14 @@ title: "JS1217 Pathway for Research, Innovation, and Multinational Engi (CityU 2
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1217 Pathway for Research, Innovation, and Multinational Engi (CityU 2026 Score)
+
+> [!tip] Short answer
+> JS1217 Pathway for Research, Innovation, and Multinational Engi, 2025 entry: published median admission score **38.5**, lower quartile 38 (weighted, formula: Best 5 subjects (include English) Biology / Chemistry / Design and Applied Technology / Information and Communication Technology / M1/M2 / Physics). Reference point, not a cut-off.
 
 ## Question
 

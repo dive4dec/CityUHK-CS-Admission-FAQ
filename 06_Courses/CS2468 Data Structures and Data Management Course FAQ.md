@@ -3,9 +3,14 @@ title: "CS2468 Data Structures and Data Management Course FAQ"
 type: faq
 area: 06_Courses
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # CS2468 Data Structures and Data Management Course FAQ
+
+> [!tip] Short answer
+> **CS2468 Data Structures and Data Management** is a CityUHK CS undergraduate course in the AI / Data Science area (?-series, typically the degree of the degree).
 
 ## Question
 

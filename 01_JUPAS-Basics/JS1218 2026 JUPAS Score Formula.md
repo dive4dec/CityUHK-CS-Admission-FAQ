@@ -3,9 +3,14 @@ title: "JS1218 2026 JUPAS Score Formula"
 type: faq
 area: 01_JUPAS-Basics
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1218 2026 JUPAS Score Formula
+
+> [!tip] Short answer
+> JS1218 BSc Cybersecurity (2026 JUPAS): best 5 subjects at weight 1 (same structure as JS1204).
 
 ## Question
 

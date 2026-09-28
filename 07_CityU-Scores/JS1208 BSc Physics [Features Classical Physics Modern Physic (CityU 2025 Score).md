@@ -3,9 +3,14 @@ title: "JS1208 BSc Physics [Features: Classical Physics / Modern Physic (CityU 2
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1208 BSc Physics [Features: Classical Physics / Modern Physic (CityU 2025 Score)
+
+> [!tip] Short answer
+> JS1208 BSc Physics [Features: Classical Physics / Modern Physic, 2024 entry: published median admission score **25.5**, lower quartile 25 (weighted, formula: Best 4 subjects (include Mathematics)). Reference point, not a cut-off.
 
 ## Question
 

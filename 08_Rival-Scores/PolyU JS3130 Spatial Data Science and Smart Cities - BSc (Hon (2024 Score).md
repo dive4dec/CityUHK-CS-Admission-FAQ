@@ -3,9 +3,14 @@ title: "PolyU JS3130 Spatial Data Science and Smart Cities - BSc (Hon (2024 Scor
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # PolyU JS3130 Spatial Data Science and Smart Cities - BSc (Hon (2024 Score)
+
+> [!tip] Short answer
+> PolyU JS3130 Spatial Data Science and Smart Cities - BSc (Hons) (2024 entry): published median admission score **199.5**, lower quartile 191 under PolyU's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

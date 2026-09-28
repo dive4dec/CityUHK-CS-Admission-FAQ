@@ -3,9 +3,14 @@ title: "JS1200 Global Research Enrichment and Technopreneurship (GREAT) (CityU 2
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1200 Global Research Enrichment and Technopreneurship (GREAT) (CityU 2024 Score)
+
+> [!tip] Short answer
+> JS1200 Global Research Enrichment and Technopreneurship (GREAT), 2023 entry: no Main Round median published for this programme that cycle (new or cross-faculty listing).
 
 ## Question
 

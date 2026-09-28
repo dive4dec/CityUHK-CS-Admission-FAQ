@@ -3,9 +3,14 @@ title: "Calculus and Linear Algebra in CS"
 type: faq
 area: 04_Curriculum
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # Calculus and Linear Algebra in CS
+
+> [!tip] Short answer
+> CityUHK's CS college requirement includes MA1508 Calculus (4 CU) and MA1503 Linear Algebra with Applications (4 CU). These are not decoration: modern CS - especially AI, machine learning, computer graphics, and optimisation - is built on linear…
 
 ## Question
 

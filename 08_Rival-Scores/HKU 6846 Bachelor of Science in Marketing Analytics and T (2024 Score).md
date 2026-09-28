@@ -3,9 +3,14 @@ title: "HKU 6846 Bachelor of Science in Marketing Analytics and T (2024 Score)"
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # HKU 6846 Bachelor of Science in Marketing Analytics and T (2024 Score)
+
+> [!tip] Short answer
+> HKU 6846 Bachelor of Science in Marketing Analytics and Tec (2024 entry): published median admission score **32**, lower quartile 31 under HKU's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

@@ -3,9 +3,14 @@ title: "JS1051 Energy and Environment (Majors: BEng Energy Science and (CityU 20
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1051 Energy and Environment (Majors: BEng Energy Science and (CityU 2025 Score)
+
+> [!tip] Short answer
+> JS1051 Energy and Environment (Majors: BEng Energy Science and, 2024 entry: published median admission score **37.5**, lower quartile 36.5 (weighted, formula: best-5 weighted score). Reference point, not a cut-off.
 
 ## Question
 

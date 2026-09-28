@@ -3,9 +3,14 @@ title: "Why Scores Cannot Be Compared Across Universities"
 type: faq
 area: 10_Compare
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # Why Scores Cannot Be Compared Across Universities
+
+> [!tip] Short answer
+> No. The median admission score reflects each university's own formula, not a common yardstick. HKU's CS median of ~50 (with 2x-weighted subjects) is not 'double CityU's 23' - the two numbers are computed from the same grades using dif
 
 ## Question
 

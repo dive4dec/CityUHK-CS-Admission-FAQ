@@ -3,9 +3,14 @@ title: "HKUST JS5332 BSc in Quantitative Finance 72.25 62.5 60.25 7.0 (2023 Scor
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # HKUST JS5332 BSc in Quantitative Finance 72.25 62.5 60.25 7.0 (2023 Score)
+
+> [!tip] Short answer
+> HKUST JS5332 BSc in Quantitative Finance 72.25 62.5 60.25 7.09  (2023 entry): published median admission score **43.75**, lower quartile 41.75 under HKUST's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

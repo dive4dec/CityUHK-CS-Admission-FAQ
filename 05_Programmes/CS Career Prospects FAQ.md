@@ -3,9 +3,14 @@ title: "CS Career Prospects FAQ"
 type: faq
 area: 05_Programmes
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # CS Career Prospects FAQ
+
+> [!tip] Short answer
+> The department's stated target roles: professional software developers, system architects, system analysts, and technology officers. The 2024 survey shows the dominant outcome is System Analysis and Computer Programmers (68.4%), with a meaningful…
 
 ## Question
 

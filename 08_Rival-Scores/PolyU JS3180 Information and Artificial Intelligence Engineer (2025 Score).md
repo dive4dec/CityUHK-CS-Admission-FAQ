@@ -3,9 +3,14 @@ title: "PolyU JS3180 Information and Artificial Intelligence Engineer (2025 Scor
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # PolyU JS3180 Information and Artificial Intelligence Engineer (2025 Score)
+
+> [!tip] Short answer
+> PolyU JS3180 Information and Artificial Intelligence Engineerin (2025 entry): published median admission score **218**, lower quartile 210 under PolyU's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

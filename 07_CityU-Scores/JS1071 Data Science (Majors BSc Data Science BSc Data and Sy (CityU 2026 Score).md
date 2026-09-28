@@ -3,9 +3,14 @@ title: "JS1071 Data Science (Majors: BSc Data Science / BSc Data and Sy (CityU 2
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1071 Data Science (Majors: BSc Data Science / BSc Data and Sy (CityU 2026 Score)
+
+> [!tip] Short answer
+> JS1071 Data Science (Majors: BSc Data Science / BSc Data and Sy, 2025 entry: published median admission score **27.5**, lower quartile 27.5 (weighted, formula: 3 core + 2 elective subjects). Reference point, not a cut-off.
 
 ## Question
 

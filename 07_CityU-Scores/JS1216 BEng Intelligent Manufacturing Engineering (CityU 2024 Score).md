@@ -3,9 +3,14 @@ title: "JS1216 BEng Intelligent Manufacturing Engineering (CityU 2024 Score)"
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1216 BEng Intelligent Manufacturing Engineering (CityU 2024 Score)
+
+> [!tip] Short answer
+> JS1216 BEng Intelligent Manufacturing Engineering, 2023 entry: published median admission score **30**, lower quartile 30 (weighted, formula: Best 5 subjects (include English and Mathematics) Information and Communication Technology / M1/M2 / Physics and Applied Technology /). Reference point, not a cut-off.
 
 ## Question
 

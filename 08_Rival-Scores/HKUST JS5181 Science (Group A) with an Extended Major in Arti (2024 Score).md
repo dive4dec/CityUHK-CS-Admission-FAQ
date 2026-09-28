@@ -3,9 +3,14 @@ title: "HKUST JS5181 Science (Group A) with an Extended Major in Arti (2024 Scor
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # HKUST JS5181 Science (Group A) with an Extended Major in Arti (2024 Score)
+
+> [!tip] Short answer
+> HKUST JS5181 Science (Group A) with an Extended Major in Artifi (2024 entry): published median admission score **37.38**, lower quartile 34 under HKUST's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

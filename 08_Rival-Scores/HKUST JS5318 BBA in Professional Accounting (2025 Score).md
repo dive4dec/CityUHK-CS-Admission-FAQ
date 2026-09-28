@@ -3,9 +3,14 @@ title: "HKUST JS5318 BBA in Professional Accounting (2025 Score)"
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # HKUST JS5318 BBA in Professional Accounting (2025 Score)
+
+> [!tip] Short answer
+> HKUST JS5318 BBA in Professional Accounting (2025 entry): published median admission score **34.05**, lower quartile 33.55 under HKUST's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

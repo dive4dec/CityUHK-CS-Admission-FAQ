@@ -3,9 +3,14 @@ title: "PolyU JS3624 Occupational Therapy - BSc (Hons) Scheme in Reha (2023 Scor
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # PolyU JS3624 Occupational Therapy - BSc (Hons) Scheme in Reha (2023 Score)
+
+> [!tip] Short answer
+> PolyU JS3624 Occupational Therapy - BSc (Hons) Scheme in Rehabi (2023 entry): published median admission score **312**, lower quartile 307.5 under PolyU's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

@@ -3,9 +3,14 @@ title: "HKUST JS5317 BBA in Operations Management (2025 Score)"
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # HKUST JS5317 BBA in Operations Management (2025 Score)
+
+> [!tip] Short answer
+> HKUST JS5317 BBA in Operations Management (2025 entry): published median admission score **32.4**, lower quartile 32.05 under HKUST's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

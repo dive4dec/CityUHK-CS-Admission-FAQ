@@ -3,9 +3,14 @@ title: "JS1109 BA Linguistics and Language Applications (CityU 2026 Score)"
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1109 BA Linguistics and Language Applications (CityU 2026 Score)
+
+> [!tip] Short answer
+> JS1109 BA Linguistics and Language Applications, 2025 entry: published median admission score **30**, lower quartile 29.5 (weighted, formula: 3 core + 2 elective subjects Mathematics). Reference point, not a cut-off.
 
 ## Question
 

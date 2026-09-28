@@ -3,9 +3,14 @@ title: "JS1204 Bachelor of Science in Computer Science (CityU 2023 Score)"
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1204 Bachelor of Science in Computer Science (CityU 2023 Score)
+
+> [!tip] Short answer
+> JS1204 Bachelor of Science in Computer Science, 2022 entry: published median admission score **20**, lower quartile 19 (weighted, formula: Best 5 subjects (include English, Mathematics and one subject from Biology, Chemistry, Combined Science, Information and). Reference point, not a cut-off.
 
 ## Question
 

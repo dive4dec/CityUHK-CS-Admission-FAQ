@@ -3,9 +3,14 @@ title: "HKUST JS5118 BSc in Biomedical and Health Sciences (2025 Score)"
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # HKUST JS5118 BSc in Biomedical and Health Sciences (2025 Score)
+
+> [!tip] Short answer
+> HKUST JS5118 BSc in Biomedical and Health Sciences (2025 entry): published median admission score **43.13**, lower quartile 40.5 under HKUST's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

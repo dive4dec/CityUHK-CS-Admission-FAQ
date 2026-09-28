@@ -3,9 +3,14 @@ title: "JS1072 BSc Data Science Overview"
 type: faq
 area: 05_Programmes
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1072 BSc Data Science Overview
+
+> [!tip] Short answer
+> JS1072 BSc Data Science is a dedicated 4-year degree (Features: Data Science / Machine Learning / Data Mining / Big Data Analysis). Its 2026 formula is 3 core + 2 elective subjects, weights 2:Mathematics, 1.5:English, 1:others; 2026 score median…
 
 ## Question
 

@@ -3,9 +3,14 @@ title: "JS1102 BSocSc International Relations and Global Affairs (CityU 2025 Sco
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1102 BSocSc International Relations and Global Affairs (CityU 2025 Score)
+
+> [!tip] Short answer
+> JS1102 BSocSc International Relations and Global Affairs, 2024 entry: published median admission score **24**, lower quartile 23.5 (weighted, formula: Best 5 subjects (include English) 1.5: English). Reference point, not a cut-off.
 
 ## Question
 

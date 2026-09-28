@@ -3,9 +3,14 @@ title: "JS1219 BEng Innovation and Enterprise Engineering (CityU 2026 Score)"
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1219 BEng Innovation and Enterprise Engineering (CityU 2026 Score)
+
+> [!tip] Short answer
+> JS1219 BEng Innovation and Enterprise Engineering, 2025 entry: published median admission score **19.5**, lower quartile 18.5 (weighted, formula: Best 5 subjects (include English and Mathematics)). Reference point, not a cut-off.
 
 ## Question
 

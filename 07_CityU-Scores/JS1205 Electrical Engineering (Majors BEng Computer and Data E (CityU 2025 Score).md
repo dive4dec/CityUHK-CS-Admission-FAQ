@@ -3,9 +3,14 @@ title: "JS1205 Electrical Engineering (Majors: BEng Computer and Data E (CityU 2
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1205 Electrical Engineering (Majors: BEng Computer and Data E (CityU 2025 Score)
+
+> [!tip] Short answer
+> JS1205 Electrical Engineering (Majors: BEng Computer and Data E, 2024 entry: published median admission score **34.5**, lower quartile 34 (weighted, formula: Best 5 subjects (include English and Mathematics) Information and Communication Technology / M1/M2 / Physics). Reference point, not a cut-off.
 
 ## Question
 

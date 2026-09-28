@@ -3,9 +3,14 @@ title: "JS1007 BBA Marketing (CityU 2025 Score)"
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1007 BBA Marketing (CityU 2025 Score)
+
+> [!tip] Short answer
+> JS1007 BBA Marketing, 2024 entry: published median admission score **23.5**, lower quartile 22 (weighted, formula: 3 core + 2 elective subjects 1.5: English). Reference point, not a cut-off.
 
 ## Question
 

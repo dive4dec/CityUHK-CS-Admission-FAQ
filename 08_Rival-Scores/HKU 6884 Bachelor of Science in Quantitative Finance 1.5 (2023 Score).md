@@ -3,9 +3,14 @@ title: "HKU 6884 Bachelor of Science in Quantitative Finance 1.5 (2023 Score)"
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # HKU 6884 Bachelor of Science in Quantitative Finance 1.5 (2023 Score)
+
+> [!tip] Short answer
+> HKU 6884 Bachelor of Science in Quantitative Finance 1.5 (2023 entry): published median admission score **48**, lower quartile 47 under HKU's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

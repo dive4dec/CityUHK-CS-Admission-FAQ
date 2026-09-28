@@ -3,9 +3,14 @@ title: "CityUHK CS Programme Code Cheat Sheet"
 type: faq
 area: 00_Vault-Map
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # CityUHK CS Programme Code Cheat Sheet
+
+> [!tip] Short answer
+> JUPAS: JS1204 BSc CS, JS1218 Cybersecurity, JS1221 double degree. Non-JUPAS: 1561A/1720A/1715A/1718A - application fee HK$200 per programme; senior-year (ASII) admission is local-only.
 
 ## Question
 

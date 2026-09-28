@@ -3,9 +3,14 @@ title: "PolyU JS3290 Optometry - BSc (Hons) Scheme (2024 Score)"
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # PolyU JS3290 Optometry - BSc (Hons) Scheme (2024 Score)
+
+> [!tip] Short answer
+> PolyU JS3290 Optometry - BSc (Hons) Scheme (2024 entry): published median admission score **275**, lower quartile 275 under PolyU's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

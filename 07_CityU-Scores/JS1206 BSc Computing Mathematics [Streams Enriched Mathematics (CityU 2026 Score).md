@@ -3,9 +3,14 @@ title: "JS1206 BSc Computing Mathematics [Streams: Enriched Mathematics (CityU 2
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1206 BSc Computing Mathematics [Streams: Enriched Mathematics (CityU 2026 Score)
+
+> [!tip] Short answer
+> JS1206 BSc Computing Mathematics [Streams: Enriched Mathematics, 2025 entry: published median admission score **37**, lower quartile 36 (weighted, formula: Best 4 subjects (include Mathematics) M1/M2 Physics). Reference point, not a cut-off.
 
 ## Question
 

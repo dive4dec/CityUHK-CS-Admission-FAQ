@@ -3,9 +3,14 @@ title: "BSc Cybersecurity Non-JUPAS Code 1720A"
 type: faq
 area: 03_NonJUPAS
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # BSc Cybersecurity Non-JUPAS Code 1720A
+
+> [!tip] Short answer
+> 1720A is the non-JUPAS admission code for BSc Cybersecurity. It covers Year 1, Advanced Standing I (Year 2) and Senior Year (Advanced Standing II) entry for local AD/HD/IB/GCE applicants. For 2026/27 the indicative local intake is 29 places (for…
 
 ## Question
 

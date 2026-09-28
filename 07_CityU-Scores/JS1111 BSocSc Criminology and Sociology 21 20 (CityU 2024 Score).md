@@ -3,9 +3,14 @@ title: "JS1111 BSocSc Criminology and Sociology 21 20 (CityU 2024 Score)"
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1111 BSocSc Criminology and Sociology 21 20 (CityU 2024 Score)
+
+> [!tip] Short answer
+> JS1111 BSocSc Criminology and Sociology 21 20, 2023 entry: published median admission score **21**, lower quartile 20 (weighted, formula: best-5 weighted score). Reference point, not a cut-off.
 
 ## Question
 

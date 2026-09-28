@@ -3,9 +3,14 @@ title: "JS1018 BBA Global Business Systems Management (CityU 2025 Score)"
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1018 BBA Global Business Systems Management (CityU 2025 Score)
+
+> [!tip] Short answer
+> JS1018 BBA Global Business Systems Management, 2024 entry: published median admission score **22**, lower quartile 22 (weighted, formula: 3 core + 2 elective subjects). Reference point, not a cut-off.
 
 ## Question
 

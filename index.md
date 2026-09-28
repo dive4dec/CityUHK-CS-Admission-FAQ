@@ -1,30 +1,65 @@
 ---
-title: Home
+title: "CityUHK CS Admission FAQ"
+type: faq
+area: 00_Vault-Map
+vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # CityUHK CS Admission FAQ
 
-An interlinked FAQ vault for **City University of Hong Kong (CityUHK) — Department of Computer Science / College of Computing** undergraduate admission. Built for parents and students applying through **JUPAS** and **non-JUPAS** (Year 1 / Advanced Standing I & II / IB / GCE A-Level).
+A plain-language FAQ vault for **City University of Hong Kong (CityUHK) — Department of Computer Science** undergraduate admission: **1,034 interlinked notes** covering JUPAS scoring, published scores 2023–2026, the new 1.5× weighting policy, non-JUPAS routes (ASI / ASII / IB / GCE A-Level), the curriculum, all programmes, internships, careers, and how CityUHK compares with HKU, CUHK, HKUST and PolyU. Built for **parents and students** deciding whether and how to apply.
 
-- **1,033 notes** across 12 topic areas
-- JUPAS score formulas, the **1.5× weighting policy**, published score history (2023–2026), and worked examples
-- Non-JUPAS routes, programme overviews (BSc CS `JS1204`, BSc Cybersecurity `JS1218`, double degree `JS1221`, ACT, Data Science), curriculum and the mandatory **ITPP internship**
-- Cross-university comparisons (HKU / CUHK / HKUST / PolyU) and a 334-profile "what's my score?" lookup
+## ⚡ Check your score right now
 
-## Browse by Topic
+**[🧮 What's My Score? — enter your 5 best HKDSE subjects →](/static/score-checker.html)**
 
-- [[00_Vault-Map/CityUHK CS Admission FAQ Vault Map|📋 Vault Map — start here]]
-- [[00_Vault-Map/CityUHK CS Programme Code Cheat Sheet|🔢 Programme Code Cheat Sheet]]
-- [[02_JUPAS-Scores/JS1204 JUPAS Admission Score History|📈 BSc CS Score History]]
-- [[01_JUPAS-Basics/1.5x Subject Weighting Policy (Draft) Status|⚖️ 1.5× Weighting Policy]]
-- [[04_Curriculum/CS vs Cybersecurity: Key Differences|🛡️ CS vs Cybersecurity]]
-- [[10_Compare/Cross-University Computing Score Comparison (2023-2025)|🏫 Cross-University Comparison]]
-- [[11_Misc/CityUHK Tuition Fees|💰 Tuition Fees]]
+The calculator shows your admission score under CityUHK's published best-5 formula, under the 1.5× weighting policy, and how it compares with the published BSc Computer Science (2026 median 23) and BSc Cybersecurity (2026 median 20.5) — and links straight to the full worked note for your exact grade profile. (No JavaScript? Browse the **09_Score-Lookup** folder instead — one note per grade combination.)
 
-## Use the Search & Graph
+## Why CityUHK CS
 
-Use the **search box** (top left) for full-text search across all notes, and the **graph view** to see how notes connect. The folder **explorer** on the left lists all 12 topic areas.
+- **🎓 Competitive by design.** Most admitted students come from JUPAS Band A; the 2026 BSc CS median was 23 (lower quartile 22) under the published best-5, weight-1 formula.
+- **⚖️ The 1.5× weighting policy** rewards exactly the subjects a CS student takes — English, Mathematics, ICT, M1, M2, Physics, Chemistry and Biology counted at 1.5× level points (status: promoted by the CS admissions team; confirm the current year's published formula).
+- **💼 A mandatory 9-month ITPP internship** in Year 3 with real employers, plus 97.5% of BSc CS graduates in full-time employment (GES 2024).
+- **🧭 Five streams inside BSc CS** (AI, Data Science, Multimedia/SE, plus core and software engineering), plus BSc Cybersecurity (JS1218), the CS + Computational Finance double degree (JS1221), ACT and Data Science programmes.
+- **🏫 Ranked** ~23rd (U.S. News 2025-26), 61st (THE 2026) and 59th (QS 2025) for Computer Science; the first HK CS programme to receive HKIE accreditation.
 
-## Important caveat
+## Start here
 
-Published admission scores are **reference points, not cut-offs**, and are not comparable across programmes or years. The **1.5× weighting** for CS-relevant subjects is promoted by the CS admissions team but **may or may not be reflected** in the published formula for a given cycle — always confirm the current year's official formula on [admission.cs.cityu.edu.hk](https://admission.cs.cityu.edu.hk/) before applying.
+**Applicants (students):**
+- [[JS1204 BSc Computer Science Overview]] — the main programme, streams and why
+- [[JS1218 BSc Cybersecurity Overview]] — CS vs Cybersecurity, clearly
+- [[JS1204 2026 JUPAS Score Formula]] — exactly how your score is computed
+- [[Worked Example Computing JS1204 Admission Score]] — a full calculation
+- [[1.5x Subject Weighting Policy (Draft) Status]] — what it is and its status
+
+**Parents:**
+- [[CityUHK CS Admission at a Glance Key Facts]] — every headline number
+- [[JUPAS 2027 Key Dates]] — the whole timeline
+- [[CityUHK Tuition Fees]] — what it costs
+- [[Advanced Standing I (Year 2) Admission]] and [[Advanced Standing II (Senior Year) Admission]] — entry for associate-degree / higher-diploma holders
+- [[JUPAS Fees and Charges]] — application and acceptance fees
+
+**Choosing between programmes:**
+- [[CS vs Data Science vs Cybersecurity Choosing at CityUHK]]
+- [[Cross-University Computing Score Comparison (2023-2025)]] — HKU / HKUST / PolyU / CityUHK, compared correctly
+- [[JUPAS Band Choices Explained]] — how to place your 10 choices
+
+## Browse all topics
+
+- [[CityUHK CS Admission FAQ Vault Map]] — hubs, key facts, code cheat sheet, rankings
+- [[JUPAS for CityUHK CS The Big Picture]] — JUPAS mechanics: formulas, level points, bands, dates, OEA
+- [[JS1204 JUPAS Admission Score History]] — published scores and worked examples
+- [[Non-JUPAS Year 1 Admission]] — Year 1 / ASI / ASII, IB, GCE A-Level
+- [[CS Study Streams Explained]] — curriculum, streams, first year, ITPP internship
+- [[JS1221 Double Degree Overview]] — programme overviews and the double degree
+- [[CS Core Courses Explained]] — one note per CS course (91 courses)
+- [[JS1204 BSc Computer Science (CityU 2026 Score)]] — every CityU programme, every year 2023–2026 (222 notes)
+- [[Rival University Score Scales Explained]] — HKU, HKUST, PolyU published scores (307 notes)
+- [[Score Lookup Best 5 = 5, 5, 5, 5, 5]] — "my grades are X → what's my score?" (334 notes)
+- [[Cross-University Computing Score Comparison (2023-2025)]] — scales, weighting formulas, honest comparison
+- [[CityUHK Tuition Fees]] — costs and practicalities
+
+> [!warning] Before you apply
+> Published admission scores are **reference points, not cut-offs** — they describe where admitted students landed in past cycles and are not comparable across programmes or years. The **1.5× weighting policy** is promoted by the CS admissions team but **may or may not be reflected** in the published formula for your entry year: always confirm the current year's official formula on [admission.cs.cityu.edu.hk](https://admission.cs.cityu.edu.hk/). Every note states its source and its `retrieved` date — see [[Vault Freshness and Verification Status]].

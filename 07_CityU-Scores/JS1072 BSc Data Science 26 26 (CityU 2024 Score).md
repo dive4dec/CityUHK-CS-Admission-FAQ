@@ -3,9 +3,14 @@ title: "JS1072 BSc Data Science 26 26 (CityU 2024 Score)"
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1072 BSc Data Science 26 26 (CityU 2024 Score)
+
+> [!tip] Short answer
+> JS1072 BSc Data Science 26 26, 2023 entry: published median admission score **26**, lower quartile 26 (weighted, formula: best-5 weighted score). Reference point, not a cut-off.
 
 ## Question
 

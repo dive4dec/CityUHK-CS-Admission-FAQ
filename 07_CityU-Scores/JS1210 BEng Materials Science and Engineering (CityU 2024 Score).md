@@ -3,9 +3,14 @@ title: "JS1210 BEng Materials Science and Engineering (CityU 2024 Score)"
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1210 BEng Materials Science and Engineering (CityU 2024 Score)
+
+> [!tip] Short answer
+> JS1210 BEng Materials Science and Engineering, 2023 entry: published median admission score **27**, lower quartile 26 (weighted, formula: Best 5 subjects (include Mathematics) Chemistry / M1/M2). Reference point, not a cut-off.
 
 ## Question
 

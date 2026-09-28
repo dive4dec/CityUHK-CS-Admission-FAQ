@@ -3,9 +3,14 @@ title: "JS1044 BAS New Media (CityU 2025 Score)"
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1044 BAS New Media (CityU 2025 Score)
+
+> [!tip] Short answer
+> JS1044 BAS New Media, 2024 entry: published median admission score **23.5**, lower quartile 23 (weighted, formula: Best 5 subjects (include English) 2: English). Reference point, not a cut-off.
 
 ## Question
 

@@ -3,9 +3,14 @@ title: "Advanced Standing I (Year 2) Admission"
 type: faq
 area: 03_NonJUPAS
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # Advanced Standing I (Year 2) Admission
+
+> [!tip] Short answer
+> Advanced Standing I (ASI) admits students to Year 2 of a four-year degree, so they take fewer credits to graduate (minimum 90-91 credit units instead of 120-121). It is the main 'direct entry' route for AD/HD holders into CS.
 
 ## Question
 

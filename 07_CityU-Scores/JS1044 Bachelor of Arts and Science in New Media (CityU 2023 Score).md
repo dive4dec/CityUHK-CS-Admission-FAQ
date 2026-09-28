@@ -3,9 +3,14 @@ title: "JS1044 Bachelor of Arts and Science in New Media (CityU 2023 Score)"
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1044 Bachelor of Arts and Science in New Media (CityU 2023 Score)
+
+> [!tip] Short answer
+> JS1044 Bachelor of Arts and Science in New Media, 2022 entry: published median admission score **23**, lower quartile 23 (weighted, formula: Best 5 subjects (include English) (with weightings applied where appropriate)). Reference point, not a cut-off.
 
 ## Question
 

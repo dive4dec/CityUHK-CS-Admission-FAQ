@@ -3,9 +3,14 @@ title: "CityUHK CS Academic Rankings and Reputation"
 type: faq
 area: 00_Vault-Map
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # CityUHK CS Academic Rankings and Reputation
+
+> [!tip] Short answer
+> CityUHK CS ranks around 23rd (U.S. News 2025-26), 61st (THE 2026) and 59th (QS 2025); it was the first HK CS programme to receive HKIE accreditation.
 
 ## Question
 

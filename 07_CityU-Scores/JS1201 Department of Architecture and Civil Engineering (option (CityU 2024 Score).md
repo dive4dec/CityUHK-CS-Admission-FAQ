@@ -3,9 +3,14 @@ title: "JS1201 Department of Architecture and Civil Engineering (option (CityU 2
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1201 Department of Architecture and Civil Engineering (option (CityU 2024 Score)
+
+> [!tip] Short answer
+> JS1201 Department of Architecture and Civil Engineering (option, 2023 entry: published median admission score **38.5**, lower quartile 37.5 (weighted, formula: Best 5 subjects (include English) / M1/M2 / Physics). Reference point, not a cut-off.
 
 ## Question
 

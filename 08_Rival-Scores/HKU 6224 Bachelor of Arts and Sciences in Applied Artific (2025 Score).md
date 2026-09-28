@@ -3,9 +3,14 @@ title: "HKU 6224 Bachelor of Arts and Sciences in Applied Artific (2025 Score)"
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # HKU 6224 Bachelor of Arts and Sciences in Applied Artific (2025 Score)
+
+> [!tip] Short answer
+> HKU 6224 Bachelor of Arts and Sciences in Applied Artificia (2025 entry): published median admission score **53**, lower quartile 51 under HKU's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

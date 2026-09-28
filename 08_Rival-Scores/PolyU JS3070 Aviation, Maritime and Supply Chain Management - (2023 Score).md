@@ -3,9 +3,14 @@ title: "PolyU JS3070 Aviation, Maritime and Supply Chain Management - (2023 Scor
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # PolyU JS3070 Aviation, Maritime and Supply Chain Management - (2023 Score)
+
+> [!tip] Short answer
+> PolyU JS3070 Aviation, Maritime and Supply Chain Management - B (2023 entry): published median admission score **164**, lower quartile 161.5 under PolyU's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

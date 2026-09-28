@@ -3,9 +3,14 @@ title: "JS1801 Bachelor of Veterinary Medicine (CityU 2023 Score)"
 type: faq
 area: 07_CityU-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # JS1801 Bachelor of Veterinary Medicine (CityU 2023 Score)
+
+> [!tip] Short answer
+> JS1801 Bachelor of Veterinary Medicine, 2022 entry: published median admission score **35**, lower quartile 31 (weighted, formula: Best 6 subjects (include English, Mathematics, Biology and Chemistry) (with weightings applied where appropriate)). Reference point, not a cut-off.
 
 ## Question
 

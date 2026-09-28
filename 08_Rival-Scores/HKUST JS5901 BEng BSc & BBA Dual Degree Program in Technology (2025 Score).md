@@ -3,9 +3,14 @@ title: "HKUST JS5901 BEng/BSc & BBA Dual Degree Program in Technology (2025 Scor
 type: faq
 area: 08_Rival-Scores
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # HKUST JS5901 BEng/BSc & BBA Dual Degree Program in Technology (2025 Score)
+
+> [!tip] Short answer
+> HKUST JS5901 BEng/BSc & BBA Dual Degree Program in Technology a (2025 entry): published median admission score **62.48**, lower quartile 60.23 under HKUST's own weighting formula. DO NOT compare raw numbers across universities - scales differ.
 
 ## Question
 

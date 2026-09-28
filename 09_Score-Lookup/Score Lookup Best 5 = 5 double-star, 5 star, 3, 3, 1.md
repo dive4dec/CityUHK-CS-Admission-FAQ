@@ -3,9 +3,14 @@ title: "Score Lookup: Best 5 = 5 double-star, 5 star, 3, 3, 1"
 type: faq
 area: 09_Score-Lookup
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # Score Lookup: Best 5 = 5 double-star, 5 star, 3, 3, 1
+
+> [!tip] Short answer
+> Best 5 = 5**, 5*, 3, 3, 1 is **22.5 points** (published weight-1), or **22.5-33.75** under the 1.5x policy. That sits **between the 2026 CS lower quartile (22) and median (23)** - competitive but on the riskier side of the admitted range.
 
 ## Question
 

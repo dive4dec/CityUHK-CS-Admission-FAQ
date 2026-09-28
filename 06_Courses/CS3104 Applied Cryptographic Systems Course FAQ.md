@@ -3,9 +3,14 @@ title: "CS3104 Applied Cryptographic Systems Course FAQ"
 type: faq
 area: 06_Courses
 vault: CityUHK-CS-Admission-FAQ
+retrieved: "2026-09"
+status: verified
 ---
 
 # CS3104 Applied Cryptographic Systems Course FAQ
+
+> [!tip] Short answer
+> **CS3104 Applied Cryptographic Systems** is a CityUHK CS undergraduate course in the Security / Cybersecurity area (?-series, typically the degree of the degree).
 
 ## Question
 
