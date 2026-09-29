@@ -156,6 +156,9 @@
   var FREE_MAX_TOKENS = 2048; // Socrates is a reasoning model (needs room)
   var freeCfg = null; // {baseUrl, key, model} — set only after a live probe
   var freeChecking = false;
+  // Status-line composition state (provider + knowledge index).
+  var _lastProvStatus = null;
+  var knowledgeStatusMsg = "";
 
   function freeFallbackKey() {
     try { return atob(FREE_FALLBACK_KEY_PARTS.join("")); } catch (e) { return ""; }
@@ -237,6 +240,9 @@
   }
   function storageSetModel(m) {
     try { localStorage.setItem(STORAGE_MODEL, m); } catch (e) {}
+  }
+  function storageClearModel() {
+    try { localStorage.removeItem(STORAGE_MODEL); } catch (e) {}
   }
 
   // ---- DOM helpers ----
@@ -458,6 +464,11 @@
     if (qrBtn) qrBtn.setAttribute("aria-expanded", open ? "true" : "false");
     if (open) updatePageQr(); // (re)target on each open
   }
+  function hidePageQr() {
+    if (!qrPop) return;
+    qrPop.classList.remove("open");
+    if (qrBtn) qrBtn.setAttribute("aria-expanded", "false");
+  }
   function buildPageQrButton() {
     qrBtn = el("button", {
       id: "ai-chat-qr-fab",
@@ -646,9 +657,15 @@
     // index.json. Fall back to the data-basepath and the root so the index
     // loads regardless of which path the page is actually served from.
     var bp = (document.body.dataset && document.body.dataset.basepath) || "";
-    var candidates = [BASE + "/static/knowledge-index.json"];
-    if (bp && bp !== BASE) candidates.push(bp + "/static/knowledge-index.json");
-    candidates.push("/static/knowledge-index.json");
+    // Candidates in priority order: the path the page is actually served
+    // from (BASE), the data-basepath, then the root. No matter which one
+    // works first wins, so a stale service worker (which can leave BASE
+    // empty on the hosted site) can no longer 404 the index.
+    var seen = {}, candidates = [];
+    [BASE + "/static/knowledge-index.json",
+     (bp ? bp : "") + "/static/knowledge-index.json",
+     "/static/knowledge-index.json"
+    ].forEach(function (c) { if (!seen[c]) { seen[c] = true; candidates.push(c); } });
     for (var i = 0; i < candidates.length; i++) {
       try {
         var res = await fetch(candidates[i], { cache: "force-cache" });
@@ -656,20 +673,33 @@
         var data = await res.json();
         if (data && data.length) {
           knowledgeIndex = data;
-          setStatus("ready", "Knowledge index loaded (" + data.length + " notes)");
+          setKnowledgeStatus("Index " + data.length + " notes");
           return;
         }
       } catch (e) { /* try next candidate */ }
     }
     knowledgeIndex = [];
-    setStatus("error", "Knowledge index unavailable — retrieval off");
+    setKnowledgeStatus("Index unavailable \u2014 retrieval off");
   }
 
   function setStatus(state, msg) {
+    _lastProvStatus = { state: state, msg: msg || "" };
+    renderStatusLine();
+  }
+  // The status line composes the provider state with the knowledge-index
+  // state so they no longer overwrite each other (previously the 2 MB index
+  // load could clobber "Free server ready" — or the reverse).
+  function renderStatusLine() {
     var t = document.getElementById("ai-chat-status-text");
     var d = document.getElementById("ai-chat-status-dot");
-    if (t) t.textContent = msg || "";
-    if (d) d.className = "status-dot" + (state ? " " + state : "");
+    if (_lastProvStatus) {
+      if (t) t.textContent = _lastProvStatus.msg + (knowledgeStatusMsg ? "  \u00B7  " + knowledgeStatusMsg : "");
+    }
+    if (d && _lastProvStatus) d.className = "status-dot" + (_lastProvStatus.state ? " " + _lastProvStatus.state : "");
+  }
+  function setKnowledgeStatus(msg) {
+    knowledgeStatusMsg = msg;
+    renderStatusLine();
   }
 
   function messagesEl() { return document.getElementById("ai-chat-messages"); }
@@ -1684,18 +1714,35 @@
     var modal = el("div", { className: "ai-chat-settings" });
     modal.appendChild(el("h3", { textContent: "AI Chat Settings" }));
 
-    // ---- Provider toggle: in-browser (WebGPU) vs OpenAI-compatible server
+    // ---- Provider toggle: in-browser (WebGPU) vs Free (site) vs own server
     var providerGroup = el("div", { className: "settings-provider" });
     var radioIn = el("input", { type: "radio", name: "ai-chat-provider", id: "ai-chat-prov-in", value: "inbrowser" });
+    var radioFree = el("input", { type: "radio", name: "ai-chat-provider", id: "ai-chat-prov-free", value: "free" });
     var radioOut = el("input", { type: "radio", name: "ai-chat-provider", id: "ai-chat-prov-out", value: "external" });
     var save = endpointCfg() || {};
-    if (save.kind === "external") radioOut.checked = true; else radioIn.checked = true;
+    if (save.kind === "external") radioOut.checked = true;
+    else if (isFree()) radioFree.checked = true;
+    else radioIn.checked = true;
     providerGroup.appendChild(radioIn);
     providerGroup.appendChild(el("label", { for: "ai-chat-prov-in", textContent: " In-browser model (WebGPU — runs locally, no server)" }));
+    providerGroup.appendChild(el("br"));
+    providerGroup.appendChild(radioFree);
+    providerGroup.appendChild(el("label", { for: "ai-chat-prov-free", textContent: " Free site AI (no setup" + (isFree() ? " — " + freeModelName() : "") + ")" }));
     providerGroup.appendChild(el("br"));
     providerGroup.appendChild(radioOut);
     providerGroup.appendChild(el("label", { for: "ai-chat-prov-out", textContent: " OpenAI-compatible server (e.g. OpenRouter, Groq, OpenAI, local llama.cpp/Ollama)" }));
     modal.appendChild(providerGroup);
+
+    // ---- Free site-AI section (read-only; availability comes from the live probe)
+    var freeSection = el("div", { className: "settings-section", id: "ai-chat-section-free" });
+    var freeState = el("p", { className: "settings-hint" });
+    if (isFree()) {
+      freeState.textContent = "Available now — " + freeModelName() + ". I answer from the 1035 FAQ notes I retrieve for you. No key or setup needed.";
+    } else {
+      freeState.textContent = "Not currently available (the site's free AI service is off or its key is not active). If the site re-enables it, reload and choose this option again.";
+    }
+    freeSection.appendChild(freeState);
+    modal.appendChild(freeSection);
 
     var inSection = el("div", { className: "settings-section", id: "ai-chat-section-in" });
 
@@ -1761,11 +1808,12 @@
     modal.appendChild(outSection);
 
     function refreshSections() {
-      var out = radioOut.checked;
-      inSection.style.display = out ? "none" : "";
-      outSection.style.display = out ? "" : "none";
+      inSection.style.display = radioIn.checked ? "" : "none";
+      outSection.style.display = radioOut.checked ? "" : "none";
+      freeSection.style.display = radioFree.checked ? "" : "none";
     }
     radioIn.addEventListener("change", refreshSections);
+    radioFree.addEventListener("change", refreshSections);
     radioOut.addEventListener("change", refreshSections);
     refreshSections();
 
@@ -1776,6 +1824,18 @@
     }));
     var applyBtn = el("button", { className: "primary" });
     function applyProvider() {
+      if (radioFree.checked) {
+        // Switch to the site free provider: clear any explicit choice so the
+        // page (and a future reload) uses the free provider.
+        clearEndpointCfg();
+        storageClearModel();
+        overlay.remove();
+        (freeCfg ? Promise.resolve(freeCfg) : loadFreeConfig().then(function () { return freeCfg; })).then(function (cfg) {
+          if (cfg) activateFree();
+          else addSystemMessage("The free AI service is not available right now. It will be offered automatically when it comes back — or reload and try again.");
+        });
+        return;
+      }
       // An explicit choice supersedes the auto free provider.
       clearFree();
       if (radioOut.checked) {
@@ -1800,9 +1860,10 @@
     }
     applyBtn.onclick = applyProvider;
     function refreshButton() {
-      applyBtn.textContent = radioOut.checked ? "Use server" : "Load model";
+      applyBtn.textContent = radioOut.checked ? "Use server" : (radioFree.checked ? "Use free AI" : "Load model");
     }
     radioIn.addEventListener("change", refreshButton);
+    radioFree.addEventListener("change", refreshButton);
     radioOut.addEventListener("change", refreshButton);
     refreshButton();
     actions.appendChild(applyBtn);

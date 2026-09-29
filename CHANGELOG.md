@@ -71,15 +71,22 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   the module count (crisp) with a 4-module quiet zone (scannable).
 
 ### Fixed
-- **`[]` shown as the answer with `Hermes-3-Llama-3.1-8B-q4f16_1-MLC`.** The
-  in-browser agent path is grammar-locked (WebLLM forces a tool call). That 8B
-  model sometimes emits a degenerate **empty tool-call array** (`[]`) — or the
-  structured `delta.tool_calls` chunk arrives empty — and the raw JSON text was
-  being rendered verbatim as the final answer. Now: (1) tool calls are recovered
-  from the streamed JSON text when `delta.tool_calls` is missing/empty, (2)
-  JSON-shaped Phase-1 output is never shown as the answer, and (3) the current
-  page is fed into the Phase-2 answer round so the no-tool fallback still produces
-  a real answer instead of `[]` or nothing.
+- **`hidePageQr is not defined` (console error when opening the chat panel).**
+  The QR-button commit called `hidePageQr()` from `togglePanel` without ever
+  defining it; the function now exists and closes the share-QR popover.
+- **Status line lost "Free server ready" (and the reverse).** Two components
+  (provider state, 2 MB knowledge-index load) both wrote the same status line
+  and clobbered each other depending on timing. The line now composes both:
+  `Free server ready: Socrates · Index 1035 notes`.
+- **Knowledge-index 404 noise.** The fallback candidate list no longer
+  duplicates URLs, so the console shows at most one benign probe 404 instead
+  of repeated `/static/knowledge-index.json` 404s (the index itself loads
+  fine from the right candidate).
+- **Could not switch back to the free provider.** Settings now has a third
+  provider option — "Free site AI" — that appears checked when the free
+  service is active, says "Available now / Not currently available" with a
+  reason, and (via "Use free AI") clears the visitor's own server/model
+  choice and re-probes, so free can be re-selected at any time.
 - **404 on `/static/knowledge-index.json` + stale-service-worker "no-op fetch
   handler" warning.** The site registers no service worker, but a stale SW left
   on the origin by an earlier deployment was intercepting fetches in some
@@ -92,6 +99,15 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   RAG emitter; the real one is wired via `./quartz/plugins/local/ai-chat`).
 
 ### Fixed (earlier)
+- **`[]` shown as the answer with `Hermes-3-Llama-3.1-8B-q4f16_1-MLC`.** The
+  in-browser agent path is grammar-locked (WebLLM forces a tool call). That 8B
+  model sometimes emits a degenerate **empty tool-call array** (`[]`) — or the
+  structured `delta.tool_calls` chunk arrives empty — and the raw JSON text was
+  being rendered verbatim as the final answer. Now: (1) tool calls are recovered
+  from the streamed JSON text when `delta.tool_calls` is missing/empty, (2)
+  JSON-shaped Phase-1 output is never shown as the answer, and (3) the current
+  page is fed into the Phase-2 answer round so the no-tool fallback still
+  produces a real answer instead of `[]` or nothing.
 - **In-browser model "Prompt tokens exceed context window size" (6623 > 4096).**
   WebLLM serializes every tool schema into the prompt, so the new 62-tool suite
   (~6,300 tokens) overflowed the Hermes-3-8B in-browser model's 4,096-token
