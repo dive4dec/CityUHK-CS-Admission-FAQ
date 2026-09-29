@@ -149,13 +149,21 @@
   // visible by casually searching the bundle — but the real protection is a
   // SHORT-LIVED, REVOCABLE key (revoking it disables "free" site-wide
   // instantly) plus server-side spend/expiry limits on LiteLLM.
-  // Rotation without a rebuild: a small gist (see FREE_CONFIG_URL) may carry
-  // {"enabled": true, "key": "sk-..."} or {"enabled": false}. The base URL
-  // and model are deliberately NOT taken from the gist — they stay pinned to
-  // the trusted FREE_FALLBACK_* constants above — so a public/compromised
-  // gist can rotate the key on/off but cannot redirect visitors' requests to
-  // a different server.
-  var FREE_CONFIG_URL = ""; // gist raw URL (key rotation only); empty -> embedded fallback
+  // Rotation without a rebuild: a small PUBLIC GIST (see FREE_CONFIG_URL)
+  // is the single source of truth for the free service. Its content may be
+  //   (a) an OPAQUE one-line base64 string (recommended — not human-readable)
+  //       that decodes to JSON:
+  //         {"enabled":true,"baseUrl":"https://…/v1","key":"sk-…","model":"Socrates"}
+  //   or (b) the same JSON in plain text.
+  // The ENDPOINT, KEY and MODEL all come from the gist. Guard: the gist's
+  // baseUrl is honoured only if it is https AND its host is in
+  // FREE_TRUSTED_HOSTS (a public gist is editable by anyone — this stops it
+  // from redirecting the site's traffic and key to an untrusted server).
+  // A parseable gist is FINAL: enabled:false (or an untrusted endpoint)
+  // switches free OFF even if the embedded key below is still valid. The
+  // embedded fallback is used only when the gist is absent/unreachable.
+  var FREE_CONFIG_URL = ""; // gist raw URL; empty -> embedded fallback only
+  var FREE_TRUSTED_HOSTS = ["socratic.cs.cityu.edu.hk"]; // https hosts the gist may point to
   var FREE_FALLBACK_BASE = "https://socratic.cs.cityu.edu.hk/litellm/v1";
   var FREE_FALLBACK_KEY_PARTS = ["c2stMGlEUS1E", "RzZXNjVPWDhZ", "bHhFTXlTdw=="];
   var FREE_FALLBACK_MODEL = "Socrates";
@@ -186,30 +194,75 @@
     } catch (e) { return null; }
     finally { if (to) clearTimeout(to); }
   }
-  // Load config and set freeCfg. SECURITY: the gist may only rotate the KEY
-  // (and enable/disable) — the base URL and model are ALWAYS the trusted,
-  // hardcoded FREE_FALLBACK_* values, so a compromised/public gist cannot
-  // redirect visitors' requests (and the key) to an attacker's endpoint.
-  // Gist format: {"enabled": true, "key": "sk-..."}   (or enabled:false)
+  // ---- Free-provider configuration ----------------------------------------
+  // The gist is the single source of truth. Its file content is EITHER:
+  //   (a) a plain JSON object, or
+  //   (b) an OPAQUE one-line base64 string that DECODES to that JSON.
+  // Either may carry: {"enabled":true,"baseUrl":"https://…/v1","key":"sk-…","model":"Socrates"}
+  // A parseable gist is FINAL: it can enable, disable, or rotate — even an
+  // enabled:false beats the embedded fallback. The embedded fallback is used
+  // ONLY when the gist is absent or unreachable (fetch fails).
+  // TRUST GUARD: the gist's baseUrl is honoured only if it is https AND its
+  // host is in FREE_TRUSTED_HOSTS (a public gist is editable by anyone — this
+  // stops a tampered gist from redirecting the site's traffic and key to an
+  // attacker's endpoint). An untrusted baseUrl is treated as "disabled".
+  function freeTrustedBase(url) {
+    var u = String(url || "").trim();
+    if (!/^https:\/\//i.test(u)) return null;
+    var host = "";
+    try { host = new URL(u).hostname.toLowerCase(); } catch (e) { return null; }
+    for (var i = 0; i < FREE_TRUSTED_HOSTS.length; i++) {
+      if (host === FREE_TRUSTED_HOSTS[i]) return u.replace(/\/+$/, "");
+    }
+    return null;
+  }
+  function freeDecodeConfig(text) {
+    var t = String(text || "").trim();
+    if (!t) return null;
+    // (a) already JSON?
+    if (t.charAt(0) === "{") { try { return JSON.parse(t); } catch (e) { return null; } }
+    // (b) opaque base64 -> decode -> JSON
+    try {
+      var b64 = t.replace(/[\s\u0000-\u001f]/g, "");
+      var bin = atob(b64);
+      var bytes = new Uint8Array(bin.length);
+      for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i) & 0xff;
+      var decoded = new TextDecoder("utf-8").decode(bytes); // safe UTF-8
+      return JSON.parse(decoded);
+    } catch (e) { return null; }
+  }
+  // Fetch the gist, decode it, and set freeCfg (or clear it if disabled).
+  // Returns {status: "on"|"off"|"unreachable"} so callers can tell the
+  // embedded fallback apart from an explicit off-switch.
+  async function loadFreeGist() {
+    var status = "unreachable";
+    if (!FREE_CONFIG_URL) return status;
+    try {
+      var r = await fetch(FREE_CONFIG_URL, { cache: "no-store" });
+      if (!r.ok) return status; // 404 (deleted) / rate-limited -> fall through
+      var cfg = freeDecodeConfig(await r.text());
+      if (!cfg) return status;
+      // Parseable gist is final.
+      if (cfg.enabled === false) return "off";
+      if (cfg.enabled !== true) return "off";
+      var key = typeof cfg.key === "string" ? cfg.key.trim() : "";
+      var base = freeTrustedBase(cfg.baseUrl || FREE_FALLBACK_BASE);
+      if (!key || !base) return "off";
+      freeCfg = await freeProbe(base, key, cfg.model || FREE_FALLBACK_MODEL);
+      return freeCfg ? "on" : "off";
+    } catch (e) { return status; }
+  }
+  // Load free config (gist first, else embedded fallback) and set freeCfg.
   async function loadFreeConfig() {
     if (freeChecking) return;
     freeChecking = true;
     try {
-      var key = freeFallbackKey();
-      if (FREE_CONFIG_URL) {
-        try {
-          var r = await fetch(FREE_CONFIG_URL, { cache: "no-store" });
-          if (r.ok) {
-            var o = await r.json();
-            if (o && o.enabled && typeof o.key === "string" && o.key) {
-              key = o.key; // rotate
-            } else if (o && o.enabled === false) {
-              key = ""; // site owner switched free off
-            }
-          }
-        } catch (e) { /* gist unreachable -> embedded key */ }
+      var s = await loadFreeGist();
+      if (s === "unreachable" && !freeCfg) {
+        // No usable gist -> try the embedded key at the trusted base.
+        var key = freeFallbackKey();
+        if (key) freeCfg = await freeProbe(FREE_FALLBACK_BASE, key, FREE_FALLBACK_MODEL);
       }
-      if (key) freeCfg = await freeProbe(FREE_FALLBACK_BASE, key, FREE_FALLBACK_MODEL);
     } finally { freeChecking = false; }
   }
   function isFree() { return !!freeCfg; }

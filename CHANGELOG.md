@@ -10,23 +10,34 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 - **"Free" site-provided AI provider (time-limited special event).** A
   no-setup provider backed by a site-hosted LiteLLM endpoint
   (`https://socratic.cs.cityu.edu.hk/litellm/v1`, model `Socrates`). On page
-  load the widget probes the endpoint with a short-lived key (fetched from a
-  tiny JSON config so the owner can **rotate the key or switch it off
-  instantly — no repo push, no rebuild, no Pages redeploy**); if it works,
-  visitors get grounded answers with zero configuration. If the config is
-  disabled/missing, the key is rejected (401/403) or the server is down, the
+  load the widget reads the free-service config from a **single public gist**
+  (`FREE_CONFIG_URL`) that is the **source of truth for the endpoint, API key,
+  and model** — so the owner can **rotate the key, change the endpoint, or
+  switch it off instantly by editing the gist: no repo push, no rebuild, no
+  Pages redeploy**. The gist content may be plain JSON or an **opaque
+  one-line base64 string** (recommended, so it isn't human-readable when the
+  gist is opened); both decode to
+  `{"enabled":true,"baseUrl":"…","key":"sk-…","model":"Socrates"}`. A
+  **trust guard** honours the gist's `baseUrl` only if it is `https` and its
+  host is in `FREE_TRUSTED_HOSTS` (a public gist is editable by anyone, so this
+  stops a tampered gist from redirecting the site's traffic and key to an
+  attacker's server); `enabled:false` (or an untrusted endpoint) switches free
+  OFF even if an embedded key is still valid. If the gist is absent/unreachable
+  (e.g. a 404 after a delete), an embedded short-lived key is used as a
+  fallback so the service stays up until the owner repoints it. If the config
+  is disabled/missing, the key is rejected (401/403) or the server is down, the
   free option simply does not exist and the normal "open ⚙ settings and
   configure a model/server" prompt appears instead. A visitor's explicit
   choice (in-browser model or own server) always wins over the free
-  provider. The key is split + base64-encoded in the bundle so it is not
-  visible by casual search — but on any static site a determined visitor can
-  read it from the network tab, so the real protection is a **short-lived,
-  revocable key** plus server-side spend/expiry limits on LiteLLM. The
-  `Socrates` model is a reasoning model with no tool-calling (verified: it
-  ignores tools and hallucinates without grounding), so the free provider
-  always uses the grounded RAG path (retrieve from the 1035-note index,
-  `max_tokens` 2048 for its thinking budget) — verified end-to-end:
-  "What is 1561A?" returns the correct, cited answer in ~6s.
+  provider. The key is not visible by casual search in the bundle — but on any
+  static site a determined visitor can read it from the network tab, so the
+  real protection is a **short-lived, revocable key** plus server-side
+  spend/expiry limits on LiteLLM. The `Socrates` model is a reasoning model
+  with no tool-calling (verified: it ignores tools and hallucinates without
+  grounding), so the free provider always uses the grounded RAG path
+  (retrieve from the 1035-note index, `max_tokens` 2048 for its thinking
+  budget) — verified end-to-end: "What is 1561A?" returns the correct, cited
+  answer in ~6s.
 - **"Share this page" QR button (always visible).** A round button sits above the
   chat FAB. Click it to pop open a card showing a **QR code of the current page's
   full published URL** (e.g. `https://dive4dec.github.io/CityUHK-CS-Admission-FAQ/03_nonjupas/bsc-cs-non-jupas-code-1561a`) plus the URL, and a **Copy link**
