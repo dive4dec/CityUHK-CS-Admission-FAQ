@@ -7,6 +7,15 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 ## [Unreleased]
 
 ### Added
+- **"Share this page" QR button (always visible).** A round button sits above the
+  chat FAB. Click it to pop open a card showing a **QR code of the current page's
+  full published URL** (e.g. `https://dive4dec.github.io/CityUHK-CS-Admission-FAQ/03_nonjupas/bsc-cs-non-jupas-code-1561a`) plus the URL, and a **Copy link**
+  button (clipboard). Click again to hide. The QR is generated lazily in the
+  browser with the same pure-JS encoder and **re-targets automatically on every
+  in-app (SPA) navigation** and back/forward, so it always encodes the page you're
+  actually on — not a fixed homepage. This gives a reliable way to get a scannable
+  link to any published page (the chat works on note slugs, so it can't hand out
+  full URLs by itself).
 - **Image + math rendering in chat answers.** Assistant messages now render
   pictures and equations inline:
   - Images: `![alt](url)`, raw `<img>` tags, and bare `data:image/...;base64,`

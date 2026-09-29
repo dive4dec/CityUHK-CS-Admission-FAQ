@@ -301,6 +301,108 @@
     window.addEventListener("scroll", hide, { capture: true, passive: true });
   }
 
+  // ---- Always-visible "share" button: QR of the CURRENT page (full URL) ----
+  // The chat works on note slugs, so the model can't hand the user the
+  // published URL. This button always shows a QR that scans to the current
+  // page's full GitHub Pages URL. Click toggles it; "Copy link" copies the
+  // URL. It re-targets on every in-app (SPA) navigation. The QR is generated
+  // lazily (memoized by URL) so the initial page load is never blocked.
+  var qrBtn = null;
+  var qrPop = null;
+  function currentPageFullUrl() {
+    // Full published URL (origin + path), no hash. Works on the hosted Pages
+    // site and on the :8080 preview alike.
+    return location.origin + location.pathname.replace(/\/$/, "");
+  }
+  function copyText(text) {
+    var done = function () {
+      var st = qrPop && qrPop.querySelector(".ai-chat-qr-status");
+      if (!st) return;
+      st.textContent = "Copied!";
+      clearTimeout(st._t);
+      st._t = setTimeout(function () {
+        var s = qrPop && qrPop.querySelector(".ai-chat-qr-status");
+        if (s) s.textContent = "Scan with your phone \u00B7 click to copy";
+      }, 1600);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, function () { fallbackCopy(text); done(); });
+    } else { fallbackCopy(text); done(); }
+  }
+  function fallbackCopy(text) {
+    try {
+      var ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      ta.remove();
+    } catch (e) {}
+  }
+  function updatePageQr() {
+    if (!qrPop) return;
+    var url = currentPageFullUrl();
+    var img = qrPop.querySelector("img");
+    var cap = qrPop.querySelector(".ai-chat-qr-cap");
+    if (img) img.src = qrSvgDataUrl(url); // memoized: ~0 ms once generated
+    if (cap) cap.textContent = url;
+    qrPop.dataset.url = url;
+  }
+  function togglePageQr() {
+    if (!qrPop) return;
+    var open = qrPop.classList.toggle("open");
+    if (qrBtn) qrBtn.setAttribute("aria-expanded", open ? "true" : "false");
+    if (open) updatePageQr(); // (re)target on each open
+  }
+  function buildPageQrButton() {
+    qrBtn = el("button", {
+      id: "ai-chat-qr-fab",
+      className: "ai-chat-qr-fab",
+      title: "Share this page as a QR code",
+      "aria-label": "Share this page as a QR code",
+      "aria-expanded": "false",
+      onclick: togglePageQr
+    });
+    // Inline SVG (font-proof, theme-adaptive via currentColor) — a QR glyph.
+    qrBtn.innerHTML =
+      '<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' +
+      '<path d="M3 3h6v6H3zM15 3h6v6h-6zM3 15h6v6H3z"/>' +
+      '<path d="M15 15h2v2h-2zM19 15h2v2h-2zM15 19h2v2h-2zM19 19h2v2h-2z" fill="currentColor" stroke="none"/>' +
+      "</svg>";
+    document.documentElement.appendChild(qrBtn);
+
+    qrPop = el("div", { id: "ai-chat-qr-pop", className: "ai-chat-qr-pop" });
+    var card = el("div", { className: "ai-chat-qr-pop-card" });
+    var head = el("div", { className: "ai-chat-qr-pop-head", textContent: "Share this page" });
+    var img = el("img", { className: "ai-chat-qr-pop-img", alt: "QR code of the current page" });
+    var cap = el("div", { className: "ai-chat-qr-cap" });
+    var btn = el("button", { className: "ai-chat-qr-copy", textContent: "Copy link", onclick: function () { copyText(qrPop.dataset.url || currentPageFullUrl()); } });
+    var st = el("div", { className: "ai-chat-qr-status", textContent: "Scan with your phone \u00B7 click to copy" });
+    card.appendChild(head);
+    card.appendChild(img);
+    card.appendChild(cap);
+    card.appendChild(btn);
+    card.appendChild(st);
+    qrPop.appendChild(card);
+    document.documentElement.appendChild(qrPop);
+
+    // Close when clicking anywhere outside the button or the popover.
+    document.addEventListener("click", function (e) {
+      if (!qrPop.classList.contains("open")) return;
+      if (e.target && (e.target === qrBtn || qrBtn.contains(e.target) || qrPop.contains(e.target))) return;
+      qrPop.classList.remove("open");
+      if (qrBtn) qrBtn.setAttribute("aria-expanded", "false");
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && qrPop && qrPop.classList.contains("open")) {
+        qrPop.classList.remove("open");
+        if (qrBtn) qrBtn.setAttribute("aria-expanded", "false");
+      }
+    });
+  }
+
   // Sanitize a model-supplied image src: strip trailing quotes/punctuation the
   // model sometimes leaves inside the tag, then require a data: or http(s) URL.
   function sanitizeImageSrc(src) {
@@ -1492,6 +1594,8 @@
     if (panelOpen) {
       var ta = document.getElementById("ai-chat-input");
       if (ta && !ta.disabled) ta.focus();
+      // Tuck the share-QR popover away so it doesn't float over the open panel.
+      hidePageQr();
     }
   }
 
@@ -1564,6 +1668,12 @@
     panel.appendChild(inputArea);
 
     document.documentElement.appendChild(panel);
+
+    // Always-visible "share this page" QR button (full published URL).
+    buildPageQrButton();
+    // Re-target the QR to the current page on in-app (SPA) navigation.
+    document.addEventListener("nav", updatePageQr);
+    window.addEventListener("popstate", updatePageQr);
   }
 
   // ---- Debug / test hook (harmless in production) ----

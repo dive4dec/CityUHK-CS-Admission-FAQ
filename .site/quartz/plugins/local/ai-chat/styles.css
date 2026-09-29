@@ -529,6 +529,119 @@
     bottom: 16px;
     right: 16px;
   }
+
+  .ai-chat-qr-fab {
+    bottom: 92px;
+    right: 24px;
+  }
+}
+
+/* "Share this page" QR button + popover (always visible, sits above the
+   chat FAB). Encodes the current page's full published URL. */
+.ai-chat-qr-fab {
+  position: fixed;
+  bottom: 92px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--light, #faf8f8);
+  color: var(--secondary, #284b63);
+  border: 1px solid var(--lightgray, #d8d8d8);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+  z-index: 10001;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ai-chat-qr-fab:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.28);
+  color: var(--secondary, #284b63);
+}
+
+.ai-chat-qr-fab[aria-expanded="true"] {
+  background: var(--secondary, #284b63);
+  color: var(--light, #faf8f8);
+  border-color: var(--secondary, #284b63);
+}
+
+.ai-chat-qr-pop {
+  position: fixed;
+  bottom: 158px;
+  right: 24px;
+  width: 250px;
+  background: var(--light, #faf8f8);
+  color: var(--dark, #2b2b2b);
+  border: 1px solid var(--lightgray, #d8d8d8);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  z-index: 10002;
+  opacity: 0;
+  transform: translateY(8px) scale(0.98);
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.ai-chat-qr-pop.open {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.ai-chat-qr-pop-card {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.ai-chat-qr-pop-head {
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--dark, #2b2b2b);
+}
+
+.ai-chat-qr-pop-img {
+  width: 180px;
+  height: 180px;
+  background: #fff;
+  border-radius: 6px;
+  display: block;
+}
+
+.ai-chat-qr-cap {
+  font-size: 10.5px;
+  color: var(--darkgray, #555);
+  word-break: break-all;
+  text-align: center;
+  max-width: 100%;
+}
+
+.ai-chat-qr-copy {
+  background: var(--secondary, #284b63);
+  color: var(--light, #faf8f8);
+  border: none;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.15s ease;
+}
+
+.ai-chat-qr-copy:hover {
+  filter: brightness(1.12);
+}
+
+.ai-chat-qr-status {
+  font-size: 10.5px;
+  color: var(--darkgray, #555);
+  min-height: 13px;
 }
 
 /* Tool-call chip (agent mode): small monospace pill in the transcript. */
