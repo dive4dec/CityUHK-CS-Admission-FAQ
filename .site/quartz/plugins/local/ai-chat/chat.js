@@ -439,6 +439,8 @@
   // TOOL_SCHEMAS (OpenAI function schemas). The two browser-bound tools
   // (navigate_to_page, read_current_page) need DOM access, so their
   // schemas are defined here and their execution handled in executeTool.
+  // TOOLS = the FULL suite (62) — used by external endpoints, whose models
+  // have big contexts.
   var TOOLS = TOOL_SCHEMAS.concat([
     {
       type: "function",
@@ -471,6 +473,56 @@
       }
     }
   ]);
+
+  // ---- In-browser (WebLLM) tool subset ----
+  // The in-browser Hermes-3 8B model has a 4,096-token context window and
+  // WebLLM serializes EVERY tool schema into the prompt. All 62 full schemas
+  // (~5,000 tokens) blow past the window and every request fails with
+  // "Prompt tokens exceed context window size". So for the WebLLM path we
+  // expose a curated 14-tool subset with short descriptions (~2 KB total);
+  // executeTool still runs ANY registered tool, so if the model names a
+  // fuller-sibling (e.g. score_history) it works anyway. External endpoints
+  // (big contexts) keep the full TOOLS.
+  var WEBLLM_TOOLS = [
+    { name: "search_notes", desc: "Keyword-search the 1035 FAQ notes. Returns results with a short_answer; use read_note(id) for full text.",
+      params: { query: strParam("Search keywords"), limit: intParam("Max results (default 5, max 10)") }, req: ["query"] },
+    { name: "read_note", desc: "Full text of one note by id (from search_notes/list_notes).",
+      params: { id: intParam("Note id"), slug: strParam("Or note slug"), max_chars: intParam("Max chars (default 2200)") }, req: [] },
+    { name: "list_folders", desc: "List the site's note sections with note counts.", params: {}, req: [] },
+    { name: "get_jupas_code", desc: "JUPAS code(s) for a CS programme; empty name lists all CS JUPAS codes.",
+      params: { programme: strParam("Programme name, e.g. 'Computer Science'") }, req: [] },
+    { name: "get_nonjupas_code", desc: "Non-JUPAS admission code(s) for a CS programme (e.g. 1561A).",
+      params: { programme: strParam("Programme name") }, req: [] },
+    { name: "get_programme_info", desc: "One programme's profile (streams, duration, overview).",
+      params: { code: strParam("Programme code, e.g. JS1204"), name: strParam("Or programme name") }, req: [] },
+    { name: "get_cityu_score", desc: "CityU's published JUPAS score (median + lower quartile) for a code/year.",
+      params: { code: strParam("Programme code, e.g. JS1204"), year: intParam("Year 2023-2026") }, req: ["code"] },
+    { name: "get_all_cityu_scores", desc: "CityU scores for all CS programmes, optionally one year.",
+      params: { year: intParam("Year"), limit: intParam("Max rows (default 20)") }, req: [] },
+    { name: "lookup_grade_score", desc: "Convert DSE grades to the weighted JUPAS score and compare to CityU CS.",
+      params: { grades: strParam("Up to 5 grades, e.g. '5,4,4,3,3'"), code: strParam("Programme code, default JS1204") }, req: ["grades"] },
+    { name: "get_tuition_fees", desc: "Undergraduate tuition fees (local vs non-local).",
+      params: { programme: strParam("Optional programme") }, req: [] },
+    { name: "get_jupas_key_dates", desc: "JUPAS application key dates / deadlines for a cycle year.",
+      params: { year: intParam("Cycle year, e.g. 2027") }, req: [] },
+    { name: "get_entry_requirements", desc: "Minimum entrance requirements for a CS programme.",
+      params: { code: strParam("Programme code"), name: strParam("Or programme name") }, req: [] },
+    { name: "navigate_to_page", desc: "Open a note page in the browser (slug from a tool). Only when the user wants it opened; still write the answer.",
+      params: { slug: strParam("Note slug from a tool result") }, req: ["slug"] },
+    { name: "read_current_page", desc: "Read the text of the page the user is viewing. ONLY tool for 'this page'/'summarize this page'; then answer from its text.",
+      params: { max_chars: intParam("Max chars (default 1200)") }, req: [] }
+  ].map(function (t) {
+    var props = {};
+    (function () { for (var k in t.params) props[k] = t.params[k]; })();
+    return {
+      type: "function",
+      function: {
+        name: t.name,
+        description: t.desc,
+        parameters: { type: "object", properties: props, required: t.req }
+      }
+    };
+  });
 
   function findEntryBySlug(slug) {
     if (!knowledgeIndex) return null;
@@ -826,7 +878,7 @@
       max_tokens: 1024,
       stream: true,
       tool_choice: "auto",
-      tools: TOOLS
+      tools: WEBLLM_TOOLS
     };
     if (window.__aiChatLog) console.log("[ai-chat] PHASE1 (tools) REQUEST", JSON.parse(JSON.stringify(toolRequest)));
     var stream1 = await providerCreate(toolRequest);

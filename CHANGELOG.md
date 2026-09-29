@@ -6,6 +6,17 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Fixed
+- **In-browser model "Prompt tokens exceed context window size" (6623 > 4096).**
+  WebLLM serializes every tool schema into the prompt, so the new 62-tool suite
+  (~6,300 tokens) overflowed the Hermes-3-8B in-browser model's 4,096-token
+  window and every agent request failed. The WebLLM path now exposes a curated
+  14-tool subset with short descriptions (~1,100 tokens of schema; ~1,450 for
+  the whole Phase-1 prompt, verified with a WebLLM-faithful fake engine that
+  enforces the 4,096 limit). Any registered tool still executes if named.
+  External OpenAI-compatible endpoints (models with large contexts) keep the
+  full 62-tool suite.
+
 ### Added
 - **Expanded agent tool suite (62 tools) + in-browser Python (Pyodide).** The
   agent previously had 3 tools and often re-searched in a loop without
