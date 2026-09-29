@@ -894,6 +894,15 @@
       location.pathname.slice(BASE.length).replace(/^\//, "");
     return { title: document.title || "", slug: slug };
   }
+  // Visible article text of the current page (trimmed) — used as a context
+  // fallback for the Phase-2 answer when no tool ran (e.g. the model emitted a
+  // degenerate empty tool-call array).
+  function currentPageText(maxChars) {
+    var art = document.querySelector("article");
+    var text = art ? art.textContent.replace(/\s+/g, " ").trim() : "";
+    var n = maxChars || PAGE_READ_MAX;
+    return text.slice(0, n);
+  }
 
   // A short window of the note text around the first matched keyword.
   function snippetFor(entry, query) {
@@ -1000,6 +1009,38 @@
     return out;
   }
 
+  // Lenient JSON parse (undefined on failure).
+  function jsonParseLoose(text) {
+    try { return JSON.parse(String(text).trim()); } catch (e) { return undefined; }
+  }
+  // Interpret a grammar-locked Phase-1 output (streamed as delta.content) as
+  // tool calls. WebLLM usually also emits a structured delta.tool_calls in the
+  // final chunk, but that chunk can be missing/empty — in which case the only
+  // usable signal is the JSON text. Accepts: an array of tool calls, a single
+  // tool-call object, or {tool_calls:[...]}. Entries may be OpenAI-style
+  // {function:{name,arguments}} or flat {name,arguments}. Returns an array of
+  // {name,arguments,id} or null (NOT a tool call — including the degenerate
+  // empty array "[]" the model sometimes emits).
+  function coerceToolCalls(v) {
+    if (!v || typeof v !== "object") return null;
+    if (!Array.isArray(v)) {
+      if (v.tool_calls && typeof v.tool_calls === "object") v = v.tool_calls;
+      else v = [v];
+    }
+    if (!Array.isArray(v) || !v.length) return null;
+    var out = [];
+    for (var i = 0; i < v.length; i++) {
+      var e = v[i];
+      if (!e || typeof e !== "object") continue;
+      var name = e.name || (e.function && e.function.name) || "";
+      var args = e.arguments != null ? e.arguments : (e.function && e.function.arguments != null ? e.function.arguments : "");
+      if (typeof args === "object") { try { args = JSON.stringify(args); } catch (err) { args = ""; } }
+      if (!name) continue;
+      out.push({ name: String(name), arguments: String(args), id: e.id || ("t" + i) });
+    }
+    return out.length ? out : null;
+  }
+
   function safeParseArgs(s) {
     if (!s) return {};
     try {
@@ -1054,9 +1095,20 @@
     if (toolNote) {
       s += "Tool result from the site:\n" + toolNote + "\n";
     } else {
-      s += "(No tool result was available.)\n\n";
+      s += "(No tool result was available. Use the current page content below as " +
+        "your source.)\n\n";
     }
-    s += "Answer the user question now in plain text.";
+    // When no tool ran, the model would otherwise have nothing to answer from.
+    // Include the current page so it can still give a real answer (this is the
+    // path taken when the Phase-1 model emitted a degenerate "[]" tool call).
+    if (!toolNote) {
+      var page = currentPageMeta();
+      var pt = currentPageText(1500);
+      if (page.title) s += "Current page title: " + page.title + "\n";
+      if (pt) s += "Current page content:\n" + pt + "\n";
+    }
+    s += "Answer the user question now in plain text. Never output raw JSON, " +
+      "tool calls, or empty answers.";
     return s;
   }
 
@@ -1266,6 +1318,15 @@
     showTyping(false);
     if (window.__aiChatLog) console.log("[ai-chat] PHASE1 RESPONSE", JSON.stringify({ content: content1, toolCalls: toolCalls }));
 
+    // If the structured delta.tool_calls chunk was missing/empty, the JSON
+    // tool call(s) may still be in the streamed text — try to recover them.
+    // (Also guards the degenerate "[]" the model sometimes emits.)
+    if ((!toolCalls || !toolCalls.length) && content1.trim()) {
+      var parsed = jsonParseLoose(content1);
+      var coerced = coerceToolCalls(parsed);
+      if (coerced) toolCalls = coerced;
+    }
+
     var toolNote = ""; // human-readable tool result, fed to Phase 2
 
     if (toolCalls && toolCalls.length) {
@@ -1282,18 +1343,29 @@
           JSON.stringify(result).slice(0, TOOL_RESULT_MAX) + "\n\n";
       }
     } else if (content1.trim()) {
-      // Defensive: if the model emitted plain text instead of a tool call,
-      // treat it as the final answer and stop.
-      var el1 = liveEl;
-      if (!el1 && content1) el1 = appendMessage("assistant", content1);
-      if (el1 && content1) {
-        el1.innerHTML = renderMarkdown(content1);
-        appendCitations(el1, cited);
-        typesetIfReady(el1);
-        scrollBottom();
+      // No tool call. Only treat this as a final answer if it reads like plain
+      // text — NOT a leftover tool-call JSON fragment (some 8B grammar-locked
+      // models emit a malformed tool JSON as content), which would otherwise be
+      // dumped verbatim. JSON-shaped text falls through to Phase 2, which gives
+      // a proper answer from context.
+      var looksJson = /^\s*[\[{]/.test(content1);
+      var parsedC = jsonParseLoose(content1);
+      if (looksJson && (coerceToolCalls(parsedC) || parsedC !== undefined)) {
+        // JSON that isn't a usable tool call (e.g. "[]" or malformed) ->
+        // don't display it; let Phase 2 answer from context below.
+        if (liveEl) liveEl.remove();
+      } else {
+        var el1 = liveEl;
+        if (!el1 && content1) el1 = appendMessage("assistant", content1);
+        if (el1 && content1) {
+          el1.innerHTML = renderMarkdown(content1);
+          appendCitations(el1, cited);
+          typesetIfReady(el1);
+          scrollBottom();
+        }
+        conversationHistory.push({ role: "assistant", content: content1 });
+        return;
       }
-      conversationHistory.push({ role: "assistant", content: content1 });
-      return;
     }
 
     // ------------------------------------------------------------------

@@ -51,6 +51,15 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   the module count (crisp) with a 4-module quiet zone (scannable).
 
 ### Fixed
+- **`[]` shown as the answer with `Hermes-3-Llama-3.1-8B-q4f16_1-MLC`.** The
+  in-browser agent path is grammar-locked (WebLLM forces a tool call). That 8B
+  model sometimes emits a degenerate **empty tool-call array** (`[]`) — or the
+  structured `delta.tool_calls` chunk arrives empty — and the raw JSON text was
+  being rendered verbatim as the final answer. Now: (1) tool calls are recovered
+  from the streamed JSON text when `delta.tool_calls` is missing/empty, (2)
+  JSON-shaped Phase-1 output is never shown as the answer, and (3) the current
+  page is fed into the Phase-2 answer round so the no-tool fallback still produces
+  a real answer instead of `[]` or nothing.
 - **404 on `/static/knowledge-index.json` + stale-service-worker "no-op fetch
   handler" warning.** The site registers no service worker, but a stale SW left
   on the origin by an earlier deployment was intercepting fetches in some
