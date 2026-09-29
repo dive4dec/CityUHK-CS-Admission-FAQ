@@ -149,7 +149,13 @@
   // visible by casually searching the bundle — but the real protection is a
   // SHORT-LIVED, REVOCABLE key (revoking it disables "free" site-wide
   // instantly) plus server-side spend/expiry limits on LiteLLM.
-  var FREE_CONFIG_URL = ""; // gist raw URL; empty -> use embedded fallback
+  // Rotation without a rebuild: a small gist (see FREE_CONFIG_URL) may carry
+  // {"enabled": true, "key": "sk-..."} or {"enabled": false}. The base URL
+  // and model are deliberately NOT taken from the gist — they stay pinned to
+  // the trusted FREE_FALLBACK_* constants above — so a public/compromised
+  // gist can rotate the key on/off but cannot redirect visitors' requests to
+  // a different server.
+  var FREE_CONFIG_URL = ""; // gist raw URL (key rotation only); empty -> embedded fallback
   var FREE_FALLBACK_BASE = "https://socratic.cs.cityu.edu.hk/litellm/v1";
   var FREE_FALLBACK_KEY_PARTS = ["c2stMGlEUS1E", "RzZXNjVPWDhZ", "bHhFTXlTdw=="];
   var FREE_FALLBACK_MODEL = "Socrates";
@@ -180,25 +186,30 @@
     } catch (e) { return null; }
     finally { if (to) clearTimeout(to); }
   }
-  // Load (gist config -> embedded fallback), probe, and set freeCfg.
+  // Load config and set freeCfg. SECURITY: the gist may only rotate the KEY
+  // (and enable/disable) — the base URL and model are ALWAYS the trusted,
+  // hardcoded FREE_FALLBACK_* values, so a compromised/public gist cannot
+  // redirect visitors' requests (and the key) to an attacker's endpoint.
+  // Gist format: {"enabled": true, "key": "sk-..."}   (or enabled:false)
   async function loadFreeConfig() {
     if (freeChecking) return;
     freeChecking = true;
     try {
-      var cand = null;
+      var key = freeFallbackKey();
       if (FREE_CONFIG_URL) {
         try {
           var r = await fetch(FREE_CONFIG_URL, { cache: "no-store" });
           if (r.ok) {
             var o = await r.json();
-            if (o && o.enabled && o.baseUrl && o.key) {
-              cand = { baseUrl: o.baseUrl, key: o.key, model: o.model || FREE_FALLBACK_MODEL };
+            if (o && o.enabled && typeof o.key === "string" && o.key) {
+              key = o.key; // rotate
+            } else if (o && o.enabled === false) {
+              key = ""; // site owner switched free off
             }
           }
-        } catch (e) { /* gist unreachable -> embedded fallback */ }
+        } catch (e) { /* gist unreachable -> embedded key */ }
       }
-      if (!cand) cand = { baseUrl: FREE_FALLBACK_BASE, key: freeFallbackKey(), model: FREE_FALLBACK_MODEL };
-      if (cand && cand.key) freeCfg = await freeProbe(cand.baseUrl, cand.key, cand.model);
+      if (key) freeCfg = await freeProbe(FREE_FALLBACK_BASE, key, FREE_FALLBACK_MODEL);
     } finally { freeChecking = false; }
   }
   function isFree() { return !!freeCfg; }
