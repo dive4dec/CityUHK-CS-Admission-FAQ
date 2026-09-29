@@ -162,7 +162,7 @@
   // A parseable gist is FINAL: enabled:false (or an untrusted endpoint)
   // switches free OFF even if the embedded key below is still valid. The
   // embedded fallback is used only when the gist is absent/unreachable.
-  var FREE_CONFIG_URL = ""; // gist raw URL; empty -> embedded fallback only
+  var FREE_CONFIG_URL = "https://gist.githubusercontent.com/ccha23/ca77b49f347a40190eda640295dd67b5/raw/CityUHK_Admission_FAQ"; // gist raw URL (stable, no revision hash); empty -> embedded fallback only
   var FREE_TRUSTED_HOSTS = ["socratic.cs.cityu.edu.hk"]; // https hosts the gist may point to
   var FREE_FALLBACK_BASE = "https://socratic.cs.cityu.edu.hk/litellm/v1";
   var FREE_FALLBACK_KEY_PARTS = ["c2stMGlEUS1E", "RzZXNjVPWDhZ", "bHhFTXlTdw=="];
@@ -170,6 +170,7 @@
   var FREE_MAX_TOKENS = 2048; // Socrates is a reasoning model (needs room)
   var freeCfg = null; // {baseUrl, key, model} — set only after a live probe
   var freeChecking = false;
+  var freeNote = ""; // short owner note, e.g. gist key fell back to built-in
   // Status-line composition state (provider + knowledge index).
   var _lastProvStatus = null;
   var knowledgeStatusMsg = "";
@@ -249,7 +250,18 @@
       var base = freeTrustedBase(cfg.baseUrl || FREE_FALLBACK_BASE);
       if (!key || !base) return "off";
       freeCfg = await freeProbe(base, key, cfg.model || FREE_FALLBACK_MODEL);
-      return freeCfg ? "on" : "off";
+      if (freeCfg) { freeNote = ""; return "on"; }
+      // Gist key was rejected (typo, already rotated, ...) — keep the service
+      // up with the embedded key instead of going dark, and tell the owner.
+      var fk = freeFallbackKey();
+      if (fk && fk !== key) {
+        freeCfg = await freeProbe(base, fk, cfg.model || FREE_FALLBACK_MODEL);
+        if (freeCfg) {
+          freeNote = " (gist key rejected — using built-in fallback key; fix the gist)";
+          return "on";
+        }
+      }
+      return "off";
     } catch (e) { return status; }
   }
   // Load free config (gist first, else embedded fallback) and set freeCfg.
@@ -284,8 +296,9 @@
   function activateFree() {
     if (!freeCfg) return;
     setStatus("ready", "Free server ready: " + freeModelName());
+    var note = freeNote ? freeNote : "";
     addSystemMessage(
-      "Free AI is available now \u2014 I answer from the 1035 FAQ notes I retrieve for you. No setup needed."
+      "Free AI is available now \u2014 I answer from the 1035 FAQ notes I retrieve for you. No setup needed." + note
     );
   }
 
