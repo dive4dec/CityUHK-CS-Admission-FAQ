@@ -6,6 +6,23 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Added
+- **Image + math rendering in chat answers.** Assistant messages now render
+  pictures and equations inline:
+  - Images: `![alt](url)`, raw `<img>` tags, and bare `data:image/...;base64,`
+    strings (e.g. a QR code generated with `run_python`) all become an inline
+    `<img class="ai-chat-image">`. Sources are sanitized (only `data:image`
+    base64 or `http(s)` allowed) and attributes are escaped, so model output
+    can't inject markup.
+  - Math: `$...$` and `$$...$$` are typeset by **MathJax v3** (tex-svg, loaded
+    lazily from the CDN on first use, no font files). Answers are only typeset
+    on their final (non-streaming) render, via a small queue that flushes as
+    soon as MathJax is ready (covers the case where the answer lands before the
+    CDN resolves).
+  - `run_python`'s description now tells the model it can generate images (QR
+    codes with `qrcode`, charts with matplotlib) by printing a base64 PNG data
+    URL.
+
 ### Fixed
 - **In-browser model "Prompt tokens exceed context window size" (6623 > 4096).**
   WebLLM serializes every tool schema into the prompt, so the new 62-tool suite

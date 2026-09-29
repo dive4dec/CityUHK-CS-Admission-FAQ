@@ -992,7 +992,7 @@
 
   tool({
     name: "run_python",
-    description: "Run Python code (via Pyodide/WebAssembly, in the browser) to compute or extract anything from the FAQ data or do math. The current knowledge index is available as `knowledge` — a list of dicts with keys slug, title, folder, text. Built-in packages numpy/pandas/matplotlib/scipy/sympy are preinstalled on demand; pass `packages` to load more (e.g. 'pandas'). Print your answer with print(). Use this for aggregations, comparisons, rankings, score math, or any analysis the other tools can't express. The code must not try to use the network or filesystem.",
+    description: "Run Python code (via Pyodide/WebAssembly, in the browser) to compute or extract anything from the FAQ data or do math. The current knowledge index is available as `knowledge` — a list of dicts with keys slug, title, folder, text. Built-in packages numpy/pandas/matplotlib/scipy/sympy are preinstalled on demand; pass `packages` to load more (e.g. 'pandas', 'qrcode'). Print your answer with print(). Use this for aggregations, comparisons, rankings, score math, or any analysis the other tools can't express. You can also GENERATE IMAGES (e.g. QR codes with the 'qrcode' package, charts with matplotlib): encode them as a base64 PNG and print `data:image/png;base64,....` — the chat renders it inline as a picture. The code must not try to use the network or filesystem.",
     parameters: {
       type: "object",
       properties: {

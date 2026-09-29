@@ -147,37 +147,147 @@
     return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   }
 
-  // Minimal markdown: bold, italic, inline code, links, bullet lists, paragraphs.
+  // ---- MathJax (lazy, tex-svg: no font files needed) ----
+  // Assistant message content may contain $...$ / $$...$$ math. We typeset it
+  // with MathJax v3 (loaded once, on demand). Because the model's answer may
+  // arrive before MathJax has finished loading (first use), we QUEUE scopes
+  // and flush them as soon as MathJax is ready (or via a fallback poll for
+  // the first ~20s). Only FINAL (non-streaming) renders enqueue, so partial
+  // math is never typeset.
+  var mjxReady = false;
+  var mjxPending = [];
+  function mjxPump() {
+    if (!mjxReady || !window.MathJax || !window.MathJax.typesetPromise) return;
+    while (mjxPending.length) {
+      var s = mjxPending.shift();
+      try { window.MathJax.typesetPromise([s]).catch(function () {}); } catch (e) {}
+    }
+  }
+  (function () {
+    var cfg = {
+      tex: { inlineMath: [["$", "$"]], displayMath: [["$$", "$$"]], processEscapes: true, processEnvironments: true },
+      svg: { fontCache: "global" },
+      options: { enableMenu: false }
+    };
+    if (window.MathJax) { for (var k in cfg) window.MathJax[k] = cfg[k]; }
+    else { window.MathJax = cfg; }
+    var s = document.createElement("script");
+    s.src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js";
+    s.async = true;
+    s.onload = function () { mjxReady = true; mjxPump(); };
+    document.head.appendChild(s);
+    // Fallback: flush pending scopes periodically while MathJax is loading
+    // (covers the case where a final answer lands before the CDN resolves).
+    var tries = 0;
+    var iv = setInterval(function () { tries++; mjxPump(); if (tries > 20 || mjxReady && !mjxPending.length) clearInterval(iv); }, 1000);
+  })();
+  function typesetIfReady(el) {
+    if (!el) return;
+    var scope = el.querySelector("[data-math]") || (el.hasAttribute && el.hasAttribute("data-math") ? el : null);
+    if (!scope) return;
+    mjxPending.push(scope);
+    mjxPump(); // flush now if MathJax is ready (else the interval will)
+  }
+
+  // Sanitize a model-supplied image src: strip trailing quotes/punctuation the
+  // model sometimes leaves inside the tag, then require a data: or http(s) URL.
+  function sanitizeImageSrc(src) {
+    if (!src) return null;
+    var v = String(src).trim();
+    v = v.replace(/[\s",;:']+$/, "");
+    var m = v.match(/^data:image\/[a-z0-9.+-]+;base64,[A-Za-z0-9+/=]+$/i);
+    if (m) return m[0];
+    if (/^https?:\/\/\S+$/i.test(v)) return v;
+    m = v.match(/^data:image\/[a-z0-9.+-]+;base64,[A-Za-z0-9+/=]+/i);
+    return m ? m[0] : null;
+  }
+
+  // Minimal markdown: code fences + inline code, images, bold, italic, links,
+  // bullet lists, paragraphs. Math ($...$ / $$...$$) is left for MathJax via
+  // the data-math marker. Code regions are extracted FIRST and re-inserted
+  // last, so link/bold/math processing never corrupts them.
   function renderMarkdown(text) {
-    var lines = String(text).split("\n");
+    var source = String(text);
+    var hasMath = /\$\$?/.test(source);
+    var codeMap = [];
+    source = source.replace(/^(?:[ \t]*```[^\n]*\n(?:(?:.*(?:\r\n?|\n)?)*)?[ \t]*```[ \t]*)/gm, function (m) {
+      codeMap.push(m.replace(/^[\s\S]*?```[^\n]*\n?/, "").replace(/\n?[ \t]*```[ \t]*$/, ""));
+      return "\u0001" + (codeMap.length - 1) + "a\u0001";
+    });
+    source = source.replace(/`([^`\n]+)`/g, function (m, inner) {
+      codeMap.push(inner);
+      return "\u0001" + (codeMap.length - 1) + "b\u0001";
+    });
+
+    function renderLine(rawLine) {
+      // Extract ALL image forms BEFORE escaping, so escaping (and later
+      // link/bold handling) can neither corrupt them nor cause double
+      // wrapping: raw <img> tags, markdown ![](...), and bare data: URLs
+      // (e.g. run_python output pasted verbatim).
+      var imgs = [];
+      var text = rawLine.replace(/<img\b[^>]*\/?>/gi, function (tag) {
+        var srcM = tag.match(/\bsrc\s*=\s*"([^"]*)"/i) || tag.match(/\bsrc\s*=\s*'([^']*)'/i);
+        var altM = tag.match(/\balt\s*=\s*"([^"]*)"/i) || tag.match(/\balt\s*=\s*'([^']*)'/i);
+        imgs.push({ alt: (altM && altM[1]) || "image", src: srcM ? srcM[1] : null });
+        return "\u0002" + (imgs.length - 1) + "\u0002";
+      });
+      text = text.replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g, function (_, alt, url) {
+        imgs.push({ alt: alt, src: url });
+        return "\u0002" + (imgs.length - 1) + "\u0002";
+      });
+      text = text.replace(/data:image\/[a-z0-9.+-]+;base64,[A-Za-z0-9+/=]{20,}/g, function (m) {
+        imgs.push({ alt: "image", src: m });
+        return "\u0002" + (imgs.length - 1) + "\u0002";
+      });
+      var out = esc(text);
+      out = out.replace(/\u0002(\d+)\u0002/g, function (_, i) {
+        var im = imgs[parseInt(i, 10)];
+        return imageHtml(im ? im.alt : "image", im ? im.src : null);
+      });
+      out = out.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+      out = out.replace(/\*([^*\n]+)\*/g, "<em>$1</em>");
+      out = out.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, function (_, t, u) {
+        var href = u;
+        if (!/^(https?:|mailto:|#)/i.test(u)) href = BASE + "/" + u;
+        return '<a href="' + href + '">' + t + "</a>";
+      });
+      return out;
+    }
+    function imageHtml(alt, src) {
+      var clean = sanitizeImageSrc(src);
+      if (!clean) return "";
+      var a = String(alt || "").replace(/["<>/]/g, " ").trim().slice(0, 140);
+      return '<img class="ai-chat-image" src="' + esc(clean).replace(/"/g, "&quot;") + '" alt="' + esc(a) + '" loading="lazy" />';
+    }
+
+    // Interleave: odd segments (0-indexed even positions alternate) are plain
+    // text; odd indices are extracted code regions.
+    var segs = source.split(/\u0001(\d+)[ab]\u0001/);
     var html = "";
     var inList = false;
-    for (var i = 0; i < lines.length; i++) {
-      var line = lines[i];
-      var m = line.match(/^\s*[-*] (.+)$/);
-      if (m) {
-        if (!inList) { html += "<ul>"; inList = true; }
-        html += "<li>" + inline(m[1]) + "</li>";
+    for (var i = 0; i < segs.length; i++) {
+      if (i % 2 === 1) {
+        if (inList) { html += "</ul>"; inList = false; }
+        html += "<pre class=\"ai-chat-code\"><code>" + esc(codeMap[parseInt(segs[i], 10)]) + "</code></pre>";
         continue;
       }
-      if (inList) { html += "</ul>"; inList = false; }
-      if (line.trim() === "") continue;
-      html += "<p>" + inline(line) + "</p>";
+      var lines = segs[i].split("\n");
+      for (var j = 0; j < lines.length; j++) {
+        var line = lines[j];
+        var m = line.match(/^\s*[-*] (.+)$/);
+        if (m) {
+          if (!inList) { html += "<ul>"; inList = true; }
+          html += "<li>" + renderLine(m[1]) + "</li>";
+          continue;
+        }
+        if (inList) { html += "</ul>"; inList = false; }
+        if (line.trim() === "") continue;
+        html += "<p>" + renderLine(line) + "</p>";
+      }
     }
     if (inList) html += "</ul>";
+    if (hasMath) html = '<span data-math="1" style="display:contents">' + html + "</span>";
     return html;
-  }
-  function inline(s) {
-    var out = esc(s);
-    out = out.replace(/`([^`]+)`/g, "<code>$1</code>");
-    out = out.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
-    out = out.replace(/\*([^*]+)\*/g, "<em>$1</em>");
-    out = out.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, function (_, t, u) {
-      var href = u;
-      if (!/^(https?:|mailto:|#)/i.test(u)) href = BASE + "/" + u;
-      return '<a href="' + href + '">' + t + "</a>";
-    });
-    return out;
   }
 
   // ---- RAG keyword retrieval ----
@@ -234,6 +344,7 @@
       msg.innerHTML = renderMarkdown(text);
       box.appendChild(msg);
       if (sources && sources.length) appendCitations(msg, sources);
+      typesetIfReady(msg);
     } else {
       msg.textContent = text || "";
       box.appendChild(msg);
@@ -777,6 +888,7 @@
         if (finalEl && content) {
           finalEl.innerHTML = renderMarkdown(content);
           appendCitations(finalEl, cited);
+          typesetIfReady(finalEl);
           scrollBottom();
         }
         conversationHistory.push({ role: "assistant", content: content });
@@ -835,6 +947,7 @@
       }
     }
     showTyping(false);
+    typesetIfReady(fEl);
     if (window.__aiChatLog) console.log("[ai-chat] EXT forced RESPONSE", JSON.stringify(fReply));
     conversationHistory.push({ role: "assistant", content: fReply });
     if (!fReply.trim()) addSystemMessage("I ran out of steps and could not assemble an answer — please rephrase or split the question.");
@@ -926,6 +1039,7 @@
       if (el1 && content1) {
         el1.innerHTML = renderMarkdown(content1);
         appendCitations(el1, cited);
+        typesetIfReady(el1);
         scrollBottom();
       }
       conversationHistory.push({ role: "assistant", content: content1 });
@@ -975,6 +1089,7 @@
       }
     }
     showTyping(false);
+    typesetIfReady(msgEl);
     if (window.__aiChatLog) console.log("[ai-chat] PHASE2 RESPONSE", JSON.stringify(reply));
     conversationHistory.push({ role: "assistant", content: reply });
     if (!reply.trim()) addSystemMessage("(The model returned an empty answer)");
@@ -1036,6 +1151,8 @@
         scrollBottom();
       }
     }
+    showTyping(false);
+    typesetIfReady(msgEl);
     conversationHistory.push({ role: "assistant", content: reply });
     if (!reply.trim()) addSystemMessage("(model returned an empty reply)");
   }
