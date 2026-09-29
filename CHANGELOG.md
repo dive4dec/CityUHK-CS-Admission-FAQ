@@ -7,6 +7,26 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 ## [Unreleased]
 
 ### Added
+- **"Free" site-provided AI provider (time-limited special event).** A
+  no-setup provider backed by a site-hosted LiteLLM endpoint
+  (`https://socratic.cs.cityu.edu.hk/litellm/v1`, model `Socrates`). On page
+  load the widget probes the endpoint with a short-lived key (fetched from a
+  tiny JSON config so the owner can **rotate the key or switch it off
+  instantly — no repo push, no rebuild, no Pages redeploy**); if it works,
+  visitors get grounded answers with zero configuration. If the config is
+  disabled/missing, the key is rejected (401/403) or the server is down, the
+  free option simply does not exist and the normal "open ⚙ settings and
+  configure a model/server" prompt appears instead. A visitor's explicit
+  choice (in-browser model or own server) always wins over the free
+  provider. The key is split + base64-encoded in the bundle so it is not
+  visible by casual search — but on any static site a determined visitor can
+  read it from the network tab, so the real protection is a **short-lived,
+  revocable key** plus server-side spend/expiry limits on LiteLLM. The
+  `Socrates` model is a reasoning model with no tool-calling (verified: it
+  ignores tools and hallucinates without grounding), so the free provider
+  always uses the grounded RAG path (retrieve from the 1035-note index,
+  `max_tokens` 2048 for its thinking budget) — verified end-to-end:
+  "What is 1561A?" returns the correct, cited answer in ~6s.
 - **"Share this page" QR button (always visible).** A round button sits above the
   chat FAB. Click it to pop open a card showing a **QR code of the current page's
   full published URL** (e.g. `https://dive4dec.github.io/CityUHK-CS-Admission-FAQ/03_nonjupas/bsc-cs-non-jupas-code-1561a`) plus the URL, and a **Copy link**

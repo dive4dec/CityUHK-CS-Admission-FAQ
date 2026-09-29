@@ -117,15 +117,109 @@
   }
   function isExternal() { return !!(endpointCfg() && endpointCfg().kind === "external"); }
   function providerReady() {
-    return !!(engine || isExternal());
+    return !!(engine || isExternal() || isFree());
   }
   function providerStatusText() {
     if (isExternal()) return "Server ready: " + endpointModelName();
+    if (isFree()) return "Free server ready: " + freeModelName();
     return engine ? "Model ready" : "No model loaded";
   }
   function endpointModelName() {
     var c = endpointCfg();
     return (c && c.model) ? String(c.model).trim() : "";
+  }
+
+  // ---- "Free" site-provided provider (time-limited special event) ----
+  // A first-class, no-setup provider: on page load we fetch a small JSON
+  // config (public gist) so the site owner can ROTATE THE KEY or switch it
+  // off instantly — no repo push, no rebuild, no Pages redeploy:
+  //   {"enabled": true, "baseUrl": "https://.../v1", "key": "sk-...", "model": "..."}
+  // If enabled and the key passes a live probe (/models), visitors get
+  // grounded (RAG) answers for free with zero configuration. If the config
+  // is missing/disabled, the key is rejected (401/403), or the server is
+  // down, the "free" option simply does not exist and visitors fall back to
+  // the normal "open settings and configure a model/server" flow.
+  //
+  // Priority: an explicitly saved choice (in-browser model or a user-entered
+  // external server) always wins over the free provider.
+  //
+  // SECURITY NOTE: on a static site the key must reach the browser, so a
+  // determined visitor with DevTools can read the Authorization header. The
+  // embedded fallback key below is split + base64-encoded so it is not
+  // visible by casually searching the bundle — but the real protection is a
+  // SHORT-LIVED, REVOCABLE key (revoking it disables "free" site-wide
+  // instantly) plus server-side spend/expiry limits on LiteLLM.
+  var FREE_CONFIG_URL = ""; // gist raw URL; empty -> use embedded fallback
+  var FREE_FALLBACK_BASE = "https://socratic.cs.cityu.edu.hk/litellm/v1";
+  var FREE_FALLBACK_KEY_PARTS = ["c2stMGlEUS1E", "RzZXNjVPWDhZ", "bHhFTXlTdw=="];
+  var FREE_FALLBACK_MODEL = "Socrates";
+  var FREE_MAX_TOKENS = 2048; // Socrates is a reasoning model (needs room)
+  var freeCfg = null; // {baseUrl, key, model} — set only after a live probe
+  var freeChecking = false;
+
+  function freeFallbackKey() {
+    try { return atob(FREE_FALLBACK_KEY_PARTS.join("")); } catch (e) { return ""; }
+  }
+  // Verify the key with a cheap GET /models before advertising "free".
+  async function freeProbe(base, key, model) {
+    var ctl = (window.AbortController ? new AbortController() : null);
+    var to = ctl ? setTimeout(function () { ctl.abort(); }, 8000) : null;
+    try {
+      var res = await fetch(String(base).replace(/\/+$/, "") + "/models", {
+        headers: { "Authorization": "Bearer " + key },
+        cache: "no-store",
+        signal: ctl ? ctl.signal : undefined
+      });
+      if (!res.ok) return null;
+      var data = await res.json();
+      var id = (data && data.data && data.data.length) ? String(data.data[0].id) : "";
+      return { baseUrl: String(base).replace(/\/+$/, ""), key: String(key), model: id || model || "model" };
+    } catch (e) { return null; }
+    finally { if (to) clearTimeout(to); }
+  }
+  // Load (gist config -> embedded fallback), probe, and set freeCfg.
+  async function loadFreeConfig() {
+    if (freeChecking) return;
+    freeChecking = true;
+    try {
+      var cand = null;
+      if (FREE_CONFIG_URL) {
+        try {
+          var r = await fetch(FREE_CONFIG_URL, { cache: "no-store" });
+          if (r.ok) {
+            var o = await r.json();
+            if (o && o.enabled && o.baseUrl && o.key) {
+              cand = { baseUrl: o.baseUrl, key: o.key, model: o.model || FREE_FALLBACK_MODEL };
+            }
+          }
+        } catch (e) { /* gist unreachable -> embedded fallback */ }
+      }
+      if (!cand) cand = { baseUrl: FREE_FALLBACK_BASE, key: freeFallbackKey(), model: FREE_FALLBACK_MODEL };
+      if (cand && cand.key) freeCfg = await freeProbe(cand.baseUrl, cand.key, cand.model);
+    } finally { freeChecking = false; }
+  }
+  function isFree() { return !!freeCfg; }
+  function freeModelName() { return freeCfg ? (freeCfg.model || "server") : ""; }
+  // Silently drop the free provider (e.g. the visitor chose their own model
+  // or server). No message.
+  function clearFree() { freeCfg = null; }
+  // Drop the free provider because it failed at runtime (key revoked, 401/403)
+  // and tell the visitor to configure their own.
+  function invalidateFree(reason) {
+    if (!freeCfg) return;
+    freeCfg = null;
+    addSystemMessage(
+      "The free AI service is no longer available" + (reason ? " (" + reason + ")" : "") +
+      ". Open \u2699 settings to load a model in your browser or connect your own server."
+    );
+  }
+  // Switch to the free provider (no model download, no user input).
+  function activateFree() {
+    if (!freeCfg) return;
+    setStatus("ready", "Free server ready: " + freeModelName());
+    addSystemMessage(
+      "Free AI is available now \u2014 I answer from the 1035 FAQ notes I retrieve for you. No setup needed."
+    );
   }
 
   // ---- State ----
@@ -783,9 +877,62 @@
       }
     })();
   }
+  // Streams a free-provider (site-provided) OpenAI-compatible request.
+  // Unlike openaiStream it uses freeCfg (baseUrl/key/model) and a larger
+  // max_tokens, because the Socrates model is a reasoning model.
+  async function freeStream(request) {
+    var c = freeCfg;
+    if (!c) throw new Error("Free provider not available");
+    var body = Object.assign({}, request, {
+      model: c.model,
+      stream: true,
+      max_tokens: FREE_MAX_TOKENS
+    });
+    delete body.tools; // the free model ignores them (and would hallucinate)
+    var headers = { "Content-Type": "application/json", "Authorization": "Bearer " + c.key };
+    var res = await fetch(String(c.baseUrl).replace(/\/+$/, "") + "/chat/completions", {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify(body)
+    });
+    if (!res.ok) {
+      var detail = "";
+      try { detail = (await res.text()).slice(0, 300); } catch (e) {}
+      // 401/403 = key revoked/expired -> invalidate the free provider.
+      if (res.status === 401 || res.status === 403) {
+        invalidateFree("key rejected");
+      }
+      throw new Error("Free endpoint HTTP " + res.status + (detail ? ": " + detail : ""));
+    }
+    var ct = (res.headers.get("content-type") || "").toLowerCase();
+    if (ct.indexOf("text/event-stream") < 0) {
+      var data = await res.json();
+      return (async function* () { yield data; })();
+    }
+    var reader = res.body.getReader();
+    var decoder = new TextDecoder("utf-8");
+    var buf = "";
+    return (async function* () {
+      while (true) {
+        var part = await reader.read();
+        if (part.done) break;
+        buf += decoder.decode(part.value, { stream: true });
+        var lines = buf.split("\n");
+        buf = lines.pop();
+        for (var i = 0; i < lines.length; i++) {
+          var line = lines[i].trim();
+          if (!line || line.indexOf("data:") !== 0) continue;
+          var payload = line.slice(5).trim();
+          if (payload === "[DONE]") return;
+          try { yield JSON.parse(payload); } catch (e) { /* keep-alive or partial line */ }
+        }
+      }
+    })();
+  }
   // Dispatch a completions request to the active provider. Both paths
   // return an async iterable of OpenAI-format chunks.
   function providerCreate(request) {
+    if (isFree()) return freeStream(request);
     if (isExternal()) return openaiStream(request);
     return engine.chat.completions.create(request);
   }
@@ -1512,8 +1659,10 @@
     showTyping(true);
 
     try {
-      if (isExternal() || isAgentModel(currentModelId)) await runAgent(query);
-      else await fastAnswer(query);
+      // The free provider is a reasoning model with no tool-calling, so it
+      // ALWAYS uses the grounded RAG path (never the agent/tool loop).
+      if (isFree() || !(isExternal() || isAgentModel(currentModelId))) await fastAnswer(query);
+      else await runAgent(query);
     } catch (e) {
       showTyping(false);
       addSystemMessage("Error: " + (e && e.message ? e.message : e));
@@ -1627,6 +1776,8 @@
     }));
     var applyBtn = el("button", { className: "primary" });
     function applyProvider() {
+      // An explicit choice supersedes the auto free provider.
+      clearFree();
       if (radioOut.checked) {
         var base = baseInput.value.trim();
         var key = keyInput.value.trim();
@@ -1791,15 +1942,23 @@
     showWelcome();
     loadKnowledgeIndex();
     var savedCfg = endpointCfg();
+    var savedModel = storageGetModel();
     if (savedCfg && savedCfg.kind === "external") {
+      // Visitor explicitly configured their own server -> it wins.
       activateExternal();
+    } else if (savedModel) {
+      // Visitor explicitly loaded an in-browser model -> it wins.
+      loadEngine(savedModel);
     } else {
-      var saved = storageGetModel();
-      if (saved) {
-        loadEngine(saved);
-      } else {
-        setStatus("ready", "Open \u2699 settings to load a model or connect a server");
-      }
+      // No explicit choice: try the site-provided "free" provider. If it's
+      // up and the key works, visitors get free answers with zero setup.
+      // If not (disabled / key revoked / offline), fall back to the
+      // normal "open settings and configure" prompt.
+      setStatus("ready", "Checking free AI service\u2026");
+      loadFreeConfig().then(function () {
+        if (isFree()) activateFree();
+        else setStatus("ready", "Open \u2699 settings to load a model or connect a server");
+      });
     }
   }
 
