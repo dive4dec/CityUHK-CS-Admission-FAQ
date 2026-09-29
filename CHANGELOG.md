@@ -16,6 +16,15 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   actually on — not a fixed homepage. This gives a reliable way to get a scannable
   link to any published page (the chat works on note slugs, so it can't hand out
   full URLs by itself).
+- **AI answers now cite full published URLs (not bare slugs).** The chat
+  worked on note slugs, so it couldn't hand out a real link. Now: citation
+  footers (`📖 Sources:`) and inline markdown links in answers resolve to the
+  **full published URL** (e.g.
+  `https://dive4dec.github.io/CityUHK-CS-Admission-FAQ/03_nonjupas/bsc-cs-non-jupas-code-1561a`),
+  `navigate_to_page` returns the URL in its result, and both prompts (in-browser
+  + external endpoint) tell the model the published base so "what's the link for
+  page X?" yields a copyable/scannable markdown link. Also fixed inline links with
+  a leading-slash path rendering as broken protocol-relative `//…` URLs.
 - **Image + math rendering in chat answers.** Assistant messages now render
   pictures and equations inline:
   - Images: `![alt](url)`, raw `<img>` tags, and bare `data:image/...;base64,`

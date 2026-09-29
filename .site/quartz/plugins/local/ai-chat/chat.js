@@ -314,6 +314,14 @@
     // site and on the :8080 preview alike.
     return location.origin + location.pathname.replace(/\/$/, "");
   }
+  // Full published URL for a note slug (used so the AI can hand out real
+  // https:// links, not bare slugs). BASE already folds in the repo prefix on
+  // GitHub Pages ("" on the :8080 preview), so this is correct in both.
+  function pageUrlFor(slug) {
+    var s = String(slug || "").replace(/^\/+/, "").replace(/\/+$/, "");
+    if (!s) return "";
+    return location.origin + BASE + "/" + s;
+  }
   function copyText(text) {
     var done = function () {
       var st = qrPop && qrPop.querySelector(".ai-chat-qr-status");
@@ -461,8 +469,15 @@
       out = out.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
       out = out.replace(/\*([^*\n]+)\*/g, "<em>$1</em>");
       out = out.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, function (_, t, u) {
-        var href = u;
-        if (!/^(https?:|mailto:|#)/i.test(u)) href = BASE + "/" + u;
+        var href;
+        if (/^(https?:|mailto:|#)/i.test(u)) {
+          href = u; // already absolute, mailto, or in-page anchor
+        } else {
+          // A site note (bare slug or /-prefixed path) -> full published URL,
+          // so the link is directly scannable/copyable (no double-slash).
+          var s = String(u).replace(/^\/+/, "").replace(/\/+$/, "");
+          href = location.origin + BASE + "/" + s;
+        }
         return '<a href="' + href + '">' + t + "</a>";
       });
       return out;
@@ -601,7 +616,8 @@
     src.innerHTML =
       "\uD83D\uDCD6 Sources: " +
       list.slice(0, 4).map(function (s) {
-        return '<a href="' + BASE + "/" + s.slug + '">' + esc(s.title || s.slug.split("/").pop()) + "</a>";
+        var href = pageUrlFor(s.slug) || (BASE + "/" + s.slug);
+        return '<a href="' + href + '">' + esc(s.title || s.slug.split("/").pop()) + "</a>";
       }).join(", ");
     msgEl.appendChild(src);
   }
@@ -932,9 +948,9 @@
         if (typeof window.spaNavigate === "function") window.spaNavigate(url);
         else location.assign(url.href);
       } catch (e) {
-        return { ok: false, error: "Navigation failed: " + (e && e.message ? e.message : e) };
+        return { ok: false, error: "Navigation failed: " + (e && e.message ? e.message : String(e)) };
       }
-      return { ok: true, opened: entry.title, slug: slug, note: "The page in the user's browser changed to this note." };
+      return { ok: true, opened: entry.title, slug: slug, url: url.href, note: "The page in the user's browser changed to this note. Share the url value (the full published URL) if the user wants the link." };
     }
     if (name === "read_current_page") {
       var max = Math.min(parseInt((args && args.max_chars), 10) || PAGE_READ_MAX, 2000);
@@ -1010,7 +1026,10 @@
       "per question, then answer.\n" +
       "Be concise and factual. Answer only from what the tools and the page return; if they " +
       "have no answer, say so plainly. If the user asked you to open/show a page, call " +
-      "navigate_to_page once AND still write the answer.\n";
+      "navigate_to_page once AND still write the answer.\n" +
+      "The site is published at " + location.origin + BASE + " — so a note's full public URL is " +
+      location.origin + BASE + "/<slug> (e.g. " + location.origin + BASE + "/03_nonjupas/bsc-cs-non-jupas-code-1561a). " +
+      "If the user asks for the link/URL of a page, give the full URL as a markdown link, e.g. [Title](" + location.origin + BASE + "/<slug>).\n";
     if (page.title) ctx += " Current page: " + page.title + " (slug: " + page.slug + ").";
     return ctx + "\n\n" + query;
   }
@@ -1071,7 +1090,9 @@
       "answer from it — do NOT re-call a similar tool to double-check; at most 2 tool calls " +
       "per question, then answer. (4) Be concise and factual; if the tools have no answer, " +
       "say so. (5) If the user wants a page opened, call navigate_to_page once AND still " +
-      "write the answer." +
+      "write the answer. (6) The site is published at " + location.origin + BASE + ", so a " +
+      "note's full public URL is " + location.origin + BASE + "/<slug>; if the user asks for a " +
+      "page's link/URL, give the full URL (the navigate_to_page result includes it as url)." +
       (page.title ? " Current page: " + page.title + " (slug: " + page.slug + ")." : "");
     var msgs = [{ role: "system", content: systemPrompt }]
       .concat(history)
