@@ -75,7 +75,8 @@
   ];
   var MODELS = AGENT_MODELS.concat(FAST_MODELS);
   var DEFAULT_MODEL = AGENT_MODELS[0];
-  var TOP_K = 5;
+  var TOP_K = 8; // notes retrieved for grounding (was 5)
+  var CITE_SHOW = 6; // how many retrieved notes are shown as links
   var HISTORY_KEEP = 6; // plain-text messages kept for fast mode
   var AGENT_HISTORY = 4; // plain-text messages kept for agent mode
   var AGENT_TURN_TRIM = 400; // trim old assistant replies in agent history
@@ -539,7 +540,22 @@
     if (!qrPop) return;
     var open = qrPop.classList.toggle("open");
     if (qrBtn) qrBtn.setAttribute("aria-expanded", open ? "true" : "false");
-    if (open) updatePageQr(); // (re)target on each open
+    if (open) positionQrPop(); // anchor next to the button on each open
+  }
+  // Position the QR popover relative to the (possibly dragged/resized) panel:
+  // just left of the header button, clamped to the viewport. This keeps it off
+  // the page content and off the chat panel itself.
+  function positionQrPop() {
+    if (!qrPop || !qrBtn) return;
+    var r = qrBtn.getBoundingClientRect();
+    var popW = 250, popH = qrPop.offsetHeight || 340;
+    var x = r.left - popW - 10; // prefer: left of the button
+    if (x < 8) x = Math.max(8, r.right + 10); // not enough room -> right side
+    var y = Math.max(8, Math.min(r.top - 40, window.innerHeight - popH - 8));
+    qrPop.style.left = x + "px";
+    qrPop.style.top = y + "px";
+    qrPop.style.bottom = "auto";
+    qrPop.style.right = "auto";
   }
   function hidePageQr() {
     if (!qrPop) return;
@@ -549,7 +565,7 @@
   function buildPageQrButton() {
     qrBtn = el("button", {
       id: "ai-chat-qr-fab",
-      className: "ai-chat-qr-fab",
+      className: "ai-chat-qr-hbtn",
       title: "Share this page as a QR code",
       "aria-label": "Share this page as a QR code",
       "aria-expanded": "false",
@@ -557,11 +573,15 @@
     });
     // Inline SVG (font-proof, theme-adaptive via currentColor) — a QR glyph.
     qrBtn.innerHTML =
-      '<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' +
+      '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' +
       '<path d="M3 3h6v6H3zM15 3h6v6h-6zM3 15h6v6H3z"/>' +
       '<path d="M15 15h2v2h-2zM19 15h2v2h-2zM15 19h2v2h-2zM19 19h2v2h-2z" fill="currentColor" stroke="none"/>' +
       "</svg>";
-    document.documentElement.appendChild(qrBtn);
+    // Lives in the chat panel header (with settings/clear), NOT floating over
+    // the page — so it never blocks content and moves with a dragged panel.
+    var actions = document.querySelector(".ai-chat-header-actions");
+    if (actions) actions.insertBefore(qrBtn, actions.firstChild);
+    else document.documentElement.appendChild(qrBtn);
 
     qrPop = el("div", { id: "ai-chat-qr-pop", className: "ai-chat-qr-pop" });
     var card = el("div", { className: "ai-chat-qr-pop-card" });
@@ -814,13 +834,29 @@
     }
     if (!list.length) return;
     var src = el("div", { className: "ai-chat-sources" });
-    src.innerHTML =
-      "\uD83D\uDCD6 Sources: " +
-      list.slice(0, 4).map(function (s) {
-        var href = pageUrlFor(s.slug) || (BASE + "/" + s.slug);
-        return '<a href="' + href + '">' + esc(s.title || s.slug.split("/").pop()) + "</a>";
-      }).join(", ");
+    var label = el("span", { className: "ai-chat-sources-label", textContent: "\uD83D\uDCD6 Sources" });
+    src.appendChild(label);
+    var ul = el("ul", { className: "ai-chat-sources-list" });
+    // Show up to CITE_SHOW as clickable links; note how many more were used.
+    var shown = list.slice(0, CITE_SHOW);
+    for (var j = 0; j < shown.length; j++) {
+      var s = shown[j];
+      var href = pageUrlFor(s.slug) || (BASE + "/" + s.slug);
+      var li = el("li");
+      var a = el("a", { href: href, target: "_blank", rel: "noopener" });
+      a.textContent = s.title || s.slug.split("/").pop();
+      li.appendChild(a);
+      ul.appendChild(li);
+    }
+    if (list.length > shown.length) {
+      var more = el("li", { className: "ai-chat-sources-more" });
+      more.textContent = "+ " + (list.length - shown.length) + " more note" + (list.length - shown.length === 1 ? "" : "s") + " retrieved";
+      ul.appendChild(more);
+    }
+    src.appendChild(ul);
     msgEl.appendChild(src);
+    // Hover-QR on each citation link (the shared hover-QR is event-delegated
+    // on the messages box, so these anchors pick it up automatically).
   }
 
   function addSystemMessage(text) { appendMessage("system", text); }
@@ -1180,16 +1216,16 @@
     if (!result || typeof result !== "object") return;
     var found = {};
     (function walk(o, depth) {
-      if (!o || depth > 3 || foundCount(found) >= 4) return;
+      if (!o || depth > 3 || foundCount(found) >= CITE_SHOW) return;
       if (typeof o === "object" && !Array.isArray(o)) {
         if (o.slug && o.title) found[o.slug] = o.title;
         for (var k in o) if (o[k] && typeof o[k] === "object") walk(o[k], depth + 1);
       } else if (Array.isArray(o)) {
-        for (var i = 0; i < o.length && foundCount(found) < 4; i++) walk(o[i], depth + 1);
+        for (var i = 0; i < o.length && foundCount(found) < CITE_SHOW; i++) walk(o[i], depth + 1);
       }
     })(result, 0);
     var n = 0;
-    for (var s in found) { if (!cited[s] && n < 4) { cited[s] = found[s]; n++; } }
+    for (var s in found) { if (!cited[s] && n < CITE_SHOW) { cited[s] = found[s]; n++; } }
   }
   function foundCount(found) { var c = 0; for (var k in found) c++; return c; }
 
@@ -1684,7 +1720,9 @@
       "Computer Science undergraduate admission FAQ site (fast mode: no page tools). " +
       "Answer based on the retrieved notes below. Be concise and factual. " +
       "If the notes do not contain an answer, say you are unsure and suggest " +
-      "searching the site. Cite source note names when referencing specific facts.\n\n";
+      "searching the site. When an answer uses several notes, cite ALL the " +
+      "relevant note names (more is better for verification) so the user can " +
+      "open each one.\n\n";
     if (pageContext) {
       context += "=== Current page: " + (document.title || "") + " ===\n" + pageContext + "\n\n";
     }
@@ -1736,8 +1774,11 @@
   function setBusy(on) {
     var ta = document.getElementById("ai-chat-input");
     var btn = document.getElementById("ai-chat-send");
-    if (ta) ta.disabled = on;
+    // Don't disable the textarea itself: it steals focus while generating and
+    // it's not needed (isGenerating already guards double-send). Keeping it
+    // enabled lets focus be restored for an immediate follow-up.
     if (btn) btn.disabled = on;
+    if (ta) ta.placeholder = on ? "Thinking\u2026" : ta.dataset.ph || ta.placeholder;
   }
 
   // ---- Send message ----
@@ -1776,6 +1817,12 @@
     } finally {
       isGenerating = false;
       setBusy(false);
+      // Keep the input focused so a follow-up can be typed immediately
+      // (disabling the textarea during generation had stolen focus).
+      var p = document.getElementById("ai-chat-panel");
+      if (inputEl && p && !p.classList.contains("closed")) {
+        try { inputEl.focus(); } catch (e) {}
+      }
     }
   }
 
@@ -1981,6 +2028,221 @@
     }
   }
 
+  // ---- Draggable + resizable panel ----
+  // The header is the drag handle; the left/top edges resize. Position +
+  // size are persisted so the visitor's layout survives a reload.
+  var panelPos = { x: null, y: null, w: null, h: null };
+  var PANEL_MIN_W = 300, PANEL_MIN_H = 360;
+
+  function panelEl() { return document.getElementById("ai-chat-panel"); }
+  function clampPanel() {
+    var p = panelEl();
+    if (!p) return;
+    var r = p.getBoundingClientRect();
+    var x = p.offsetLeft, y = p.offsetTop;
+    // keep at least 88px visible; don't push off the top edge
+    x = Math.max(88 - r.width, Math.min(x, window.innerWidth - 88));
+    y = Math.max(0, Math.min(y, window.innerHeight - 70));
+    p.style.left = x + "px";
+    p.style.top = y + "px";
+    p.style.bottom = "auto";
+    p.style.right = "auto";
+    panelPos.x = x; panelPos.y = y;
+    panelPos.w = r.width; panelPos.h = r.height;
+  }
+  function savePanelGeom() {
+    try {
+      localStorage.setItem("ai-chat-geom", JSON.stringify({
+        x: panelPos.x, y: panelPos.y, w: panelPos.w, h: panelPos.h
+      }));
+    } catch (e) {}
+  }
+  function applyPanelGeom() {
+    var p = panelEl();
+    if (!p) return;
+    // On phones the panel is full-screen (CSS), so a saved desktop layout
+    // must not override it.
+    if (window.innerWidth < 480) return;
+    // Only reposition when the visitor has a saved layout; otherwise keep
+    // the CSS default (bottom-right) so first visits are unaffected.
+    if (panelPos.x == null && panelPos.y == null) return;
+    if (panelPos.w) p.style.width = panelPos.w + "px";
+    if (panelPos.h) p.style.height = panelPos.h + "px";
+    p.style.position = "fixed";
+    p.style.bottom = "auto";
+    p.style.right = "auto";
+    if (panelPos.x != null) p.style.left = panelPos.x + "px";
+    if (panelPos.y != null) p.style.top = panelPos.y + "px";
+  }
+  function restorePanelGeom() {
+    try {
+      var g = JSON.parse(localStorage.getItem("ai-chat-geom") || "null");
+      if (g) {
+        panelPos.x = (typeof g.x === "number") ? g.x : null;
+        panelPos.y = (typeof g.y === "number") ? g.y : null;
+        panelPos.w = (typeof g.w === "number") ? g.w : null;
+        panelPos.h = (typeof g.h === "number") ? g.h : null;
+      }
+    } catch (e) {}
+  }
+  function pointerDrag(panel, onMove) {
+    function end() {
+      document.removeEventListener("pointermove", move);
+      document.removeEventListener("pointerup", end);
+      panel.classList.remove("dragging", "resizing");
+      document.body.style.userSelect = "";
+    }
+    function move(e) {
+      e.preventDefault();
+      onMove(e);
+    }
+    document.addEventListener("pointermove", move);
+    document.addEventListener("pointerup", end);
+    panel.classList.add("dragging");
+    document.body.style.userSelect = "none";
+  }
+  function wirePanelDrag() {
+    var p = panelEl();
+    if (!p || p.__dragWired) return;
+    p.__dragWired = true;
+    var header = p.querySelector(".ai-chat-header");
+    if (header) {
+      header.addEventListener("pointerdown", function (e) {
+        // ignore drags that start on a header button
+        if (e.target && e.target.closest && e.target.closest("button")) return;
+        e.preventDefault();
+        var startLeft = p.offsetLeft, startTop = p.offsetTop;
+        var sx = e.clientX, sy = e.clientY;
+        panelPos.x = startLeft; panelPos.y = startTop;
+        panelPos.w = p.offsetWidth; panelPos.h = p.offsetHeight;
+        pointerDrag(p, function (ev) {
+          p.style.left = (startLeft + (ev.clientX - sx)) + "px";
+          p.style.top = (startTop + (ev.clientY - sy)) + "px";
+          p.style.bottom = "auto";
+          p.style.right = "auto";
+        });
+        // clamp + persist once the drag ends
+        p.addEventListener("pointerup", function done() {
+          clampPanel();
+          savePanelGeom();
+          p.removeEventListener("pointerup", done);
+        });
+      });
+    }
+    // Left edge: horizontal resize (grow/shrink width).
+    var rl = p.querySelector(".ai-chat-resize");
+    if (rl) rl.addEventListener("pointerdown", function (e) {
+      e.preventDefault(); e.stopPropagation();
+      p.classList.add("resizing");
+      var startW = p.offsetWidth, sx = e.clientX;
+      pointerDrag(p, function (ev) {
+        var nw = Math.max(PANEL_MIN_W, startW + (sx - ev.clientX));
+        p.style.width = nw + "px";
+        panelPos.w = nw;
+      });
+      p.addEventListener("pointerup", function done() {
+        p.classList.remove("resizing");
+        savePanelGeom();
+        p.removeEventListener("pointerup", done);
+      });
+    });
+    // Top edge: vertical resize (grow/shrink height).
+    var rt = p.querySelector(".ai-chat-resize-v");
+    if (rt) rt.addEventListener("pointerdown", function (e) {
+      e.preventDefault(); e.stopPropagation();
+      p.classList.add("resizing");
+      var startH = p.offsetHeight, sy = e.clientY;
+      pointerDrag(p, function (ev) {
+        var nh = Math.max(PANEL_MIN_H, startH + (sy - ev.clientY));
+        p.style.height = nh + "px";
+        panelPos.h = nh;
+      });
+      p.addEventListener("pointerup", function done() {
+        p.classList.remove("resizing");
+        savePanelGeom();
+        p.removeEventListener("pointerup", done);
+      });
+    });
+    // Keep on-screen if the window is resized.
+    window.addEventListener("resize", clampPanel);
+  }
+
+  // ---- Collapsible site side panels (left nav + right rail) ----
+  // The site's 3-column Quartz grid keeps the left explorer and right related-
+  // pages rail fixed at 320px each, which is a lot on a laptop. These two
+  // fixed chevron buttons (mounted on <html> so SPA nav keeps them) collapse
+  // the left and/or right column, giving the article the space. State persists.
+  function buildSidebarToggles() {
+    if (document.getElementById("sidebar-toggle-left")) return;
+    var body = function () { return document.getElementById("quartz-body"); };
+    function persist() {
+      var b = body(); if (!b) return;
+      try {
+        localStorage.setItem("ai-chat-sidebars", JSON.stringify({
+          left: b.classList.contains("no-left"),
+          right: b.classList.contains("no-right")
+        }));
+      } catch (e) {}
+    }
+    function chevron(dir) {
+      return '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" ' +
+        'stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+        (dir === "left" ? '<path d="M15 18l-6-6 6-6"/>' : '<path d="M9 18l6-6-6-6"/>') + "</svg>";
+    }
+    var leftBtn = el("button", {
+      id: "sidebar-toggle-left", className: "sidebar-toggle sidebar-toggle-left",
+      title: "Toggle side panel", "aria-label": "Toggle left side panel", onclick: function () {
+        var b = body(); if (!b) return;
+        b.classList.toggle("no-left");
+        this.classList.toggle("collapsed", b.classList.contains("no-left"));
+        persist();
+      }
+    });
+    leftBtn.innerHTML = chevron("left");
+    var rightBtn = el("button", {
+      id: "sidebar-toggle-right", className: "sidebar-toggle sidebar-toggle-right",
+      title: "Toggle related panel", "aria-label": "Toggle right side panel", onclick: function () {
+        var b = body(); if (!b) return;
+        b.classList.toggle("no-right");
+        this.classList.toggle("collapsed", b.classList.contains("no-right"));
+        persist();
+      }
+    });
+    rightBtn.innerHTML = chevron("right");
+    document.documentElement.appendChild(leftBtn);
+    document.documentElement.appendChild(rightBtn);
+    // Reflect saved state + keep chevron direction in sync after a moment.
+    function apply() {
+      var b = body();
+      if (!b) return;
+      var left = false, right = false;
+      try {
+        var s = JSON.parse(localStorage.getItem("ai-chat-sidebars") || "null");
+        if (s) { left = !!s.left; right = !!s.right; }
+      } catch (e) {}
+      b.classList.toggle("no-left", left);
+      b.classList.toggle("no-right", right);
+      leftBtn.classList.toggle("collapsed", left);
+      rightBtn.classList.toggle("collapsed", right);
+    }
+    // The 3-column body is re-rendered on every SPA nav, which drops the
+    // collapse classes. The "nav" event can fire BEFORE the new body is in
+    // place, so just re-apply on it once isn't enough — keep watching for
+    // ~1.5s and re-apply every time a fresh body element appears (apply() is
+    // idempotent and cheap).
+    function reapplySoon() {
+      var seen = {}, tries = 0;
+      (function poll() {
+        var b = document.getElementById("quartz-body");
+        if (b && !seen[b]) { seen[b] = true; apply(); }
+        if (tries++ < 90) requestAnimationFrame(poll);
+      })();
+    }
+    document.addEventListener("nav", reapplySoon);
+    window.addEventListener("popstate", reapplySoon);
+    apply();
+  }
+
   // ---- Build UI (mount on <html> so SPA navigation keeps it) ----
   function buildUI() {
     if (document.getElementById("ai-chat-fab")) return;
@@ -1996,7 +2258,14 @@
 
     var panel = el("div", { id: "ai-chat-panel", className: "ai-chat-panel closed" });
 
-    var header = el("div", { className: "ai-chat-header" });
+    // (Saved position/size are restored after the panel is appended to the
+    // document — getElementById can't see it before then.)
+
+    // Resize handles: left edge (width) + top edge (height).
+    panel.appendChild(el("div", { className: "ai-chat-resize", title: "Drag to resize width" }));
+    panel.appendChild(el("div", { className: "ai-chat-resize-v", title: "Drag to resize height" }));
+
+    var header = el("div", { className: "ai-chat-header", title: "Drag to move" });
     header.appendChild(el("h3", { textContent: "CS Admission FAQ" }));
     var actions = el("div", { className: "ai-chat-header-actions" });
     actions.appendChild(el("button", { title: "Settings", textContent: "\u2699\uFE0F", onclick: openSettings }));
@@ -2010,6 +2279,22 @@
       '<path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>' +
       '<path d="M10 11v6M14 11v6"/></svg>';
     actions.appendChild(clearBtn);
+    // Minimise: hide the panel but keep the conversation + provider state,
+    // leaving just the chat FAB. Clicking the FAB restores it (focus returns).
+    var miniBtn = el("button", {
+      title: "Minimise (keep chat, hide panel)",
+      "aria-label": "Minimise chat panel",
+      onclick: function () {
+        var p = document.getElementById("ai-chat-panel");
+        if (p) p.classList.add("closed");
+        panelOpen = false;
+      }
+    });
+    miniBtn.innerHTML =
+      '<svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" fill="none" ' +
+      'stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' +
+      '<path d="M5 12h14"/><path d="M5 18h14"/></svg>';
+    actions.appendChild(miniBtn);
     actions.appendChild(el("button", { title: "Close", textContent: "\u2715", onclick: togglePanel }));
     header.appendChild(actions);
     panel.appendChild(header);
@@ -2031,6 +2316,13 @@
       placeholder: "Ask a question about CityUHK CS admission\u2026",
       rows: "1"
     });
+    textarea.dataset.ph = textarea.placeholder;
+    // If the visitor tabs/clicks into the input while the panel is closed
+    // (e.g. it was miniaturised), open it so typing works.
+    textarea.addEventListener("focus", function () {
+      var p = document.getElementById("ai-chat-panel");
+      if (p && p.classList.contains("closed")) togglePanel();
+    });
     textarea.addEventListener("input", function () {
       this.style.height = "auto";
       this.style.height = Math.min(this.scrollHeight, 120) + "px";
@@ -2050,6 +2342,16 @@
     panel.appendChild(inputArea);
 
     document.documentElement.appendChild(panel);
+
+    // Restore the visitor's saved position/size now that the panel is in the
+    // document (applyPanelGeom reads it via getElementById).
+    restorePanelGeom();
+    applyPanelGeom();
+
+    // Wire drag/resize now that the panel is in the document.
+    wirePanelDrag();
+    // Collapsible left/right site side panels.
+    buildSidebarToggles();
 
     // Always-visible "share this page" QR button (full published URL).
     buildPageQrButton();

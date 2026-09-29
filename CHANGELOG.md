@@ -7,6 +7,34 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 ## [Unreleased]
 
 ### Added
+- **More, linkable sources on every answer.** Retrieval now pulls the top 8
+  relevant notes (was 5) and the answer's source footer is a clickable list of
+  up to 6 links (full published URLs, open in a new tab) with "+N more notes
+  retrieved" when more were used — each also gets the hover-QR tooltip. The
+  fast-mode prompt now asks the model to cite every relevant note so users can
+  open and verify each one.
+- **Draggable + resizable chat panel.** Grab the header to move the panel
+  anywhere; drag its left edge to resize the width and its top edge to resize
+  the height (min 300×360). Position and size are remembered per visitor,
+  clamped so the panel can't be dragged off-screen, and ignored on phones
+  (where the panel is full-screen).
+- **Input stays focused after each reply.** The textarea is no longer disabled
+  while the model is generating (a "Thinking…" placeholder indicates the
+  state), and focus is restored when the answer lands — so a follow-up can be
+  typed immediately. Tabbing into the input while the panel is miniaturised
+  re-opens the panel.
+- **"Share page" QR button moved into the chat header.** It no longer floats
+  over page content; the popover is positioned next to the (possibly dragged)
+  header button, clamped to the viewport.
+- **Collapsible side panels.** Two chevron buttons (left/right edges) collapse
+  the site's left explorer and right related-pages rail, giving the article
+  the freed width (verified: 630 → 955 → 1280 px). The preference persists and
+  survives in-app SPA navigation (the widget re-applies it whenever Quartz
+  re-renders the page body).
+- **Mobile-friendliness.** On phones the chat panel is full-screen, the left
+  explorer can be hidden with a bottom-left toggle (clearing the space it used
+  to take above the article), and the right rail toggle is hidden (that panel
+  stacks below the article, so it never blocks reading).
 - **"Free" site-provided AI provider (time-limited special event).** A
   no-setup provider backed by a site-hosted LiteLLM endpoint
   (`https://socratic.cs.cityu.edu.hk/litellm/v1`, model `Socrates`). On page

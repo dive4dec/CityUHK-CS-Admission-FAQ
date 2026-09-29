@@ -65,6 +65,60 @@
   display: none;
 }
 
+/* ---- Collapsible chat panel: drag the header, resize from the edge ---- */
+.ai-chat-panel {
+  cursor: default;
+}
+.ai-chat-panel .ai-chat-header {
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+.ai-chat-panel .ai-chat-header:active {
+  cursor: grabbing;
+}
+.ai-chat-header-actions {
+  cursor: default;
+}
+.ai-chat-resize {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 7px;
+  height: 100%;
+  cursor: col-resize;
+  z-index: 2;
+}
+.ai-chat-resize::after {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2px;
+  height: 34px;
+  border-radius: 2px;
+  background: var(--dark, #2b2b2b);
+  opacity: 0.25;
+}
+.ai-chat-resize:hover::after {
+  opacity: 0.7;
+}
+.ai-chat-panel.dragging,
+.ai-chat-panel.resizing {
+  user-select: none;
+  box-shadow: 0 12px 44px rgba(0, 0, 0, 0.28);
+}
+.ai-chat-resize-v {
+  position: absolute;
+  left: 7px;
+  top: 0;
+  right: 7px;
+  height: 7px;
+  cursor: row-resize;
+  z-index: 2;
+}
+
 .ai-chat-header {
   display: flex;
   align-items: center;
@@ -100,6 +154,17 @@
 
 .ai-chat-header-actions button:hover {
   opacity: 1;
+}
+
+/* QR share button now lives in the header (moves with the dragged panel,
+   never floats over page content). */
+.ai-chat-qr-hbtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ai-chat-qr-hbtn svg {
+  display: block;
 }
 
 .ai-chat-status {
@@ -286,13 +351,45 @@
   color: var(--darkgray, #4e4e4e);
 }
 
-.ai-chat-sources a {
+.ai-chat-sources-label {
+  display: block;
+  margin-bottom: 3px;
+  font-weight: 600;
+  color: var(--darkgray, #4e4e4e);
+}
+
+.ai-chat-sources-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ai-chat-sources-list li {
+  line-height: 1.5;
+}
+
+.ai-chat-sources-list li a {
   color: var(--secondary, #284b63);
   text-decoration: none;
 }
 
-.ai-chat-sources a:hover {
+.ai-chat-sources-list li a:hover {
   text-decoration: underline;
+}
+
+.ai-chat-sources-list li::before {
+  content: "\2022";
+  color: var(--secondary, #284b63);
+  margin-right: 5px;
+}
+
+.ai-chat-sources-list li.ai-chat-sources-more::before {
+  content: "\2026";
+}
+
+.ai-chat-sources-list li.ai-chat-sources-more {
+  color: var(--darkgray, #555);
+  font-style: italic;
 }
 
 .ai-chat-typing {
@@ -518,6 +615,7 @@
 @media (max-width: 480px) {
   .ai-chat-panel {
     width: 100vw;
+    max-width: 100vw;
     height: 100vh;
     max-height: 100vh;
     bottom: 0;
@@ -529,57 +627,25 @@
     bottom: 16px;
     right: 16px;
   }
-
-  .ai-chat-qr-fab {
-    bottom: 92px;
-    right: 24px;
-  }
 }
 
-/* "Share this page" QR button + popover (always visible, sits above the
-   chat FAB). Encodes the current page's full published URL. */
-.ai-chat-qr-fab {
-  position: fixed;
-  bottom: 92px;
-  right: 24px;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: var(--light, #faf8f8);
-  color: var(--secondary, #284b63);
-  border: 1px solid var(--lightgray, #d8d8d8);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
-  z-index: 10001;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.ai-chat-qr-fab:hover {
-  transform: scale(1.08);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.28);
-  color: var(--secondary, #284b63);
-}
-
-.ai-chat-qr-fab[aria-expanded="true"] {
-  background: var(--secondary, #284b63);
-  color: var(--light, #faf8f8);
-  border-color: var(--secondary, #284b63);
-}
+/* The QR share button now lives in the chat panel header (styled by
+   .ai-chat-qr-hbtn + the generic header-button rules above), so there is
+   no longer a floating QR FAB. Its popover is positioned by
+   positionQrPop() next to the header button. */
 
 .ai-chat-qr-pop {
   position: fixed;
-  bottom: 158px;
-  right: 24px;
+  /* left/top set by positionQrPop() relative to the (possibly moved) button */
+  left: 0;
+  top: 0;
   width: 250px;
   background: var(--light, #faf8f8);
   color: var(--dark, #2b2b2b);
   border: 1px solid var(--lightgray, #d8d8d8);
   border-radius: 12px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-  z-index: 10002;
+  z-index: 10003;
   opacity: 0;
   transform: translateY(8px) scale(0.98);
   pointer-events: none;
@@ -656,4 +722,142 @@
   padding: 5px 10px;
   max-width: 100%;
   word-break: break-all;
+}
+
+/* ================================================================
+   Collapsible site side panels (left explorer / right related rail)
+   + mobile-friendliness.
+
+   The Quartz grid is a fixed 3-column layout (320px / auto / 320px on
+   desktop). Collapsing a column requires re-stating the grid template
+   (columns + rows + areas) for that breakpoint, because CSS grid
+   reflows its tracks from the template. The #quartz-body element is
+   re-rendered on every SPA navigation, so the widget re-applies the
+   saved no-left / no-right classes on each "nav" event (chat.js).
+   ================================================================ */
+
+.sidebar-toggle {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 26px;
+  height: 42px;
+  border-radius: 7px;
+  background: var(--light, #faf8f8);
+  color: var(--darkgray, #555);
+  border: 1px solid var(--lightgray, #d8d8d8);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  z-index: 9990;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: color 0.15s;
+}
+
+.sidebar-toggle:hover {
+  color: var(--secondary, #284b63);
+}
+
+.sidebar-toggle svg {
+  transition: transform 0.15s;
+}
+
+.sidebar-toggle-left {
+  left: 8px;
+}
+
+.sidebar-toggle-right {
+  right: 8px;
+}
+
+.sidebar-toggle.collapsed svg {
+  transform: rotate(180deg);
+}
+
+/* ---- Tablet (800px – 1199.98px): two-column grid ---- */
+@media (min-width: 800px) and (max-width: 1199.98px) {
+  #quartz-root #quartz-body.no-left {
+    grid-template-columns: auto;
+    grid-template-rows: auto auto auto auto;
+    grid-template-areas:
+      "grid-header"
+      "grid-center"
+      "grid-sidebar-right"
+      "grid-footer";
+  }
+  #quartz-root #quartz-body.no-right {
+    grid-template-columns: 320px auto;
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+      "grid-sidebar-left grid-header"
+      "grid-sidebar-left grid-center"
+      "grid-sidebar-left grid-footer";
+  }
+  #quartz-root #quartz-body.no-left.no-right {
+    grid-template-columns: auto;
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+      "grid-header"
+      "grid-center"
+      "grid-footer";
+  }
+  #quartz-root #quartz-body.no-left .sidebar.left,
+  #quartz-root #quartz-body.no-right .sidebar.right {
+    display: none;
+  }
+}
+
+/* ---- Desktop (>=1200px): three-column grid ---- */
+@media (min-width: 1200px) {
+  #quartz-root #quartz-body.no-left {
+    grid-template-columns: auto 320px;
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+      "grid-header grid-sidebar-right"
+      "grid-center grid-sidebar-right"
+      "grid-footer grid-sidebar-right";
+  }
+  #quartz-root #quartz-body.no-right {
+    grid-template-columns: 320px auto;
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+      "grid-sidebar-left grid-header"
+      "grid-sidebar-left grid-center"
+      "grid-sidebar-left grid-footer";
+  }
+  #quartz-root #quartz-body.no-left.no-right {
+    grid-template-columns: auto;
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+      "grid-header"
+      "grid-center"
+      "grid-footer";
+  }
+  #quartz-root #quartz-body.no-left .sidebar.left,
+  #quartz-root #quartz-body.no-right .sidebar.right {
+    display: none;
+  }
+}
+
+/* ---- Mobile (<800px): single-column stacked grid ----
+   Quartz already stacks the side panels above/below the article here.
+   The left panel (search + explorer tree) can still push the article
+   far down, so the toggle (repositioned to the bottom-left, out of the
+   chat FAB's way) hides it. The right "related" panel sits BELOW the
+   article on mobile, so it never blocks the reading view — no toggle. */
+@media (max-width: 799.98px) {
+  #quartz-root #quartz-body.no-left .sidebar.left {
+    display: none !important;
+  }
+  .sidebar-toggle-left {
+    top: auto;
+    bottom: 12px;
+    left: 10px;
+    transform: none;
+  }
+  .sidebar-toggle-right {
+    display: none;
+  }
 }
