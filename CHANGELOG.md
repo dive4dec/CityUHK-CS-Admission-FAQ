@@ -22,6 +22,15 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   - `run_python`'s description now tells the model it can generate images (QR
     codes with `qrcode`, charts with matplotlib) by printing a base64 PNG data
     URL.
+- **Hover QR codes on link icons (fully client-side, no server).** Hovering
+  any link in an assistant message (citations or inline) shows a small tooltip
+  with a QR code of that link's absolute URL, so the page can be scanned on a
+  phone. The QR is generated **live in the browser** with a vendored pure-JS
+  encoder (`qrcode-generator`, MIT, ~56 KB) — no Pyodide/Python, no network,
+  no server: it renders in ~10 ms and is memoized per URL (cached re-hover is
+  sub-millisecond). Relative/anchor links are resolved to absolute URLs first
+  so the code always scans off-device. The SVG is drawn at an exact multiple of
+  the module count (crisp) with a 4-module quiet zone (scannable).
 
 ### Fixed
 - **In-browser model "Prompt tokens exceed context window size" (6623 > 4096).**

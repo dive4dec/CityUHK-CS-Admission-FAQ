@@ -35,8 +35,15 @@ const widgetCSS = fs.readFileSync(path.join(pluginDir, "styles.css"), "utf8")
 // IIFE is the only one.
 const toolsScript = fs.readFileSync(path.join(pluginDir, "tools.js"), "utf8")
 const chatScript = fs.readFileSync(path.join(pluginDir, "chat.js"), "utf8")
+// qrcode-generator (MIT, Kazuhiko Arase) — pure-JS QR encoder used for the
+// hover QR codes on link icons. Self-contained: a `var qrcode = function(){...}()`
+// IIFE + a UTF-8 data patch + a UMD tail (no-op in the browser), so it drops
+// into the shared IIFE scope as-is.
+const qrScript = fs.readFileSync(path.join(pluginDir, "qrcode.js"), "utf8")
 const widgetScript =
   '(function () {\n  "use strict";\n\n' +
+  qrScript +
+  "\n" +
   toolsScript +
   "\n" +
   chatScript +

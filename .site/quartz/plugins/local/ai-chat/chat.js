@@ -189,6 +189,98 @@
     mjxPump(); // flush now if MathJax is ready (else the interval will)
   }
 
+  // ---- Live QR codes (pure JS, no server) ----
+  // Vendored qrcode-generator (MIT) exposes a global `qrcode` in this scope
+  // (see index.js). A QR for a URL renders in ~10 ms as a small inline SVG
+  // data-URL — far faster than spinning up Pyodide (10 MB runtime) or a
+  // server round-trip, and it works fully offline once the page is loaded.
+  var qrCache = {};
+  function qrSvgDataUrl(text) {
+    var cached = qrCache[text];
+    if (cached) return cached;
+    var qr = qrcode(0, "M"); // auto-size, medium error correction
+    qr.addData(String(text));
+    qr.make();
+    var n = qr.getModuleCount();
+    // One explicit unit square per dark module: "M c r h1 v1 h-1 z" (move to
+    // the cell's top-left, then relative steps). Using a fresh M per cell is
+    // unambiguous — a single continuous path with per-cell Z would close every
+    // cell back to the row's first point and render as garbage.
+    var d = "";
+    for (var r = 0; r < n; r++) {
+      for (var c = 0; c < n; c++) {
+        if (qr.isDark(r, c)) d += "M" + c + " " + r + "h1v1h-1z";
+      }
+    }
+    // Quiet zone: QR decoders (phone cameras and jsQR alike) need a white
+    // margin of >=4 modules around the code, so pad the viewBox by 4 on each
+    // side and shift the code path in by 4.
+    var M = 4, N = n + M * 2;
+    // Intrinsic pixel size that is an EXACT multiple of the (padded) module
+    // count so each module maps to whole pixels (crisp + scannable).
+    var cell = Math.max(4, Math.round(180 / N));
+    var size = N * cell;
+    var svg =
+      '<svg xmlns="http://www.w3.org/2000/svg" width="' + size + '" height="' + size +
+      '" viewBox="0 0 ' + N + " " + N +
+      '" shape-rendering="crispEdges"><rect width="' + N + '" height="' + N +
+      '" fill="#fff"/><path transform="translate(' + M + "," + M + ')" d="' + d +
+      '" fill="#111"/></svg>';
+    var url = "data:image/svg+xml;utf8," + encodeURIComponent(svg);
+    if (Object.keys(qrCache).length > 200) qrCache = {}; // bound the memo
+    qrCache[text] = url;
+    return url;
+  }
+
+  // Hover a link (citation or inline) in an assistant message -> a QR code
+  // of that link's URL appears next to the cursor. One shared tooltip,
+  // event-delegated on the messages box, positioned with viewport clamping.
+  function attachLinkQrHover(box) {
+    if (!box || box.__qrWired) return;
+    box.__qrWired = true;
+    var tip = el("div", { className: "ai-chat-qr-tip", id: "ai-chat-qr-tip" });
+    var tipImg = el("img", { className: "ai-chat-qr-tip-img", alt: "QR code of the linked page" });
+    var tipUrl = el("span", { className: "ai-chat-qr-tip-url" });
+    tip.appendChild(tipImg);
+    tip.appendChild(tipUrl);
+    document.body.appendChild(tip);
+
+    function show(link) {
+      var href = link.getAttribute("href") || "";
+      // Resolve to an absolute URL: a QR must encode something that scans to
+      // the real page off-device, so relative/anchor links get the current
+      // origin (or the current page URL for in-page anchors) prefixed.
+      var abs;
+      if (/^https?:/i.test(href)) abs = href;
+      else if (href.charAt(0) === "#") abs = location.href.split("#")[0] + href;
+      else abs = location.origin + (href.charAt(0) === "/" ? href : "/" + href);
+      if (!/^https?:/i.test(abs)) return;
+      tipImg.src = qrSvgDataUrl(abs);
+      tipUrl.textContent = abs.replace(/^https?:\/\//, "").slice(0, 48);
+      var r = link.getBoundingClientRect();
+      var W = 168, H = 190;
+      var x = r.left - W - 10; // prefer left of the cursor/link
+      if (x < 8) x = r.right + 10;
+      var y = r.top + r.height / 2 - H / 2;
+      y = Math.max(8, Math.min(y, window.innerHeight - H - 8));
+      x = Math.max(8, Math.min(x, window.innerWidth - W - 8));
+      tip.style.left = x + "px";
+      tip.style.top = y + "px";
+      tip.style.display = "flex";
+    }
+    function hide() { tip.style.display = "none"; }
+
+    box.addEventListener("mouseover", function (e) {
+      var a = e.target && e.target.closest ? e.target.closest("a[href]") : null;
+      if (a) show(a);
+    });
+    box.addEventListener("mouseout", function (e) {
+      var a = e.target && e.target.closest ? e.target.closest("a[href]") : null;
+      if (a && !(e.relatedTarget && a.contains(e.relatedTarget))) hide();
+    });
+    window.addEventListener("scroll", hide, { capture: true, passive: true });
+  }
+
   // Sanitize a model-supplied image src: strip trailing quotes/punctuation the
   // model sometimes leaves inside the tag, then require a data: or http(s) URL.
   function sanitizeImageSrc(src) {
@@ -1406,7 +1498,11 @@
     status.appendChild(el("span", { id: "ai-chat-status-text", textContent: "Starting\u2026" }));
     panel.appendChild(status);
 
-    panel.appendChild(el("div", { id: "ai-chat-messages", className: "ai-chat-messages" }));
+    var msgBox = el("div", { id: "ai-chat-messages", className: "ai-chat-messages" });
+    panel.appendChild(msgBox);
+    // The panel isn't in the DOM yet (appended at the end of buildUI), so
+    // getElementById would return null — pass the reference directly.
+    attachLinkQrHover(msgBox);
 
     var inputArea = el("div", { className: "ai-chat-input-area" });
     var textarea = el("textarea", {
