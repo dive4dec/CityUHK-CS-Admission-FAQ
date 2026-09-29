@@ -10,6 +10,11 @@
    text — matching how Quartz styles its own accent surfaces.
    ================================================================ */
 
+/* The chat button (FAB) is the ONE control that opens AND collapses the
+   panel — it is always visible and always above the panel (higher z-index),
+   so there is never a state where the chat is open with no way to close it.
+   Closed: round chat button in the bottom-right. Open: it moves to the
+   top-right and swaps to a close (X) glyph so its job is obvious. */
 .ai-chat-fab {
   position: fixed;
   bottom: 24px;
@@ -25,8 +30,9 @@
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-  z-index: 10001;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  z-index: 10002; /* above the panel (10000) so it stays clickable */
+  transition: transform 0.2s ease, box-shadow 0.2s ease, top 0.25s ease,
+    bottom 0.25s ease, border-radius 0.2s ease;
   font-size: 24px;
   line-height: 1;
 }
@@ -36,9 +42,29 @@
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
-.ai-chat-fab.hidden {
-  display: none;
+.ai-chat-fab svg {
+  width: 26px;
+  height: 26px;
 }
+
+/* Open state: relocate to the top-right so it clears the (usually bottom)
+   panel and read as a "close" control. The open flag is set on <html>
+   (document.documentElement) because the FAB + panel are children of <html>
+   (mounted there to survive SPA nav), not of <body>. */
+html.chat-open .ai-chat-fab {
+  top: 16px;
+  bottom: auto;
+  right: 16px;
+}
+
+html.chat-open .ai-chat-fab:hover {
+  transform: scale(1.08);
+}
+
+/* Icon swap: chat bubble when the panel is closed, X when it's open. */
+.ai-chat-fab .fab-ico-close { display: none; }
+html.chat-open .ai-chat-fab .fab-ico-open { display: none; }
+html.chat-open .ai-chat-fab .fab-ico-close { display: block; }
 
 .ai-chat-panel {
   position: fixed;
@@ -47,7 +73,7 @@
   width: 420px;
   max-width: calc(100vw - 48px);
   height: calc(100vh - 48px);
-  max-height: 600px;
+  max-height: calc(100vh - 24px);
   background: var(--light, #faf8f8);
   color: var(--dark, #2b2b2b);
   border-radius: 12px;
@@ -63,6 +89,45 @@
 
 .ai-chat-panel.closed {
   display: none;
+}
+
+/* ---- Docked mode: pin the panel to the bottom edge and make room ----
+   When docked, the panel becomes a fixed bar at the bottom of the viewport.
+   The body gets matching bottom padding (via a per-height variable) so the
+   page content is pushed up and never hidden behind the docked chat. */
+.ai-chat-panel.docked {
+  left: 0 !important;
+  right: 0 !important;
+  top: auto !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: 42vh !important;
+  max-height: 42vh !important;
+  border-radius: 12px 12px 0 0;
+  box-shadow: 0 -6px 28px rgba(0, 0, 0, 0.22);
+}
+/* Hide the edge resize grips while docked (the bar is a fixed-height bottom
+   strip; undock via the header toggle to float + resize it). */
+.ai-chat-panel.docked .ai-chat-resize,
+.ai-chat-panel.docked .ai-chat-resize::after,
+.ai-chat-panel.docked .ai-chat-resize-v {
+  display: none;
+}
+/* Reserve space in the page so a docked chat covers nothing. (The grid body
+   is re-rendered on SPA nav; chat.js re-applies this class each nav.) */
+body.chat-docked #quartz-root {
+  padding-bottom: 42vh;
+}
+@media (max-width: 480px) {
+  .ai-chat-panel.docked {
+    height: 62vh !important;
+    max-height: 62vh !important;
+    border-radius: 0;
+  }
+  body.chat-docked #quartz-root {
+    padding-bottom: 62vh;
+  }
 }
 
 /* ---- Collapsible chat panel: drag the header, resize from the edge ---- */
@@ -156,15 +221,10 @@
   opacity: 1;
 }
 
-/* QR share button now lives in the header (moves with the dragged panel,
-   never floats over page content). */
-.ai-chat-qr-hbtn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.ai-chat-qr-hbtn svg {
-  display: block;
+/* The dock toggle reads as "active" (accent colour) while the panel is docked. */
+.ai-chat-header-actions button.ai-chat-dock.active {
+  color: var(--secondary, #284b63);
+  opacity: 1;
 }
 
 .ai-chat-status {
@@ -623,72 +683,77 @@
     border-radius: 0;
   }
 
-  .ai-chat-fab {
+  /* On phones the panel is full-screen, so the toggle stays bottom-right
+     (as a round close button) rather than jumping to the site header. */
+  .ai-chat-fab,
+  html.chat-open .ai-chat-fab {
+    top: auto;
     bottom: 16px;
     right: 16px;
+    width: 52px;
+    height: 52px;
   }
 }
 
-/* The QR share button now lives in the chat panel header (styled by
-   .ai-chat-qr-hbtn + the generic header-button rules above), so there is
-   no longer a floating QR FAB. Its popover is positioned by
-   positionQrPop() next to the header button. */
-
-.ai-chat-qr-pop {
-  position: fixed;
-  /* left/top set by positionQrPop() relative to the (possibly moved) button */
-  left: 0;
-  top: 0;
-  width: 250px;
-  background: var(--light, #faf8f8);
-  color: var(--dark, #2b2b2b);
-  border: 1px solid var(--lightgray, #d8d8d8);
-  border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-  z-index: 10003;
-  opacity: 0;
-  transform: translateY(8px) scale(0.98);
-  pointer-events: none;
-  transition: opacity 0.18s ease, transform 0.18s ease;
-}
-
-.ai-chat-qr-pop.open {
-  opacity: 1;
-  transform: none;
-  pointer-events: auto;
-}
-
-.ai-chat-qr-pop-card {
-  padding: 14px;
+/* The "share this page" QR now lives in the RIGHT SIDEBAR as a normal,
+   in-flow card (page-associated, never floating). It's injected into
+   .sidebar.right by buildSidebarQr() on each SPA nav and can be hidden with
+   the eye toggle (state remembered). */
+.ai-qr-card {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
+  padding: 14px 14px 16px;
+  border-top: 1px solid var(--lightgray, #d8d8d8);
+  margin-top: 6px;
 }
-
-.ai-chat-qr-pop-head {
+.ai-qr-card.hidden {
+  display: none;
+}
+.ai-qr-card-head {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.ai-qr-card-title {
+  font-size: 12px;
   font-weight: 700;
-  font-size: 13px;
-  color: var(--dark, #2b2b2b);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--darkgray, #555);
 }
-
-.ai-chat-qr-pop-img {
-  width: 180px;
-  height: 180px;
+.ai-qr-card-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--darkgray, #555);
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+}
+.ai-qr-card-toggle:hover {
+  color: var(--secondary, #284b63);
+}
+.ai-qr-card-img {
+  width: 168px;
+  height: 168px;
   background: #fff;
-  border-radius: 6px;
+  border: 1px solid var(--lightgray, #d8d8d8);
+  border-radius: 8px;
+  padding: 8px;
   display: block;
 }
-
-.ai-chat-qr-cap {
+.ai-qr-card-url {
   font-size: 10.5px;
   color: var(--darkgray, #555);
   word-break: break-all;
   text-align: center;
   max-width: 100%;
 }
-
-.ai-chat-qr-copy {
+.ai-qr-card-copy {
   background: var(--secondary, #284b63);
   color: var(--light, #faf8f8);
   border: none;
@@ -699,12 +764,10 @@
   cursor: pointer;
   transition: filter 0.15s ease;
 }
-
-.ai-chat-qr-copy:hover {
+.ai-qr-card-copy:hover {
   filter: brightness(1.12);
 }
-
-.ai-chat-qr-status {
+.ai-qr-card-status {
   font-size: 10.5px;
   color: var(--darkgray, #555);
   min-height: 13px;

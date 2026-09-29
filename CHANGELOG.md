@@ -6,6 +6,22 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Fixed
+- **Chat panel open/close + stuck-minimized state.** The separate minimise and
+  close buttons (which could leave the panel with no way to bring it back)
+  are removed. The chat FAB is now the single open/close toggle: always
+  visible, above the panel in z-order, its icon swaps between a chat bubble
+  (closed) and an X (open), and it relocates to the top-right while open so
+  it never sits under the panel.
+- **Inverted panel resize.** Dragging the left edge left was widening the
+  *right* side (and the top edge up was growing the *bottom*). Cause: the
+  panel is `position: fixed` anchored by `right`/`bottom`, so
+  `offsetLeft`/`offsetTop` read 0; the resize math now seeds from
+  `getBoundingClientRect()` and moves the anchored edge together with the
+  size (drag left → left edge + width grow, right edge stays; drag up → top
+  edge + height grow, bottom edge stays). Also removed a `max-height: 600px`
+  cap that was silently limiting vertical resizing on short viewports.
+
 ### Added
 - **More, linkable sources on every answer.** Retrieval now pulls the top 8
   relevant notes (was 5) and the answer's source footer is a clickable list of
@@ -17,15 +33,20 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   anywhere; drag its left edge to resize the width and its top edge to resize
   the height (min 300×360). Position and size are remembered per visitor,
   clamped so the panel can't be dragged off-screen, and ignored on phones
-  (where the panel is full-screen).
+  (where the panel is full-screen). A **dock** button in the header pins the
+  panel as a bottom bar and adds matching page padding so the docked chat
+  covers no content.
 - **Input stays focused after each reply.** The textarea is no longer disabled
   while the model is generating (a "Thinking…" placeholder indicates the
   state), and focus is restored when the answer lands — so a follow-up can be
   typed immediately. Tabbing into the input while the panel is miniaturised
   re-opens the panel.
-- **"Share page" QR button moved into the chat header.** It no longer floats
-  over page content; the popover is positioned next to the (possibly dragged)
-  header button, clamped to the viewport.
+- **"Share this page" QR now lives in the right sidebar** as a normal, in-flow
+  card (page-associated, not a floating overlay) with a show/hide toggle that
+  persists, a copy-link button, and a live URL caption. It re-targets to the
+  current page on every in-app navigation and is re-injected whenever Quartz
+  re-renders the page body, so it never covers content and always matches the
+  page being viewed. (Replaces the earlier floating chat-header QR button.)
 - **Collapsible side panels.** Two chevron buttons (left/right edges) collapse
   the site's left explorer and right related-pages rail, giving the article
   the freed width (verified: 630 → 955 → 1280 px). The preference persists and

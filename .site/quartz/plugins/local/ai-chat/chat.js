@@ -485,8 +485,7 @@
   // page's full GitHub Pages URL. Click toggles it; "Copy link" copies the
   // URL. It re-targets on every in-app (SPA) navigation. The QR is generated
   // lazily (memoized by URL) so the initial page load is never blocked.
-  var qrBtn = null;
-  var qrPop = null;
+  var qrCard = null;
   function currentPageFullUrl() {
     // Full published URL (origin + path), no hash. Works on the hosted Pages
     // site and on the :8080 preview alike.
@@ -502,13 +501,13 @@
   }
   function copyText(text) {
     var done = function () {
-      var st = qrPop && qrPop.querySelector(".ai-chat-qr-status");
+      var st = qrCard && qrCard.querySelector(".ai-qr-card-status");
       if (!st) return;
       st.textContent = "Copied!";
       clearTimeout(st._t);
       st._t = setTimeout(function () {
-        var s = qrPop && qrPop.querySelector(".ai-chat-qr-status");
-        if (s) s.textContent = "Scan with your phone \u00B7 click to copy";
+        var s = qrCard && qrCard.querySelector(".ai-qr-card-status");
+        if (s) s.textContent = "Scan with your phone";
       }, 1600);
     };
     if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -528,89 +527,71 @@
     } catch (e) {}
   }
   function updatePageQr() {
-    if (!qrPop) return;
+    if (!qrCard) return;
     var url = currentPageFullUrl();
-    var img = qrPop.querySelector("img");
-    var cap = qrPop.querySelector(".ai-chat-qr-cap");
+    var img = qrCard.querySelector("img");
+    var cap = qrCard.querySelector(".ai-qr-card-url");
     if (img) img.src = qrSvgDataUrl(url); // memoized: ~0 ms once generated
     if (cap) cap.textContent = url;
-    qrPop.dataset.url = url;
+    qrCard.dataset.url = url;
   }
-  function togglePageQr() {
-    if (!qrPop) return;
-    var open = qrPop.classList.toggle("open");
-    if (qrBtn) qrBtn.setAttribute("aria-expanded", open ? "true" : "false");
-    if (open) positionQrPop(); // anchor next to the button on each open
-  }
-  // Position the QR popover relative to the (possibly dragged/resized) panel:
-  // just left of the header button, clamped to the viewport. This keeps it off
-  // the page content and off the chat panel itself.
-  function positionQrPop() {
-    if (!qrPop || !qrBtn) return;
-    var r = qrBtn.getBoundingClientRect();
-    var popW = 250, popH = qrPop.offsetHeight || 340;
-    var x = r.left - popW - 10; // prefer: left of the button
-    if (x < 8) x = Math.max(8, r.right + 10); // not enough room -> right side
-    var y = Math.max(8, Math.min(r.top - 40, window.innerHeight - popH - 8));
-    qrPop.style.left = x + "px";
-    qrPop.style.top = y + "px";
-    qrPop.style.bottom = "auto";
-    qrPop.style.right = "auto";
-  }
-  function hidePageQr() {
-    if (!qrPop) return;
-    qrPop.classList.remove("open");
-    if (qrBtn) qrBtn.setAttribute("aria-expanded", "false");
-  }
-  function buildPageQrButton() {
-    qrBtn = el("button", {
-      id: "ai-chat-qr-fab",
-      className: "ai-chat-qr-hbtn",
-      title: "Share this page as a QR code",
-      "aria-label": "Share this page as a QR code",
-      "aria-expanded": "false",
-      onclick: togglePageQr
-    });
-    // Inline SVG (font-proof, theme-adaptive via currentColor) — a QR glyph.
-    qrBtn.innerHTML =
-      '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' +
-      '<path d="M3 3h6v6H3zM15 3h6v6h-6zM3 15h6v6H3z"/>' +
-      '<path d="M15 15h2v2h-2zM19 15h2v2h-2zM15 19h2v2h-2zM19 19h2v2h-2z" fill="currentColor" stroke="none"/>' +
-      "</svg>";
-    // Lives in the chat panel header (with settings/clear), NOT floating over
-    // the page — so it never blocks content and moves with a dragged panel.
-    var actions = document.querySelector(".ai-chat-header-actions");
-    if (actions) actions.insertBefore(qrBtn, actions.firstChild);
-    else document.documentElement.appendChild(qrBtn);
-
-    qrPop = el("div", { id: "ai-chat-qr-pop", className: "ai-chat-qr-pop" });
-    var card = el("div", { className: "ai-chat-qr-pop-card" });
-    var head = el("div", { className: "ai-chat-qr-pop-head", textContent: "Share this page" });
-    var img = el("img", { className: "ai-chat-qr-pop-img", alt: "QR code of the current page" });
-    var cap = el("div", { className: "ai-chat-qr-cap" });
-    var btn = el("button", { className: "ai-chat-qr-copy", textContent: "Copy link", onclick: function () { copyText(qrPop.dataset.url || currentPageFullUrl()); } });
-    var st = el("div", { className: "ai-chat-qr-status", textContent: "Scan with your phone \u00B7 click to copy" });
-    card.appendChild(head);
-    card.appendChild(img);
-    card.appendChild(cap);
-    card.appendChild(btn);
-    card.appendChild(st);
-    qrPop.appendChild(card);
-    document.documentElement.appendChild(qrPop);
-
-    // Close when clicking anywhere outside the button or the popover.
-    document.addEventListener("click", function (e) {
-      if (!qrPop.classList.contains("open")) return;
-      if (e.target && (e.target === qrBtn || qrBtn.contains(e.target) || qrPop.contains(e.target))) return;
-      qrPop.classList.remove("open");
-      if (qrBtn) qrBtn.setAttribute("aria-expanded", "false");
-    });
-    document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape" && qrPop && qrPop.classList.contains("open")) {
-        qrPop.classList.remove("open");
-        if (qrBtn) qrBtn.setAttribute("aria-expanded", "false");
-      }
-    });
+  // The "share this page" QR lives in the RIGHT SIDEBAR as a normal, flowing
+  // card (page-associated, not a floating overlay). Quartz re-renders the
+  // whole page body on every SPA navigation, so we re-inject the card each
+  // time the sidebar element reappears. Its show/hide state is remembered.
+  function buildSidebarQr() {
+    function injectOnce() {
+      var side = document.querySelector(".sidebar.right");
+      if (!side) return false;
+      if (qrCard && qrCard.isConnected) { updatePageQr(); return true; }
+      // (Re)build the card in this fresh sidebar.
+      var visible = localStorage.getItem("ai-qr-visible") !== "0";
+      qrCard = el("div", { className: "ai-qr-card" + (visible ? "" : " hidden"), id: "ai-qr-card" });
+      var head = el("div", { className: "ai-qr-card-head" });
+      head.appendChild(el("span", { className: "ai-qr-card-title", textContent: "Share this page" }));
+      var showBtn = el("button", {
+        className: "ai-qr-card-toggle",
+        title: "Show / hide QR code",
+        "aria-label": "Show or hide QR code",
+        onclick: function () {
+          var v = qrCard.classList.toggle("hidden") === false; // true = now visible
+          try { localStorage.setItem("ai-qr-visible", v ? "1" : "0"); } catch (e) {}
+        }
+      });
+      showBtn.innerHTML =
+        '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" ' +
+        'stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' +
+        '<path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>';
+      head.appendChild(showBtn);
+      qrCard.appendChild(head);
+      var img = el("img", { className: "ai-qr-card-img", alt: "QR code of the current page" });
+      qrCard.appendChild(img);
+      qrCard.appendChild(el("div", { className: "ai-qr-card-url" }));
+      var copyBtn = el("button", {
+        className: "ai-qr-card-copy",
+        textContent: "Copy link",
+        onclick: function () { copyText(qrCard.dataset.url || currentPageFullUrl()); }
+      });
+      qrCard.appendChild(copyBtn);
+      var st = el("div", { className: "ai-qr-card-status", textContent: "Scan with your phone" });
+      qrCard.appendChild(st);
+      side.appendChild(qrCard);
+      updatePageQr();
+      return true;
+    }
+    // The nav event can fire before the re-rendered sidebar exists, so after
+    // each nav keep polling for ~1.5s until the card is (re)present.
+    function ensureInjected() {
+      if (injectOnce()) return;
+      var tries = 0;
+      (function poll() {
+        if (injectOnce()) return;
+        if (tries++ < 90) requestAnimationFrame(poll);
+      })();
+    }
+    ensureInjected();
+    document.addEventListener("nav", ensureInjected);
+    window.addEventListener("popstate", ensureInjected);
   }
 
   // Sanitize a model-supplied image src: strip trailing quotes/punctuation the
@@ -2013,18 +1994,26 @@
     showWelcome();
   }
 
+  // The chat button (FAB) is the ONE control to open OR collapse the panel —
+  // it never hides, so there is always a visible way to bring the chat back.
+  // (No separate close/minimise buttons on the panel.)
   function togglePanel() {
     var panel = document.getElementById("ai-chat-panel");
-    var fab = document.getElementById("ai-chat-fab");
-    if (!panel || !fab) return;
+    if (!panel) return;
     panelOpen = !panelOpen;
     panel.classList.toggle("closed", !panelOpen);
-    fab.classList.toggle("hidden", panelOpen);
+    // The FAB is a child of <html> (mounted to survive SPA nav), so the open
+    // flag must go on the document element for the `html.chat-open` selectors
+    // to reach it. body keeps its own class for the docked-content padding.
+    document.documentElement.classList.toggle("chat-open", panelOpen);
+    var fab = document.getElementById("ai-chat-fab");
+    if (fab) {
+      fab.title = panelOpen ? "Close chat" : "Open AI Chat Assistant";
+      fab.setAttribute("aria-expanded", panelOpen ? "true" : "false");
+    }
     if (panelOpen) {
       var ta = document.getElementById("ai-chat-input");
       if (ta && !ta.disabled) ta.focus();
-      // Tuck the share-QR popover away so it doesn't float over the open panel.
-      hidePageQr();
     }
   }
 
@@ -2038,8 +2027,12 @@
   function clampPanel() {
     var p = panelEl();
     if (!p) return;
+    if (isDocked()) return; // docked position is CSS-managed
     var r = p.getBoundingClientRect();
-    var x = p.offsetLeft, y = p.offsetTop;
+    // The panel is position:fixed, so getBoundingClientRect() (viewport
+    // coords) is the exact frame style.left/top uses. offsetLeft/Top are
+    // unreliable here (the panel anchors by right/bottom, so they read 0).
+    var x = r.left, y = r.top;
     // keep at least 88px visible; don't push off the top edge
     x = Math.max(88 - r.width, Math.min(x, window.innerWidth - 88));
     y = Math.max(0, Math.min(y, window.innerHeight - 70));
@@ -2060,6 +2053,17 @@
   function applyPanelGeom() {
     var p = panelEl();
     if (!p) return;
+    // Docked layout wins over any saved floating geometry.
+    var docked = localStorage.getItem("ai-chat-docked") === "1";
+    p.classList.toggle("docked", docked);
+    document.body.classList.toggle("chat-docked", docked);
+    var dockBtn = p.querySelector(".ai-chat-dock");
+    if (dockBtn) dockBtn.classList.toggle("active", docked);
+    if (docked) {
+      p.style.left = ""; p.style.top = ""; p.style.bottom = "";
+      p.style.width = ""; p.style.height = "";
+      return;
+    }
     // On phones the panel is full-screen (CSS), so a saved desktop layout
     // must not override it.
     if (window.innerWidth < 480) return;
@@ -2073,6 +2077,10 @@
     p.style.right = "auto";
     if (panelPos.x != null) p.style.left = panelPos.x + "px";
     if (panelPos.y != null) p.style.top = panelPos.y + "px";
+  }
+  function isDocked() {
+    var p = panelEl();
+    return !!(p && p.classList.contains("docked"));
   }
   function restorePanelGeom() {
     try {
@@ -2105,19 +2113,27 @@
     var p = panelEl();
     if (!p || p.__dragWired) return;
     p.__dragWired = true;
+    // The panel is position:fixed and anchored by right/bottom by default,
+    // so offsetLeft/offsetTop read 0 — getBoundingClientRect() is the true
+    // viewport frame and the correct seed for style.left/top math.
+    var startFrame = function () {
+      var r = p.getBoundingClientRect();
+      return { left: r.left, top: r.top, w: r.width, h: r.height };
+    };
     var header = p.querySelector(".ai-chat-header");
     if (header) {
       header.addEventListener("pointerdown", function (e) {
         // ignore drags that start on a header button
         if (e.target && e.target.closest && e.target.closest("button")) return;
+        if (isDocked()) return; // docked panel isn't movable
         e.preventDefault();
-        var startLeft = p.offsetLeft, startTop = p.offsetTop;
+        var s = startFrame();
         var sx = e.clientX, sy = e.clientY;
-        panelPos.x = startLeft; panelPos.y = startTop;
-        panelPos.w = p.offsetWidth; panelPos.h = p.offsetHeight;
+        panelPos.x = s.left; panelPos.y = s.top;
+        panelPos.w = s.w; panelPos.h = s.h;
         pointerDrag(p, function (ev) {
-          p.style.left = (startLeft + (ev.clientX - sx)) + "px";
-          p.style.top = (startTop + (ev.clientY - sy)) + "px";
+          p.style.left = (s.left + (ev.clientX - sx)) + "px";
+          p.style.top = (s.top + (ev.clientY - sy)) + "px";
           p.style.bottom = "auto";
           p.style.right = "auto";
         });
@@ -2129,36 +2145,54 @@
         });
       });
     }
-    // Left edge: horizontal resize (grow/shrink width).
+    // Left edge: horizontal resize (drag left to WIDEN the left side).
+    // The panel is anchored by left+top (right/bottom are auto), so changing
+    // the width alone would grow the RIGHT edge — we therefore move the left
+    // edge by the same amount to keep the right edge fixed.
     var rl = p.querySelector(".ai-chat-resize");
     if (rl) rl.addEventListener("pointerdown", function (e) {
       e.preventDefault(); e.stopPropagation();
+      if (isDocked()) return;
       p.classList.add("resizing");
-      var startW = p.offsetWidth, sx = e.clientX;
+      p.style.right = "auto";
+      var s = startFrame();
+      var sx = e.clientX;
       pointerDrag(p, function (ev) {
-        var nw = Math.max(PANEL_MIN_W, startW + (sx - ev.clientX));
+        var delta = sx - ev.clientX; // >0 when dragging left
+        var nw = Math.max(PANEL_MIN_W, s.w + delta);
         p.style.width = nw + "px";
+        p.style.left = (s.left - (nw - s.w)) + "px";
         panelPos.w = nw;
+        panelPos.x = parseFloat(p.style.left);
       });
       p.addEventListener("pointerup", function done() {
         p.classList.remove("resizing");
+        clampPanel();
         savePanelGeom();
         p.removeEventListener("pointerup", done);
       });
     });
-    // Top edge: vertical resize (grow/shrink height).
+    // Top edge: vertical resize (drag up to TALLER). Same two-edge logic so
+    // the bottom edge stays fixed instead of the top one tracking the cursor.
     var rt = p.querySelector(".ai-chat-resize-v");
     if (rt) rt.addEventListener("pointerdown", function (e) {
       e.preventDefault(); e.stopPropagation();
+      if (isDocked()) return;
       p.classList.add("resizing");
-      var startH = p.offsetHeight, sy = e.clientY;
+      p.style.bottom = "auto";
+      var s = startFrame();
+      var sy = e.clientY;
       pointerDrag(p, function (ev) {
-        var nh = Math.max(PANEL_MIN_H, startH + (sy - ev.clientY));
+        var delta = sy - ev.clientY; // >0 when dragging up
+        var nh = Math.max(PANEL_MIN_H, s.h + delta);
         p.style.height = nh + "px";
+        p.style.top = (s.top - (nh - s.h)) + "px";
         panelPos.h = nh;
+        panelPos.y = parseFloat(p.style.top);
       });
       p.addEventListener("pointerup", function done() {
         p.classList.remove("resizing");
+        clampPanel();
         savePanelGeom();
         p.removeEventListener("pointerup", done);
       });
@@ -2250,10 +2284,20 @@
     var fab = el("button", {
       id: "ai-chat-fab",
       className: "ai-chat-fab",
-      title: "AI Chat Assistant",
-      onclick: togglePanel,
-      textContent: "\uD83D\uDCAC"
+      title: "Open AI Chat Assistant",
+      "aria-label": "Open or close the AI chat",
+      "aria-expanded": "false",
+      onclick: togglePanel
     });
+    // Two inline SVGs: a chat bubble (closed state) and an X (open state).
+    // CSS swaps which one shows, so the button always reads as open/close.
+    fab.innerHTML =
+      '<svg class="fab-ico-open" viewBox="0 0 24 24" aria-hidden="true" fill="none" ' +
+      'stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">' +
+      '<path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5c-1.5 0-2.9-.4-4.1-1L3 20l1.1-4.3A8.5 8.5 0 1 1 21 11.5z"/></svg>' +
+      '<svg class="fab-ico-close" viewBox="0 0 24 24" aria-hidden="true" fill="none" ' +
+      'stroke="currentColor" stroke-width="2.1" stroke-linecap="round">' +
+      '<path d="M6 6l12 12M18 6L6 18"/></svg>';
     document.documentElement.appendChild(fab);
 
     var panel = el("div", { id: "ai-chat-panel", className: "ai-chat-panel closed" });
@@ -2279,23 +2323,37 @@
       '<path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>' +
       '<path d="M10 11v6M14 11v6"/></svg>';
     actions.appendChild(clearBtn);
-    // Minimise: hide the panel but keep the conversation + provider state,
-    // leaving just the chat FAB. Clicking the FAB restores it (focus returns).
-    var miniBtn = el("button", {
-      title: "Minimise (keep chat, hide panel)",
-      "aria-label": "Minimise chat panel",
+    // Dock: pin the panel to the bottom edge and give the page content
+    // matching bottom padding so the docked chat covers nothing. The panel
+    // can't be dragged while docked; undock (toggle again) to float it.
+    var dockBtn = el("button", {
+      title: "Dock chat to the bottom of the page",
+      "aria-label": "Dock chat to bottom",
+      className: "ai-chat-dock",
       onclick: function () {
         var p = document.getElementById("ai-chat-panel");
-        if (p) p.classList.add("closed");
-        panelOpen = false;
+        if (!p) return;
+        var docked = p.classList.toggle("docked");
+        document.body.classList.toggle("chat-docked", docked);
+        this.classList.toggle("active", docked);
+        try { localStorage.setItem("ai-chat-docked", docked ? "1" : "0"); } catch (e) {}
+        if (docked) {
+          // Reset any floating geometry so the docked layout is clean.
+          p.style.left = ""; p.style.top = ""; p.style.bottom = "";
+          p.style.width = ""; p.style.height = "";
+          panelPos.x = panelPos.y = panelPos.w = panelPos.h = null;
+          savePanelGeom();
+        }
       }
     });
-    miniBtn.innerHTML =
+    dockBtn.innerHTML =
       '<svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" fill="none" ' +
       'stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' +
-      '<path d="M5 12h14"/><path d="M5 18h14"/></svg>';
-    actions.appendChild(miniBtn);
-    actions.appendChild(el("button", { title: "Close", textContent: "\u2715", onclick: togglePanel }));
+      '<path d="M12 3v8"/><path d="M8 7l4 4 4-4"/><path d="M4 15h16v6H4z"/></svg>';
+    actions.appendChild(dockBtn);
+    // No close/minimise buttons here: the chat button (FAB) is the single
+    // toggle to open or collapse the panel, so the panel can never get stuck
+    // with no way back.
     header.appendChild(actions);
     panel.appendChild(header);
 
@@ -2353,8 +2411,8 @@
     // Collapsible left/right site side panels.
     buildSidebarToggles();
 
-    // Always-visible "share this page" QR button (full published URL).
-    buildPageQrButton();
+    // "Share this page" QR card in the right sidebar (full published URL).
+    buildSidebarQr();
     // Re-target the QR to the current page on in-app (SPA) navigation.
     document.addEventListener("nav", updatePageQr);
     window.addEventListener("popstate", updatePageQr);
