@@ -36,6 +36,26 @@
   if (window.__aiChatLoaded) return;
   window.__aiChatLoaded = true;
 
+  // This app registers NO service worker. But an earlier deployment left a
+  // stale SW on the origin in some browsers, and it intercepts fetches (a
+  // "no-op fetch handler") and 404s /static/knowledge-index.json. Unregister
+  // any SW present so the page reclaims itself and fetches hit the network.
+  (function clearStaleServiceWorker() {
+    if (!("serviceWorker" in navigator)) return;
+    try {
+      navigator.serviceWorker
+        .getRegistrations()
+        .then(function (regs) {
+          if (!regs.length) return;
+          regs.forEach(function (r) { r.unregister(); });
+          if (console && console.info) {
+            console.info("[ai-chat] removed " + regs.length + " stale service worker(s) (this site uses none)");
+          }
+        })
+        .catch(function () {});
+    } catch (e) {}
+  })();
+
   // ---- Config ----
   // Agent models: the only family WebLLM 0.2.85 supports for
   // OpenAI-style `tools` (grammar-constrained tool calling).
@@ -408,15 +428,30 @@
   }
 
   async function loadKnowledgeIndex() {
-    try {
-      var res = await fetch(BASE + "/static/knowledge-index.json", { cache: "force-cache" });
-      if (!res.ok) throw new Error("HTTP " + res.status);
-      knowledgeIndex = await res.json();
-      setStatus("ready", "Knowledge index loaded (" + knowledgeIndex.length + " notes)");
-    } catch (e) {
-      knowledgeIndex = [];
-      setStatus("error", "Knowledge index unavailable — retrieval off");
+    // Try several candidate URLs. Normally BASE is correct, but a stale
+    // service worker (left over from an earlier deployment on this origin)
+    // can put the browser at a path where BASE is empty while the file lives
+    // under the repo prefix — that produced a 404 on /static/knowledge-
+    // index.json. Fall back to the data-basepath and the root so the index
+    // loads regardless of which path the page is actually served from.
+    var bp = (document.body.dataset && document.body.dataset.basepath) || "";
+    var candidates = [BASE + "/static/knowledge-index.json"];
+    if (bp && bp !== BASE) candidates.push(bp + "/static/knowledge-index.json");
+    candidates.push("/static/knowledge-index.json");
+    for (var i = 0; i < candidates.length; i++) {
+      try {
+        var res = await fetch(candidates[i], { cache: "force-cache" });
+        if (!res.ok) continue;
+        var data = await res.json();
+        if (data && data.length) {
+          knowledgeIndex = data;
+          setStatus("ready", "Knowledge index loaded (" + data.length + " notes)");
+          return;
+        }
+      } catch (e) { /* try next candidate */ }
     }
+    knowledgeIndex = [];
+    setStatus("error", "Knowledge index unavailable — retrieval off");
   }
 
   function setStatus(state, msg) {

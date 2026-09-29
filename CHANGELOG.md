@@ -33,6 +33,18 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   the module count (crisp) with a 4-module quiet zone (scannable).
 
 ### Fixed
+- **404 on `/static/knowledge-index.json` + stale-service-worker "no-op fetch
+  handler" warning.** The site registers no service worker, but a stale SW left
+  on the origin by an earlier deployment was intercepting fetches in some
+  browsers. On load the widget now **unregisters any service worker present**
+  (self-heal, logged to console), and the knowledge-index fetch tries several
+  candidate URLs (repo-prefixed and root) so it loads no matter which path the
+  page is served from.
+- **Orphaned build file.** Removed the untracked, unreferenced
+  `.site/quartz/plugins/emitters/knowledgeIndex.ts` (a dead earlier draft of the
+  RAG emitter; the real one is wired via `./quartz/plugins/local/ai-chat`).
+
+### Fixed (earlier)
 - **In-browser model "Prompt tokens exceed context window size" (6623 > 4096).**
   WebLLM serializes every tool schema into the prompt, so the new 62-tool suite
   (~6,300 tokens) overflowed the Hermes-3-8B in-browser model's 4,096-token
