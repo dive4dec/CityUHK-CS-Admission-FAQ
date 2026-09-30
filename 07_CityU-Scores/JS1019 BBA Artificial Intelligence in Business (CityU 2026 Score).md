@@ -32,7 +32,6 @@ These are weighted admission scores and are not comparable across programmes or 
 
 ## Related
 
-- [[Cross-University Computing Score Comparison (2023-2025)]]
 - [[JS1019 BBA Information Management (CityU 2025 Score)]]
 - [[JS1019 BBA Information Management 20 19 (CityU 2024 Score)]]
 - [[JS1019 Bachelor of Business Administration in Information Manag (CityU 2023 Score)]]

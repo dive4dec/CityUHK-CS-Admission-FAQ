@@ -32,7 +32,6 @@ These are weighted admission scores and are not comparable across programmes or 
 
 ## Related
 
-- [[Cross-University Computing Score Comparison (2023-2025)]]
 - [[JS1805 Biomedical Sciences (Majors BSc Biological Sciences B (CityU 2025 Score)]]
 - [[JS1805 Department of Biomedical Sciences (options BSc Biologic (CityU 2024 Score)]]
 - [[JS1805 Department of Biomedical Sciences (options BSc Biologic (CityU 2023 Score)]]

@@ -34,7 +34,6 @@ These are weighted admission scores and are not comparable across programmes or 
 
 ## Related
 
-- [[Cross-University Computing Score Comparison (2023-2025)]]
 - [[JS1201 Architecture and Civil Engineering (Majors BEng Archite (CityU 2025 Score)]]
 - [[JS1201 Department of Architecture and Civil Engineering (option (CityU 2024 Score)]]
 - [[JS1201 Department of Architecture and Civil Engineering (CityU 2023 Score)]]

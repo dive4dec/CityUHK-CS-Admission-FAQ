@@ -34,7 +34,6 @@ These are weighted admission scores and are not comparable across programmes or 
 
 ## Related
 
-- [[Cross-University Computing Score Comparison (2023-2025)]]
 - [[JS1040 Creative Arts and Technology Excellence (CREATE) (Option (CityU 2025 Score)]]
 - [[JUPAS Score Conversion 5 5 5 4 3 2 1]]
 - [[JUPAS Flexible Admission Arrangement Explained]]

@@ -32,7 +32,6 @@ These are weighted admission scores and are not comparable across programmes or 
 
 ## Related
 
-- [[Cross-University Computing Score Comparison (2023-2025)]]
 - [[JS1051 Energy and Environment (Majors BEng Energy Science and (CityU 2025 Score)]]
 - [[JS1051 School of Energy and Environment (options BEng Energy S (CityU 2024 Score)]]
 - [[JS1051 School of Energy and Environment (CityU 2023 Score)]]

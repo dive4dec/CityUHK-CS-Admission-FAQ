@@ -34,7 +34,6 @@ These are weighted admission scores and are not comparable across programmes or 
 
 ## Related
 
-- [[Cross-University Computing Score Comparison (2023-2025)]]
 - [[JS1205 Electrical Engineering (Majors BEng Computer and Data E (CityU 2025 Score)]]
 - [[JS1205 Department of Electrical Engineering (options BEng Comp (CityU 2024 Score)]]
 - [[JS1205 Department of Electrical Engineering (options BEng Comp (CityU 2023 Score)]]

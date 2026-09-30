@@ -32,7 +32,6 @@ These are weighted admission scores and are not comparable across programmes or 
 
 ## Related
 
-- [[Cross-University Computing Score Comparison (2023-2025)]]
 - [[JS1000 BSc Computational Finance and Financial Technology (CityU 2025 Score)]]
 - [[JS1000 BSc Computational Finance and Financial Technology (CityU 2024 Score)]]
 - [[JS1000 Bachelor of Science in Computational Finance and Financi (CityU 2023 Score)]]

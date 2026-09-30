@@ -32,7 +32,6 @@ These are weighted admission scores and are not comparable across programmes or 
 
 ## Related
 
-- [[Cross-University Computing Score Comparison (2023-2025)]]
 - [[JS1018 BBA Global Business Systems Management (CityU 2025 Score)]]
 - [[JS1018 BBA Global Business Systems Management (CityU 2024 Score)]]
 - [[JS1018 Bachelor of Business Administration in Global Business S (CityU 2023 Score)]]

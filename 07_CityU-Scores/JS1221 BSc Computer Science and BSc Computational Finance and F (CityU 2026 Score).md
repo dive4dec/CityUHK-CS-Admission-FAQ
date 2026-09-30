@@ -35,7 +35,6 @@ These are weighted admission scores and are not comparable across programmes or 
 - [[JS1221 Double Degree Overview]]
 - [[Double Degree Requirements and Structure]]
 - [[JS1204 BSc Computer Science Overview]]
-- [[Cross-University Computing Score Comparison (2023-2025)]]
 - [[JS1221 BSc Computer Science and BSc Computational Finance and F (CityU 2025 Score)]]
 - [[JS1221 BSc Computer Science and BSc Computational Finance and F (CityU 2024 Score)]]
 - [[JS1221 Bachelor of Science in Computer Science and Bachelor of (CityU 2023 Score)]]

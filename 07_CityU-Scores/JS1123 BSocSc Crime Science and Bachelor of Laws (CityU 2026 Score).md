@@ -32,7 +32,6 @@ These are weighted admission scores and are not comparable across programmes or 
 
 ## Related
 
-- [[Cross-University Computing Score Comparison (2023-2025)]]
 - [[JS1123 BSocSc Crime Science and Bachelor of Laws (Double Degree (CityU 2025 Score)]]
 - [[JS1123 BSocSc Criminology and Bachelor of Laws (CityU 2024 Score)]]
 - [[JS1123 Bachelor of Social Sciences in Criminology and Bachelor (CityU 2023 Score)]]

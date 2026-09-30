@@ -1,7 +1,7 @@
 ---
 title: "CityUHK Tuition Fees"
 type: faq
-area: 11_Misc
+area: 01_JUPAS-Basics
 vault: CityUHK-CS-Admission-FAQ
 retrieved: "2026-09"
 status: verified

@@ -32,7 +32,6 @@ These are weighted admission scores and are not comparable across programmes or 
 
 ## Related
 
-- [[Cross-University Computing Score Comparison (2023-2025)]]
 - [[JS1014 BBA Finance (CityU 2025 Score)]]
 - [[JS1014 BBA Finance 20 19 (CityU 2024 Score)]]
 - [[JS1014 Bachelor of Business Administration in Finance (CityU 2023 Score)]]

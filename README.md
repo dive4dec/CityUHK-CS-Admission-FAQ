@@ -2,10 +2,10 @@
 
 Interlinked Obsidian FAQ vault for **City University of Hong Kong (CityUHK) — Department of Computer Science / College of Computing** undergraduate admission. Built for parents and students applying through **JUPAS** and **non-JUPAS** (Year 1 / Advanced Standing I & II / IB / GCE A-Level).
 
-- **~700 notes** across 12 topic areas, all cross-linked with `[[wikilinks]]`
+- **~700 notes** across 9 topic areas, all cross-linked with `[[wikilinks]]`
 - JUPAS score formulas, the **1.5× weighting policy**, published score history (2023–2026), worked examples
 - Non-JUPAS routes, programme overviews (BSc CS `JS1204`, BSc Cybersecurity `JS1218`, double degree `JS1221`, ACT, Data Science), curriculum and the mandatory **ITPP internship**
-- Cross-university comparisons (HKU / CUHK / HKUST / PolyU) and the **"What's My Score?" calculator** (weight-1 + 1.5× versions + recommendation)
+- the **"What's My Score?" calculator** (weight-1 + 1.5× versions + recommendation)
 
 ## Read Online (GitHub Pages)
 
@@ -53,9 +53,6 @@ CityUHK-CS-Admission-FAQ/
 ├── 05_Programmes/      # programme overviews, double degree
 ├── 06_Courses/         # one note per CS course (91)
 ├── 07_CityU-Scores/    # per programme per year 2023-2026 (222)
-├── 08_Rival-Scores/    # HKU/HKUST/PolyU 2023-2025 (307)
-├── 10_Compare/         # cross-university comparisons
-├── 11_Misc/            # tuition fees
 ├── index.md            # home page (site entry)
 ├── .obsidian/          # shared Obsidian config
 ├── .site/              # Quartz static site generator (GitHub Pages)

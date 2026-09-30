@@ -34,7 +34,6 @@ These are weighted admission scores and are not comparable across programmes or 
 
 ## Related
 
-- [[Cross-University Computing Score Comparison (2023-2025)]]
 - [[JS1207 Mechanical Engineering (Majors BEng Aerospace Engineeri (CityU 2025 Score)]]
 - [[JS1207 Department of Mechanical Engineering (options BEng Aero (CityU 2024 Score)]]
 - [[JS1207 Department of Mechanical Engineering (CityU 2023 Score)]]

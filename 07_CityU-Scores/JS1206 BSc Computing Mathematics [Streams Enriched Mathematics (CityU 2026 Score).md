@@ -34,7 +34,6 @@ These are weighted admission scores and are not comparable across programmes or 
 
 ## Related
 
-- [[Cross-University Computing Score Comparison (2023-2025)]]
 - [[JS1206 BSc Computing Mathematics (Streams Enriched Mathematics (CityU 2025 Score)]]
 - [[JS1206 BSc Computing Mathematics (CityU 2024 Score)]]
 - [[JS1206 Bachelor of Science in Computing Mathematics (CityU 2023 Score)]]

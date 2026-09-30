@@ -34,7 +34,6 @@ These are weighted admission scores and are not comparable across programmes or 
 
 ## Related
 
-- [[Cross-University Computing Score Comparison (2023-2025)]]
 - [[JS1200 Global Research Enrichment and Technopreneurship (GREAT) (CityU 2025 Score)]]
 - [[JS1200 Global Research Enrichment and Technopreneurship (GREAT) (CityU 2024 Score)]]
 - [[JUPAS Score Conversion 5 5 5 4 3 2 1]]

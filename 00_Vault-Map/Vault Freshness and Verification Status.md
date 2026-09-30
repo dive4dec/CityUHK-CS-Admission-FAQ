@@ -32,7 +32,6 @@ Published admission scores are **reference points, not cut-offs**: they describe
 
 - [[Where to Find the Official Documents Cited in This Vault]]
 - [[1.5x Subject Weighting Policy (Draft) Status]]
-- [[Why Scores Cannot Be Compared Across Universities]]
 - [[JS1204 JUPAS Admission Score History]]
 
 ## Source

@@ -36,7 +36,6 @@ These are weighted admission scores and are not comparable across programmes or 
 
 - [[JS1071 Data Science Majors Overview]]
 - [[BSc Data Science vs CS Data Science Stream]]
-- [[Cross-University Computing Score Comparison (2023-2025)]]
 - [[JS1071 Data Science (Majors BSc Data Science BSc Data and Sy (CityU 2025 Score)]]
 - [[JS1071 School of Data Science (options BSc Data Science, BSc D (CityU 2024 Score)]]
 - [[JS1071 School of Data Science (options BSc Data Science, BSc D (CityU 2023 Score)]]

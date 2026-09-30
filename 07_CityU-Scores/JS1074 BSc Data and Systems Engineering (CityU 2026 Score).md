@@ -36,7 +36,6 @@ These are weighted admission scores and are not comparable across programmes or 
 
 - [[JS1074 BSc Data and Systems Engineering Overview]]
 - [[JS1071 Data Science Majors Overview]]
-- [[Cross-University Computing Score Comparison (2023-2025)]]
 - [[JS1074 BSc Data and Systems Engineering (CityU 2025 Score)]]
 - [[JS1074 BSc Data and Systems Engineering 26 25 5 (CityU 2024 Score)]]
 - [[JS1074 Bachelor of Science in Data and Systems Engineering (CityU 2023 Score)]]

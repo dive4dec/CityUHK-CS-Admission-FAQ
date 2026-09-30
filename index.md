@@ -9,7 +9,7 @@ status: verified
 
 # CityUHK CS Admission FAQ
 
-A plain-language FAQ vault for **City University of Hong Kong (CityUHK) — Department of Computer Science** undergraduate admission: **700 interlinked notes** covering JUPAS scoring, published scores 2023–2026, the new 1.5× weighting policy, non-JUPAS routes (ASI / ASII / IB / GCE A-Level), the curriculum, all programmes, internships, careers, and how CityUHK compares with HKU, CUHK, HKUST and PolyU. Built for **parents and students** deciding whether and how to apply.
+A plain-language FAQ vault for **City University of Hong Kong (CityUHK) — Department of Computer Science** undergraduate admission: **700 interlinked notes** covering JUPAS scoring, published scores 2023–2026, the new 1.5× weighting policy, non-JUPAS routes (ASI / ASII / IB / GCE A-Level), the curriculum, all programmes, internships, careers, and how CityUHK CS compares with other universities. Built for **parents and students** deciding whether and how to apply.
 
 ## ⚡ Check your score right now
 
@@ -42,8 +42,8 @@ The calculator computes your admission score **two ways** — CityUHK's publishe
 - [[JUPAS Fees and Charges]] — application and acceptance fees
 
 **Choosing between programmes:**
-- [[CS vs Data Science vs Cybersecurity Choosing at CityUHK]]
-- [[Cross-University Computing Score Comparison (2023-2025)]] — HKU / HKUST / PolyU / CityUHK, compared correctly
+- [[CS vs Cybersecurity Key Differences]] — CS vs the standalone Cybersecurity programme, clearly
+- [[BSc Data Science vs CS Data Science Stream]] — the DS route inside CS vs the separate Data Science programme
 - [[JUPAS Band Choices Explained]] — how to place your 10 choices
 
 ## Browse all topics
@@ -56,9 +56,7 @@ The calculator computes your admission score **two ways** — CityUHK's publishe
 - [[JS1221 Double Degree Overview]] — programme overviews and the double degree
 - [[CS Core Courses Explained]] — one note per CS course (91 courses)
 - [[JS1204 BSc Computer Science (CityU 2026 Score)]] — every CityU programme, every year 2023–2026 (222 notes)
-- [[Rival University Score Scales Explained]] — HKU, HKUST, PolyU published scores (307 notes)
 - [🧮 What's My Score?](/static/score-checker.html) — "my grades are X → score + 1.5× version + recommendation" (replaces the old per-profile lookup notes)
-- [[Cross-University Computing Score Comparison (2023-2025)]] — scales, weighting formulas, honest comparison
 - [[CityUHK Tuition Fees]] — costs and practicalities
 
 > [!warning] Before you apply

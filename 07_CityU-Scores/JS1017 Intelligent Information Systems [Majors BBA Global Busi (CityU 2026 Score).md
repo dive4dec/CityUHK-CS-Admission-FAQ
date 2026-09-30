@@ -32,7 +32,6 @@ These are weighted admission scores and are not comparable across programmes or 
 
 ## Related
 
-- [[Cross-University Computing Score Comparison (2023-2025)]]
 - [[JS1017 Information Systems (Majors BBA Global Business Systems (CityU 2025 Score)]]
 - [[JS1017 Department of Information Systems (options BBA Global B (CityU 2024 Score)]]
 - [[JS1017 Department of Information Systems (CityU 2023 Score)]]

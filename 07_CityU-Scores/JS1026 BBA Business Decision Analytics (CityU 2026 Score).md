@@ -32,7 +32,6 @@ These are weighted admission scores and are not comparable across programmes or 
 
 ## Related
 
-- [[Cross-University Computing Score Comparison (2023-2025)]]
 - [[JS1026 BBA Business Decision Analytics (CityU 2025 Score)]]
 - [[JS1026 BBA Business Decision Analytics 19 19 (CityU 2024 Score)]]
 - [[JS1026 Bachelor of Business Administration in Business Decision (CityU 2023 Score)]]

@@ -34,7 +34,6 @@ These are weighted admission scores and are not comparable across programmes or 
 
 ## Related
 
-- [[Cross-University Computing Score Comparison (2023-2025)]]
 - [[JS1109 BA Linguistics and Language Applications (CityU 2025 Score)]]
 - [[JS1109 BA Linguistics and Language Applications (CityU 2024 Score)]]
 - [[JS1109 Bachelor of Arts in Linguistics and Language Application (CityU 2023 Score)]]

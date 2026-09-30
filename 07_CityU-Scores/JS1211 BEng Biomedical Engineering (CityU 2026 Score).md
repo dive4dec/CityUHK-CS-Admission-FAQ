@@ -34,7 +34,6 @@ These are weighted admission scores and are not comparable across programmes or 
 
 ## Related
 
-- [[Cross-University Computing Score Comparison (2023-2025)]]
 - [[JS1211 BEng Biomedical Engineering (CityU 2025 Score)]]
 - [[JS1211 BEng Biomedical Engineering (CityU 2024 Score)]]
 - [[JS1211 Bachelor of Engineering in Biomedical Engineering (CityU 2023 Score)]]

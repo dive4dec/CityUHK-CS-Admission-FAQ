@@ -34,7 +34,6 @@ These are weighted admission scores and are not comparable across programmes or 
 
 ## Related
 
-- [[Cross-University Computing Score Comparison (2023-2025)]]
 - [[JS1113 BSocSc Social Work (CityU 2025 Score)]]
 - [[JS1113 BSocSc Social Work 22 21 College of Science (CityU 2024 Score)]]
 - [[JS1113 Bachelor of Social Sciences in Social Work (CityU 2023 Score)]]

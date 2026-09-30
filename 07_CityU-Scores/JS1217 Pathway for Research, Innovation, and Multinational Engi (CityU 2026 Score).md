@@ -34,7 +34,6 @@ These are weighted admission scores and are not comparable across programmes or 
 
 ## Related
 
-- [[Cross-University Computing Score Comparison (2023-2025)]]
 - [[JS1217 Pathway for Research, Innovation, and Multinational Engi (CityU 2025 Score)]]
 - [[JS1217 Pathway for Research, Innovation, and Multinational Engi (CityU 2024 Score)]]
 - [[JS1217 College of Engineering (option any major in College of (CityU 2023 Score)]]

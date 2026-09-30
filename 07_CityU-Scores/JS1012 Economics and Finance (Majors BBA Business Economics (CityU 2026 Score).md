@@ -32,7 +32,6 @@ These are weighted admission scores and are not comparable across programmes or 
 
 ## Related
 
-- [[Cross-University Computing Score Comparison (2023-2025)]]
 - [[JS1012 Economics and Finance (Majors BBA Business Economics (CityU 2025 Score)]]
 - [[JS1012 Department of Economics and Finance (options BBA Busine (CityU 2024 Score)]]
 - [[JS1012 Department of Economics and Finance (options BBA Busine (CityU 2023 Score)]]

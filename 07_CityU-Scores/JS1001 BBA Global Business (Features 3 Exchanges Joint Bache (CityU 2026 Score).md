@@ -34,7 +34,6 @@ These are weighted admission scores and are not comparable across programmes or 
 
 ## Related
 
-- [[Cross-University Computing Score Comparison (2023-2025)]]
 - [[JS1001 BBA Global Business (Features 3 Exchanges Joint Bachelo (CityU 2025 Score)]]
 - [[JS1001 BBA Global Business (CityU 2024 Score)]]
 - [[JS1001 Bachelor of Business Administration in Global Business (CityU 2023 Score)]]

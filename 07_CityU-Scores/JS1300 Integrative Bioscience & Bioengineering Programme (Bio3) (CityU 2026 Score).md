@@ -30,7 +30,6 @@ Subject weightings (2026): 2: English / Biology /; 1.5: Mathematics /; 1: other 
 
 ## Related
 
-- [[Cross-University Computing Score Comparison (2023-2025)]]
 - [[JUPAS Score Conversion 5 5 5 4 3 2 1]]
 - [[JUPAS Flexible Admission Arrangement Explained]]
 - [[JS1204 JUPAS Admission Score History]]

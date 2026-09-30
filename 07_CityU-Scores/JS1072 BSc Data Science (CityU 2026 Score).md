@@ -37,7 +37,6 @@ These are weighted admission scores and are not comparable across programmes or 
 - [[JS1072 BSc Data Science Overview]]
 - [[CS Data Science Stream Courses]]
 - [[BSc Data Science vs CS Data Science Stream]]
-- [[Cross-University Computing Score Comparison (2023-2025)]]
 - [[JS1072 BSc Data Science (CityU 2025 Score)]]
 - [[JS1072 BSc Data Science 26 26 (CityU 2024 Score)]]
 - [[JS1072 Bachelor of Science in Data Science (CityU 2023 Score)]]

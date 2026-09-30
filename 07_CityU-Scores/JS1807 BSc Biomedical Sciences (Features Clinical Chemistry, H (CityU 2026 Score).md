@@ -32,7 +32,6 @@ These are weighted admission scores and are not comparable across programmes or 
 
 ## Related
 
-- [[Cross-University Computing Score Comparison (2023-2025)]]
 - [[JS1807 BSc Biomedical Sciences (Features Clinical Chemistry, H (CityU 2025 Score)]]
 - [[JS1807 BSc Biomedical Sciences 37 36.5 School of Creative Media (CityU 2024 Score)]]
 - [[JS1807 Bachelor of Science in Biomedical Sciences (CityU 2023 Score)]]

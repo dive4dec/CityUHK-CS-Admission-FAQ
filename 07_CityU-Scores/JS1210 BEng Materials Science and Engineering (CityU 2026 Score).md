@@ -34,7 +34,6 @@ These are weighted admission scores and are not comparable across programmes or 
 
 ## Related
 
-- [[Cross-University Computing Score Comparison (2023-2025)]]
 - [[JS1210 BEng Materials Science and Engineering (CityU 2025 Score)]]
 - [[JS1210 BEng Materials Science and Engineering (CityU 2024 Score)]]
 - [[JS1210 Bachelor of Engineering in Materials Science and Enginee (CityU 2023 Score)]]

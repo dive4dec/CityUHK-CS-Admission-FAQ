@@ -34,7 +34,6 @@ These are weighted admission scores and are not comparable across programmes or 
 
 ## Related
 
-- [[Cross-University Computing Score Comparison (2023-2025)]]
 - [[JS1108 BSocSc Public Affairs and Management (CityU 2025 Score)]]
 - [[JS1108 BSocSc Public Affairs and Management (CityU 2024 Score)]]
 - [[JS1108 Bachelor of Social Sciences in Public Policy and Politic (CityU 2023 Score)]]

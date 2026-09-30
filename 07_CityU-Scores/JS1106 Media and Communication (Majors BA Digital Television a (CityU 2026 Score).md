@@ -34,7 +34,6 @@ These are weighted admission scores and are not comparable across programmes or 
 
 ## Related
 
-- [[Cross-University Computing Score Comparison (2023-2025)]]
 - [[JS1106 Media and Communication (Majors BA Digital Television a (CityU 2025 Score)]]
 - [[JS1106 Department of Media and Communication (options BA Digit (CityU 2024 Score)]]
 - [[JS1106 Department of Media and Communication (CityU 2023 Score)]]

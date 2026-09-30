@@ -34,7 +34,6 @@ These are weighted admission scores and are not comparable across programmes or 
 
 ## Related
 
-- [[Cross-University Computing Score Comparison (2023-2025)]]
 - [[JS1044 BAS New Media (CityU 2025 Score)]]
 - [[JS1044 BAS New Media (CityU 2024 Score)]]
 - [[JS1044 Bachelor of Arts and Science in New Media (CityU 2023 Score)]]

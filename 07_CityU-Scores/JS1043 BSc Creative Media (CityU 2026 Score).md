@@ -34,7 +34,6 @@ These are weighted admission scores and are not comparable across programmes or 
 
 ## Related
 
-- [[Cross-University Computing Score Comparison (2023-2025)]]
 - [[JS1043 BSc Creative Media (CityU 2025 Score)]]
 - [[JS1043 BSc Creative Media (CityU 2024 Score)]]
 - [[JS1043 Bachelor of Science in Creative Media (CityU 2023 Score)]]

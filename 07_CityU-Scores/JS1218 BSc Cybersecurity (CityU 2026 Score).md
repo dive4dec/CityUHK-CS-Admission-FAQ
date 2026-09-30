@@ -36,7 +36,6 @@ These are weighted admission scores and are not comparable across programmes or 
 - [[BSc Cybersecurity Curriculum]]
 - [[CS vs Cybersecurity Key Differences]]
 - [[1.5x Subject Weighting Policy (Draft) Status]]
-- [[Cross-University Computing Score Comparison (2023-2025)]]
 - [[JS1218 BSc Cybersecurity (CityU 2025 Score)]]
 - [[JUPAS Score Conversion 5 5 5 4 3 2 1]]
 - [[JUPAS Flexible Admission Arrangement Explained]]
