@@ -4,18 +4,27 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>What's My Score? — CityUHK CS Admission FAQ</title>
-<meta name="description" content="Enter your 5 best HKDSE subjects and see your CityUHK JUPAS admission score (published formula + 1.5x policy range) and how it compares with the published BSc Computer Science / Cybersecurity medians.">
+<meta name="description" content="Enter your 5 best HKDSE subjects and see your CityUHK JUPAS admission score under the published weight-1 best-5 formula AND the new 1.5x weighting policy, with a plain-language recommendation against the published BSc Computer Science / Cybersecurity medians.">
 <style>
   :root { color-scheme: light dark; }
   body { font-family: "Source Sans Pro", -apple-system, "Segoe UI", Roboto, sans-serif; max-width: 860px; margin: 0 auto; padding: 1.2rem 1rem 3rem; line-height: 1.55; }
   h1 { font-size: 1.7rem; margin-bottom: 0.2rem; }
+  h2 { font-size: 1.15rem; margin: 1.4rem 0 0.5rem; }
   .sub { opacity: 0.75; margin-top: 0; }
   .box { border: 1px solid rgba(128,128,128,0.35); border-radius: 12px; padding: 1.1rem 1.2rem; margin: 1.1rem 0; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.7rem 1rem; }
-  label { display: block; font-size: 0.85rem; opacity: 0.8; margin-bottom: 0.25rem; }
-  select { width: 100%; padding: 0.45rem 0.5rem; font-size: 1rem; border-radius: 8px; border: 1px solid rgba(128,128,128,0.5); background: transparent; color: inherit; }
+  label { display: block; font-size: 0.82rem; opacity: 0.8; margin-bottom: 0.25rem; }
+  select { width: 100%; padding: 0.45rem 0.5rem; font-size: 0.98rem; border-radius: 8px; border: 1px solid rgba(128,128,128,0.5); background: transparent; color: inherit; }
+  .row { display: grid; grid-template-columns: 0.9fr 1.3fr auto; gap: 0.6rem; align-items: end; margin: 0.45rem 0; }
+  @media (max-width: 520px) { .row { grid-template-columns: 1fr 1fr; } .row .pts { grid-column: 1 / -1; } }
+  .pts { font-size: 0.8rem; opacity: 0.75; text-align: right; min-width: 88px; padding-bottom: 0.5rem; white-space: nowrap; }
   .result { font-size: 1.02rem; }
   .big { font-size: 1.45rem; font-weight: 700; }
+  .scorepair { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin: 0.4rem 0 0.8rem; }
+  @media (max-width: 560px) { .scorepair { grid-template-columns: 1fr; } }
+  .scorecard { border: 1px solid rgba(128,128,128,0.35); border-radius: 10px; padding: 0.7rem 0.9rem; }
+  .scorecard .tag { font-size: 0.76rem; font-weight: 600; opacity: 0.75; text-transform: uppercase; letter-spacing: 0.03em; }
+  .scorecard .val { font-size: 1.5rem; font-weight: 700; }
+  .scorecard .note { font-size: 0.82rem; opacity: 0.75; }
   .pill { display: inline-block; padding: 0.1rem 0.55rem; border-radius: 999px; font-size: 0.82rem; font-weight: 600; }
   .ok { background: #1c7c3533; } .mid { background: #b07d0033; } .low { background: #a12a2a33; }
   table { border-collapse: collapse; margin: 0.6rem 0; }
@@ -24,24 +33,23 @@
   a { color: #284b63; }
   .muted { font-size: 0.85rem; opacity: 0.72; }
   .home { font-size: 0.9rem; }
+  .warn { border-left: 3px solid #b07d00; background: #b07d0018; padding: 0.55rem 0.8rem; border-radius: 6px; font-size: 0.9rem; margin: 0.7rem 0; }
+  ul.tips { margin: 0.5rem 0 0; padding-left: 1.2rem; }
+  ul.tips li { margin: 0.35rem 0; }
 </style>
 </head>
 <body>
 <p class="home"><a href="../">← Back to CityUHK CS Admission FAQ home</a></p>
 <h1>What's My Score?</h1>
-<p class="sub">Pick your 5 best HKDSE subjects (any order). We compute your JUPAS admission score for CityUHK Computer Science under the published formula and under the new 1.5× weighting policy, then compare with the published 2026 medians.</p>
+<p class="sub">Pick your 5 best HKDSE subjects. For each, choose its <em>level</em> and <em>which subject</em> it is (so the calculator knows which count at the new 1.5× weighting). You'll get <strong>two</strong> scores and a plain-English recommendation.</p>
 
 <div class="box">
-  <div class="grid">
-    <div><label>Best subject 1</label><select id="s1"></select></div>
-    <div><label>Best subject 2</label><select id="s2"></select></div>
-    <div><label>Best subject 3</label><select id="s3"></select></div>
-    <div><label>Best subject 4</label><select id="s4"></select></div>
-    <div><label>Best subject 5</label><select id="s5"></select></div>
-  </div>
+  <h2 style="margin-top:0">Your 5 best subjects</h2>
+  <div id="rows"></div>
+  <p class="muted">Any order — the calculator takes your five as entered. The 1.5× subjects are <strong>English, Mathematics (core), ICT, M1, M2, Physics, Chemistry, Biology</strong>. All other electives count at weight 1. The published 2026 formula still uses weight 1 — that's why <em>both</em> scores are shown.</p>
 </div>
 
-<div class="box result" id="out" aria-live="polite">Pick your five subjects to see your score.</div>
+<div class="box result" id="out" aria-live="polite">Pick your five subjects to see your scores and recommendation.</div>
 
 <div class="box">
   <strong>Reference: published CityUHK admission scores (Main Round)</strong>
@@ -50,7 +58,7 @@
     <tr><td>JS1204 BSc Computer Science</td><td>20.5</td><td>23</td><td>22</td></tr>
     <tr><td>JS1218 BSc Cybersecurity</td><td>— (new)</td><td>20.5</td><td>20.5</td></tr>
   </table>
-  <p class="muted">2023/2024 figures used the old level-point conversion and are not comparable with 2025+. Scores are <em>reference points, not cut-offs</em>; the 1.5× policy (English, Mathematics, ICT, M1, M2, Physics, Chemistry, Biology at 1.5×) is promoted by the CS admissions team but <em>may or may not be reflected</em> in the published formula for your entry year — always confirm the current year's official formula.</p>
+  <p class="muted">2023/2024 figures used the old level-point conversion and are not comparable with 2025+. Scores are <em>reference points, not cut-offs</em>. The 1.5× policy is promoted by the CS admissions team but <em>may or may not be reflected</em> in the published formula for your entry year — always confirm the current year's official formula on <a href="https://admission.cs.cityu.edu.hk/">admission.cs.cityu.edu.hk</a>.</p>
 </div>
 
 <script>
@@ -59,59 +67,134 @@
 const PTS = { "5**": 8.5, "5*": 7, "5": 5.5, "4": 4, "3": 3, "2": 2, "1": 1, "Unclassified": 0 };
 const OPTS = ["5**", "5*", "5", "4", "3", "2", "1", "Unclassified"];
 const LABEL = { "5**": "5** (8.5)", "5*": "5* (7)", "5": "5 (5.5)", "4": "4 (4)", "3": "3 (3)", "2": "2 (2)", "1": "1 (1)", "Unclassified": "Unclassified (0)" };
-// title-safe labels used by the vault lookup note filenames
-const TITLE = { "5**": "5 double-star", "5*": "5 star", "5": "5", "4": "4", "3": "3", "2": "2", "1": "1" };
 
-for (let i = 1; i <= 5; i++) {
-  const sel = document.getElementById("s" + i);
+// Subjects. The 1.5x list matches the CS admissions team's new weighting
+// policy; everything else is a weight-1 elective.
+const SUBJECTS = [
+  { id: "english",   name: "English (1.5×)",                     weighted: true },
+  { id: "maths",     name: "Mathematics Core (1.5×)",            weighted: true },
+  { id: "ict",       name: "ICT (1.5×)",                         weighted: true },
+  { id: "m1",        name: "M1 — Mathematical Methods 1 (1.5×)", weighted: true },
+  { id: "m2",        name: "M2 — Further Maths (1.5×)",          weighted: true },
+  { id: "physics",   name: "Physics (1.5×)",                     weighted: true },
+  { id: "chem",      name: "Chemistry (1.5×)",                   weighted: true },
+  { id: "bio",       name: "Biology (1.5×)",                     weighted: true },
+  { id: "other",     name: "Other elective (weight 1)",          weighted: false }
+];
+// Sensible defaults so the page renders a realistic CS profile immediately.
+const DEFAULT_LEVELS = ["5", "5", "5", "5", "4"];
+const DEFAULT_SUBJECTS = ["english", "maths", "ict", "physics", "other"];
+
+const CS  = { med: 23,  lq: 22 };      // JS1204 BSc CS 2026 (published weight-1)
+const CYB = { med: 20.5, lq: 20.5 };   // JS1218 BSc Cybersecurity 2026 (published weight-1)
+
+const fnum = x => (Math.round(x * 100) / 100).toString();
+
+// Build the 5 input rows.
+const rows = document.getElementById("rows");
+for (let i = 0; i < 5; i++) {
+  const row = document.createElement("div");
+  row.className = "row";
+  const lvlWrap = document.createElement("div");
+  const lvlLabel = document.createElement("label");
+  lvlLabel.textContent = "Subject " + (i + 1) + " — level";
+  const lvl = document.createElement("select");
+  lvl.id = "lvl" + i;
   OPTS.forEach(o => {
     const op = document.createElement("option");
     op.value = o; op.textContent = LABEL[o];
-    if (o === "5") op.selected = true;
-    sel.appendChild(op);
+    if (o === DEFAULT_LEVELS[i]) op.selected = true;
+    lvl.appendChild(op);
   });
-  sel.addEventListener("change", render);
+  lvlWrap.appendChild(lvlLabel); lvlWrap.appendChild(lvl);
+
+  const subWrap = document.createElement("div");
+  const subLabel = document.createElement("label");
+  subLabel.textContent = "Subject " + (i + 1) + " — which subject";
+  const sub = document.createElement("select");
+  sub.id = "sub" + i;
+  SUBJECTS.forEach(s => {
+    const op = document.createElement("option");
+    op.value = s.id; op.textContent = s.name;
+    if (s.id === DEFAULT_SUBJECTS[i]) op.selected = true;
+    sub.appendChild(op);
+  });
+  subWrap.appendChild(subLabel); subWrap.appendChild(sub);
+
+  const pts = document.createElement("div");
+  pts.className = "pts";
+  pts.id = "pts" + i;
+
+  row.appendChild(lvlWrap); row.appendChild(subWrap); row.appendChild(pts);
+  rows.appendChild(row);
+  lvl.addEventListener("change", render);
+  sub.addEventListener("change", render);
 }
 
-const fnum = x => (Math.round(x * 100) / 100).toString();
-const CS = { med: 23, lq: 22 };      // JS1204 BSc CS 2026
-const CYB = { med: 20.5, lq: 20.5 }; // JS1218 BSc Cybersecurity 2026
+function subjectById(id) {
+  for (let k = 0; k < SUBJECTS.length; k++) if (SUBJECTS[k].id === id) return SUBJECTS[k];
+  return SUBJECTS[SUBJECTS.length - 1];
+}
+
+// Recommendation logic — based ONLY on the weight-1 best-5, because every
+// published admission score in the reference table is weight-1.
+function recommend(total) {
+  if (total >= CS.med) {
+    return { cls: "ok", label: "STRONG",
+      text: "at/above the 2026 BSc Computer Science median (23) — a Main Round offer for JS1204 was realistic, and you also clear the Cybersecurity median (20.5). A strong first choice." };
+  }
+  if (total >= CS.lq) {
+    return { cls: "mid", label: "CONTESTED",
+      text: "between the 2026 BSc CS lower quartile (22) and median (23) — competitive but on the riskier side. Pair a first choice of JS1204 with a realistic second (e.g. JS1218 Cybersecurity, median 20.5), and know the <a href='../01_jupas-basics/jupas-flexible-admission-arrangement-explained.html'>flexible admission arrangement</a> can help." };
+  }
+  if (total >= CYB.med) {
+    return { cls: "mid", label: "CONTESTED",
+      text: "below the 2026 BSc CS lower quartile (22) but at/above the BSc Cybersecurity median (20.5) — JS1218 is the realistic Main Round target, with CS a stretch choice." };
+  }
+  return { cls: "low", label: "BELOW RANGE",
+    text: "below the 2026 lower quartiles of both programmes — a Main Round CS offer at the published weight-1 formula was unlikely. Options: the <a href='../01_jupas-basics/jupas-flexible-admission-arrangement-explained.html'>flexible admission arrangement</a> (special talents / achievements), a strong second-year entry after improving grades, or the <a href='../03_nonjupas/bsc-cs-non-jupas-code-1561a.html'>non-JUPAS route (1561A)</a>." };
+}
 
 function render() {
-  const picks = [1, 2, 3, 4, 5].map(i => document.getElementById("s" + i).value);
-  const total = picks.reduce((s, p) => s + PTS[p], 0);
-  const lo = total, hi = 1.5 * total;
-  let verdict, cls;
-  if (total >= CS.med) {
-    verdict = "above the 2026 BSc CS median (23) — a realistic Main Round offer for JS1204, and above the Cybersecurity median (20.5) too.";
-    cls = "ok";
-  } else if (total >= CS.lq) {
-    verdict = "between the 2026 BSc CS lower quartile (22) and median (23) — competitive but on the riskier side; consider a strong second choice or the flexible-admission arrangement.";
-    cls = "mid";
-  } else {
-    verdict = "below the 2026 BSc CS lower quartile (22) — a Main Round CS offer was unlikely at the published weight-1 formula without flexible admission or a non-JUPAS route.";
-    cls = "low";
+  let total1 = 0, exact15 = 0, weightedCount = 0;
+  const parts = [];
+  for (let i = 0; i < 5; i++) {
+    const level = document.getElementById("lvl" + i).value;
+    const subj = subjectById(document.getElementById("sub" + i).value);
+    const p = PTS[level];
+    total1 += p;
+    exact15 += subj.weighted ? 1.5 * p : p;
+    if (subj.weighted) weightedCount++;
+    parts.push(subj.name.replace(/ \(1\.5×\)/, "").replace(" Core", "") + " " + level + " → " + fnum(subj.weighted ? 1.5 * p : p) + (subj.weighted ? " (1.5×)" : " (1×)"));
+    document.getElementById("pts" + i).textContent = subj.weighted
+      ? fnum(1.5 * p) + " @1.5×"
+      : fnum(p) + " @1×";
   }
-  // link to the full worked note for this exact profile (exists only for
-  // graded profiles totalling >= 18; unclassified grades have no note)
-  let noteLink = "";
-  const allGraded = picks.every(p => p !== "Unclassified");
-  if (allGraded && total >= 18) {
-    const sorted = picks.slice().sort((a, b) => PTS[b] - PTS[a]);
-    const slug = "score-lookup-best-5-=-" + sorted.map(p => TITLE[p]).join(", ").replace(/ /g, "-");
-    noteLink = '<p><a href="../09_score-lookup/' + slug + '.html">📄 Full worked note for this exact profile</a></p>';
+  const rec = recommend(total1);
+  // What the weight-1 number means for the 1.5x number.
+  const gain = fnum(exact15 - total1);
+  const noUnc = [0,1,2,3,4].every(i => document.getElementById("lvl" + i).value !== "Unclassified");
+
+  let html =
+    '<div class="scorepair">' +
+      '<div class="scorecard"><div class="tag">Published formula · weight 1</div>' +
+        '<div class="val">' + fnum(total1) + ' <span style="font-size:0.6em;font-weight:400">pts</span></div>' +
+        '<div class="note">best-5 sum — the number published admission stats are on</div></div>' +
+      '<div class="scorecard"><div class="tag">New 1.5× policy</div>' +
+        '<div class="val">' + fnum(exact15) + ' <span style="font-size:0.6em;font-weight:400">pts</span></div>' +
+        '<div class="note">' + weightedCount + ' of 5 subjects weighted ×1.5 (+ ' + gain + ')</div></div>' +
+    '</div>' +
+    '<p><strong>Recommendation</strong> <span class="pill ' + rec.cls + '">' + rec.label + '</span> — <em>based on your weight-1 score of ' + fnum(total1) + '</em>, you are ' + rec.text + '</p>';
+
+  if (noUnc && weightedCount > 0) {
+    html += '<p class="muted">Your exact 1.5× breakdown: ' + parts.join("; ") + '.</p>';
   }
-  // concrete 1.5x example only when the assumed weighted grades are actually in the set
-  let example = "";
-  if (picks.includes("5*") && picks.includes("5")) {
-    example = " e.g. if your weighted subjects include English 5* and Mathematics 5, your 1.5× score would be " + fnum(total + 0.5 * 7 + 0.5 * 5.5) + " — each of their points is boosted by half again.";
-  }
-  document.getElementById("out").innerHTML =
-    '<p class="big">' + fnum(total) + ' points <span class="muted" style="font-size:0.8em">(published best-5, weight 1)</span></p>' +
-    '<p>Under the <strong>1.5× weighting policy</strong>: <strong>' + fnum(lo) + ' – ' + fnum(hi) + '</strong> depending on how many of your five subjects are English, Mathematics, ICT, M1, M2, Physics, Chemistry or Biology.' + example + '</p>' +
-    '<p>Against the published 2026 medians: <span class="pill ' + cls + '">' + (cls === "ok" ? "STRONG" : cls === "mid" ? "CONTESTED" : "BELOW RANGE") + '</span> ' + verdict + '</p>' +
-    noteLink +
-    '<p class="muted">The 1.5× range is a bound, not a prediction: e.g. if your weighted subjects include English 5* and Mathematics 5, your 1.5× score would be ' + fnum(total + 0.5 * 7 + 0.5 * 5.5) + ' — the exact mix of weighted subjects determines your real score. Confirm the current year\'s official formula before relying on this.</p>';
+  html += '<div class="warn"><strong>Important:</strong> past admission scores (2023–2026) were all calculated at weight 1, so the ' +
+    '<strong>1.5× score (' + fnum(exact15) + ') cannot be compared directly</strong> with the medians above — it will always look inflated next to them. ' +
+    'Keep comparing <em>your position</em> on the <strong>weight-1 score (' + fnum(total1) + ')</strong>; the 1.5× figure only tells you how much the new policy would boost you relative to students whose best five are in weaker subjects. ' +
+    'Also confirm the 1.5× policy is actually in the official formula for your entry year before relying on it.</div>';
+
+  document.getElementById("out").innerHTML = html;
 }
 render();
 </script>

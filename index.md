@@ -9,13 +9,13 @@ status: verified
 
 # CityUHK CS Admission FAQ
 
-A plain-language FAQ vault for **City University of Hong Kong (CityUHK) — Department of Computer Science** undergraduate admission: **1,034 interlinked notes** covering JUPAS scoring, published scores 2023–2026, the new 1.5× weighting policy, non-JUPAS routes (ASI / ASII / IB / GCE A-Level), the curriculum, all programmes, internships, careers, and how CityUHK compares with HKU, CUHK, HKUST and PolyU. Built for **parents and students** deciding whether and how to apply.
+A plain-language FAQ vault for **City University of Hong Kong (CityUHK) — Department of Computer Science** undergraduate admission: **700 interlinked notes** covering JUPAS scoring, published scores 2023–2026, the new 1.5× weighting policy, non-JUPAS routes (ASI / ASII / IB / GCE A-Level), the curriculum, all programmes, internships, careers, and how CityUHK compares with HKU, CUHK, HKUST and PolyU. Built for **parents and students** deciding whether and how to apply.
 
 ## ⚡ Check your score right now
 
 **[🧮 What's My Score? — enter your 5 best HKDSE subjects →](/static/score-checker.html)**
 
-The calculator shows your admission score under CityUHK's published best-5 formula, under the 1.5× weighting policy, and how it compares with the published BSc Computer Science (2026 median 23) and BSc Cybersecurity (2026 median 20.5) — and links straight to the full worked note for your exact grade profile. (No JavaScript? Browse the **09_Score-Lookup** folder instead — one note per grade combination.)
+The calculator computes your admission score **two ways** — CityUHK's published best-5 weight-1 formula, and the new 1.5× subject-weighting policy (mark which subjects are English / Mathematics / ICT / M1 / M2 / Physics / Chemistry / Biology) — then gives a plain-English recommendation against the published BSc Computer Science (2026 median 23) and BSc Cybersecurity (2026 median 20.5). It also explains why the 1.5× number can't be compared with past admission stats.
 
 ## Why CityUHK CS
 
@@ -57,7 +57,7 @@ The calculator shows your admission score under CityUHK's published best-5 formu
 - [[CS Core Courses Explained]] — one note per CS course (91 courses)
 - [[JS1204 BSc Computer Science (CityU 2026 Score)]] — every CityU programme, every year 2023–2026 (222 notes)
 - [[Rival University Score Scales Explained]] — HKU, HKUST, PolyU published scores (307 notes)
-- [[Score Lookup Best 5 = 5, 5, 5, 5, 5]] — "my grades are X → what's my score?" (334 notes)
+- [🧮 What's My Score?](/static/score-checker.html) — "my grades are X → score + 1.5× version + recommendation" (replaces the old per-profile lookup notes)
 - [[Cross-University Computing Score Comparison (2023-2025)]] — scales, weighting formulas, honest comparison
 - [[CityUHK Tuition Fees]] — costs and practicalities
 

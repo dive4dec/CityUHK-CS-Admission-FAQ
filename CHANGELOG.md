@@ -6,6 +6,22 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Added
+- **"What's My Score?" calculator now computes the 1.5× weighting version too.**
+  Besides the published best-5 weight-1 score, each of your five subjects is
+  now tagged as English / Mathematics / ICT / M1 / M2 / Physics / Chemistry /
+  Biology (×1.5) or an other elective (×1), so the page shows your **exact**
+  1.5× score. It also gives a **plain-English recommendation** (STRONG /
+  CONTESTED / BELOW RANGE) against the published 2026 medians, with concrete
+  next steps (e.g. flexible admission arrangement, non-JUPAS 1561A). A callout
+  makes clear the 1.5× figure **cannot be compared with past weight-1
+  admission stats** — only the weight-1 number is.
+### Removed
+- **09_Score-Lookup folder (334 notes).** One near-identical note per grade
+  combination was redundant now that the calculator returns the score, the
+  1.5× version and a recommendation directly. All references (index home
+  page, README, vault map) updated. The notes remain in git history
+  (`git log -- 09_Score-Lookup`) if a curated subset is ever wanted back.
 ### Changed
 - **Chat close button moved into the panel header.** The big floating action
   button no longer doubles as the close control: while the chat is open it
