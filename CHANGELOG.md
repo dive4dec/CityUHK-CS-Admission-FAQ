@@ -7,13 +7,17 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 ## [Unreleased]
 
 ### Fixed
-- **Docked chat now occupies the bottom of the page in-flow** (was a fixed
-  overlay that could cover the footer/content). Docking reparents the panel
-  into the Quartz page grid as a full-width row at the very bottom — the same
-  mechanism the left/right side panels use — so the page grows to contain it
-  and nothing is ever covered. The "undock" button was invisible when active
-  (it turned the same accent colour as its own header background); it now
-  shows as a light chip with the accent-coloured icon.
+- **Docked chat now floats at the bottom of the SCREEN and covers nothing.**
+  Docking pins the panel as a `position: fixed` bar at the bottom of the
+  viewport — it stays in view while the page scrolls (it can no longer scroll
+  out of sight at the bottom of the document). The bar is sized to span only
+  the center article column, so it never overlaps the sticky left/right side
+  panels, and the page gains matching bottom padding so the article/footer
+  bottom sits above the bar. The bar re-lays out after each in-app
+  navigation (Quartz replaces `<body>`, which used to wipe that padding) and
+  on window resize. The "undock" button was invisible when active (it turned
+  the same accent colour as its own header background); it now shows as a
+  light chip with the accent-coloured icon.
 - **All four edges resize correctly.** Added right + bottom edge handles to
   the existing left/top ones. The resize math seeds from
   `getBoundingClientRect()` *before* changing the fixed insets (with all

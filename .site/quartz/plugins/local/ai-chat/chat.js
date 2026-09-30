@@ -2057,8 +2057,8 @@
   function applyPanelGeom() {
     var p = panelEl();
     if (!p) return;
-    // A docked panel lives in the page grid (see applyDockState) — nothing
-    // to restore here.
+    // A docked panel is a fixed bottom bar (see applyDockState/layoutDockBar)
+    // — its position/size are managed there, so nothing to restore here.
     if (isDocked()) return;
     // On phones the panel is full-screen (CSS), so a saved desktop layout
     // must not override it.
@@ -2089,13 +2089,12 @@
       }
     } catch (e) {}
   }
-  // ---- Docked mode (in-flow, like the side panels) ----
-  // Docking moves the panel from the fixed floating layer into #quartz-body's
-  // CSS grid as the LAST child. Grid auto-placement drops it into a new
-  // full-width row at the very bottom of the template — real document flow,
-  // so the page grows to contain it and nothing is covered (exactly how the
-  // sidebar columns occupy the left/right of the same grid). Quartz
-  // re-renders #quartz-body on every SPA nav, so we re-attach on each nav.
+  // ---- Docked mode: a floating bar pinned to the bottom of the SCREEN ----
+  // Docking keeps the panel on <html> (so SPA nav never loses it) but makes it
+  // a position:fixed bar at the bottom of the viewport — always in view, never
+  // scrolled out of sight. It must not cover the sticky sidebars or the
+  // article, so a `chat-docked` class on <body> adds matching bottom insets
+  // (see styles.css) that push that content up above the bar.
   function setDocked(on) {
     try { localStorage.setItem("ai-chat-docked", on ? "1" : "0"); } catch (e) {}
     applyDockState();
@@ -2109,30 +2108,25 @@
     var dockBtn = p.querySelector(".ai-chat-dock");
     if (dockBtn) dockBtn.classList.toggle("active", docked);
     if (docked) {
-      var body = document.getElementById("quartz-body");
-      if (!body) return; // body not (re)rendered yet — nav re-apply will place it
-      if (p.parentNode !== body) body.appendChild(p);
-      // Floating geometry does not apply to a grid item.
-      p.style.left = ""; p.style.top = ""; p.style.bottom = ""; p.style.right = "";
+      // A fixed bottom bar — the floating position/size don't apply.
+      p.style.top = ""; p.style.bottom = ""; p.style.right = "";
       p.style.width = ""; p.style.height = "";
+      layoutDockBar(); // sizes left/width to the center column + body clearance
     } else {
-      if (p.parentNode && p.parentNode.id === "quartz-body") {
-        document.documentElement.appendChild(p);
-      }
+      document.body.style.paddingBottom = "";
       applyPanelGeom();
     }
   }
-  // The "nav" event can fire before the re-rendered body exists, so after
-  // each nav keep watching for ~1.5s and re-place the panel whenever a fresh
-  // body appears (idempotent and cheap) — same pattern as buildSidebarToggles.
+  // Quartz re-renders the page on every SPA nav and REPLACES <body> (wiping the
+  // inline padding-bottom we set), so after each nav keep watching for ~1.5s
+  // and re-run the bar layout as soon as the NEW page's .center is measurable
+  // (idempotent and cheap). Same pattern as buildSidebarToggles.
   function dockReapplySoon() {
-    var seen = {}, tries = 0;
+    var tries = 0;
     (function poll() {
-      var b = document.getElementById("quartz-body");
-      if (b && !seen[b]) {
-        seen[b] = true;
-        var p = panelEl();
-        if (p && p.classList.contains("docked")) applyDockState();
+      var c = document.querySelector("#quartz-body .center");
+      if (c && c.getBoundingClientRect().width > 40) {
+        layoutDockBar();
       }
       if (tries++ < 90) requestAnimationFrame(poll);
     })();
@@ -2313,6 +2307,36 @@
     window.addEventListener("resize", clampPanel);
   }
 
+  // ---- Docked bar geometry: span the center article column, never the side panels ----
+  // The docked bar is position:fixed (pinned to the bottom of the SCREEN). To
+  // keep it from covering the sticky side panels, its left/width are set to
+  // exactly the center .center column's box (the article column of the Quartz
+  // grid); on single-column layouts (mobile / sidebars hidden) it spans edge
+  // to edge. The same measurement drives body's padding-bottom so the
+  // article + footer bottom stay clear of the bar.
+  var dockBar = { left: null, w: null, h: 0 };
+  function layoutDockBar() {
+    var p = panelEl();
+    if (!p) return;
+    var center = document.querySelector("#quartz-body .center");
+    if (!center) return;
+    var r = center.getBoundingClientRect();
+    var gap = 8;
+    var left = Math.max(gap, r.left - 4);
+    var w = r.width + 8;
+    if (w < 320) { left = 0; w = window.innerWidth; } // column too narrow to trust
+    var docked = p.classList.contains("docked");
+    if (docked) {
+      p.style.left = left + "px";
+      p.style.width = w + "px";
+    }
+    dockBar = { left: left, w: w, h: Math.max(p.offsetHeight, 0) };
+    var pad = docked && p.offsetHeight ? Math.min(p.offsetHeight + 8, window.innerHeight - 60) : 0;
+    document.body.style.paddingBottom = pad ? pad + "px" : "";
+  }
+  window.addEventListener("resize", layoutDockBar);
+  window.addEventListener("load", layoutDockBar);
+
   // ---- Collapsible site side panels (left nav + right rail) ----
   // The site's 3-column Quartz grid keeps the left explorer and right related-
   // pages rail fixed at 320px each, which is a lot on a laptop. These two
@@ -2439,13 +2463,13 @@
       '<path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>' +
       '<path d="M10 11v6M14 11v6"/></svg>';
     actions.appendChild(clearBtn);
-    // Dock: move the chat OUT of the floating layer and into the page grid as
-    // a full-width row at the very bottom — an actual part of the document
-    // flow (like the side panels are actual columns), so it occupies the
-    // bottom of the page and never covers content. Toggle again to undock.
+    // Dock: pin the chat as a floating bar at the bottom of the SCREEN (never
+    // scrolled out of sight), spanning only the center article column so it
+    // can't cover the side panels; body gains matching bottom padding so the
+    // article/footer clear it. Toggle again to undock.
     var dockBtn = el("button", {
-      title: "Dock chat to the bottom of the page",
-      "aria-label": "Dock chat to the bottom of the page",
+      title: "Dock chat to the bottom of the screen",
+      "aria-label": "Dock chat to the bottom of the screen",
       className: "ai-chat-dock",
       onclick: function () { setDocked(!isDocked()); }
     });

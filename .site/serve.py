@@ -15,7 +15,8 @@ PORT = int(sys.argv[1]) if len(sys.argv) > 1 else 8080
 DIRECTORY = os.path.abspath(sys.argv[2] if len(sys.argv) > 2 else "public")
 
 # baseUrl from quartz.config.yaml — stripped for local serving
-BASE_URL_PREFIX = "/obsidian-vault"
+# (quartz.config.yaml: baseUrl: dive4dec.github.io/CityUHK-CS-Admission-FAQ)
+BASE_URL_PREFIX = "/CityUHK-CS-Admission-FAQ"
 
 class QuartzHandler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):

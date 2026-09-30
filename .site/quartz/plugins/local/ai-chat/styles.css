@@ -91,30 +91,28 @@ html.chat-open .ai-chat-fab .fab-ico-close { display: block; }
   display: none;
 }
 
-/* ---- Docked mode: an in-flow page region at the bottom ----
-   When docked, chat.js reparents the panel into #quartz-body as its LAST
-   child. Grid auto-placement drops it into a new full-width row below the
-   footer — real document flow, so the page grows to contain it and nothing
-   is ever covered (the same mechanism the left/right side panels use to
-   occupy the edges of the same grid). No overlay, no padding hacks. */
-#quartz-body .ai-chat-panel.docked {
-  position: static;
-  /* Auto-placement alone would drop the panel into a single 320px column of
-     the new row; span ALL columns so it's full-width at every breakpoint
-     (single-column mobile grid included). */
-  grid-column: 1 / -1;
-  width: 100%;
-  max-width: 100%;
-  margin: 0;
+/* ---- Docked mode: a floating bar pinned to the bottom of the SCREEN ----
+   The panel stays on <html> (no reparenting, so SPA nav never loses it) and
+   becomes position:fixed at the bottom of the viewport — always in view,
+   never scrolled out of sight. chat.js sizes it (left/width) to exactly the
+   center article column, so it NEVER overlaps the sticky left/right side
+   panels. Matching body padding-bottom (set by chat.js to the bar's height)
+   keeps the article/footer bottom clear of the bar. */
+.ai-chat-panel.docked {
+  right: auto;
+  bottom: 0;
+  width: auto; /* chat.js sets left/width to span the center column */
   height: 38vh;
   min-height: 280px;
   max-height: 560px;
-  border-radius: 12px;
+  border-radius: 12px 12px 0 0;
+  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.18);
 }
 @media (max-width: 480px) {
-  #quartz-body .ai-chat-panel.docked {
-    height: 55vh;
+  .ai-chat-panel.docked {
+    height: 45vh;
     min-height: 240px;
+    border-radius: 12px 12px 0 0;
   }
 }
 
