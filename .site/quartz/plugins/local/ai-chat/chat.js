@@ -544,17 +544,20 @@
       var side = document.querySelector(".sidebar.right");
       if (!side) return false;
       if (qrCard && qrCard.isConnected) { updatePageQr(); return true; }
-      // (Re)build the card in this fresh sidebar.
+      // (Re)build the card in this fresh sidebar. The header (title + show/hide
+      // toggle) is ALWAYS visible so the card can never get stuck hidden with
+      // no way to bring it back; only the body collapses.
       var visible = localStorage.getItem("ai-qr-visible") !== "0";
-      qrCard = el("div", { className: "ai-qr-card" + (visible ? "" : " hidden"), id: "ai-qr-card" });
+      qrCard = el("div", { className: "ai-qr-card", id: "ai-qr-card" });
       var head = el("div", { className: "ai-qr-card-head" });
       head.appendChild(el("span", { className: "ai-qr-card-title", textContent: "Share this page" }));
+      var body = el("div", { className: "ai-qr-card-body" + (visible ? "" : " hidden") });
       var showBtn = el("button", {
         className: "ai-qr-card-toggle",
         title: "Show / hide QR code",
         "aria-label": "Show or hide QR code",
         onclick: function () {
-          var v = qrCard.classList.toggle("hidden") === false; // true = now visible
+          var v = body.classList.toggle("hidden") === false; // true = now visible
           try { localStorage.setItem("ai-qr-visible", v ? "1" : "0"); } catch (e) {}
         }
       });
@@ -565,16 +568,17 @@
       head.appendChild(showBtn);
       qrCard.appendChild(head);
       var img = el("img", { className: "ai-qr-card-img", alt: "QR code of the current page" });
-      qrCard.appendChild(img);
-      qrCard.appendChild(el("div", { className: "ai-qr-card-url" }));
+      body.appendChild(img);
+      body.appendChild(el("div", { className: "ai-qr-card-url" }));
       var copyBtn = el("button", {
         className: "ai-qr-card-copy",
         textContent: "Copy link",
         onclick: function () { copyText(qrCard.dataset.url || currentPageFullUrl()); }
       });
-      qrCard.appendChild(copyBtn);
+      body.appendChild(copyBtn);
       var st = el("div", { className: "ai-qr-card-status", textContent: "Scan with your phone" });
-      qrCard.appendChild(st);
+      body.appendChild(st);
+      qrCard.appendChild(body);
       side.appendChild(qrCard);
       updatePageQr();
       return true;
@@ -2053,17 +2057,9 @@
   function applyPanelGeom() {
     var p = panelEl();
     if (!p) return;
-    // Docked layout wins over any saved floating geometry.
-    var docked = localStorage.getItem("ai-chat-docked") === "1";
-    p.classList.toggle("docked", docked);
-    document.body.classList.toggle("chat-docked", docked);
-    var dockBtn = p.querySelector(".ai-chat-dock");
-    if (dockBtn) dockBtn.classList.toggle("active", docked);
-    if (docked) {
-      p.style.left = ""; p.style.top = ""; p.style.bottom = "";
-      p.style.width = ""; p.style.height = "";
-      return;
-    }
+    // A docked panel lives in the page grid (see applyDockState) — nothing
+    // to restore here.
+    if (isDocked()) return;
     // On phones the panel is full-screen (CSS), so a saved desktop layout
     // must not override it.
     if (window.innerWidth < 480) return;
@@ -2093,6 +2089,56 @@
       }
     } catch (e) {}
   }
+  // ---- Docked mode (in-flow, like the side panels) ----
+  // Docking moves the panel from the fixed floating layer into #quartz-body's
+  // CSS grid as the LAST child. Grid auto-placement drops it into a new
+  // full-width row at the very bottom of the template — real document flow,
+  // so the page grows to contain it and nothing is covered (exactly how the
+  // sidebar columns occupy the left/right of the same grid). Quartz
+  // re-renders #quartz-body on every SPA nav, so we re-attach on each nav.
+  function setDocked(on) {
+    try { localStorage.setItem("ai-chat-docked", on ? "1" : "0"); } catch (e) {}
+    applyDockState();
+  }
+  function applyDockState() {
+    var p = panelEl();
+    if (!p) return;
+    var docked = localStorage.getItem("ai-chat-docked") === "1";
+    p.classList.toggle("docked", docked);
+    document.body.classList.toggle("chat-docked", docked);
+    var dockBtn = p.querySelector(".ai-chat-dock");
+    if (dockBtn) dockBtn.classList.toggle("active", docked);
+    if (docked) {
+      var body = document.getElementById("quartz-body");
+      if (!body) return; // body not (re)rendered yet — nav re-apply will place it
+      if (p.parentNode !== body) body.appendChild(p);
+      // Floating geometry does not apply to a grid item.
+      p.style.left = ""; p.style.top = ""; p.style.bottom = ""; p.style.right = "";
+      p.style.width = ""; p.style.height = "";
+    } else {
+      if (p.parentNode && p.parentNode.id === "quartz-body") {
+        document.documentElement.appendChild(p);
+      }
+      applyPanelGeom();
+    }
+  }
+  // The "nav" event can fire before the re-rendered body exists, so after
+  // each nav keep watching for ~1.5s and re-place the panel whenever a fresh
+  // body appears (idempotent and cheap) — same pattern as buildSidebarToggles.
+  function dockReapplySoon() {
+    var seen = {}, tries = 0;
+    (function poll() {
+      var b = document.getElementById("quartz-body");
+      if (b && !seen[b]) {
+        seen[b] = true;
+        var p = panelEl();
+        if (p && p.classList.contains("docked")) applyDockState();
+      }
+      if (tries++ < 90) requestAnimationFrame(poll);
+    })();
+  }
+  document.addEventListener("nav", dockReapplySoon);
+  window.addEventListener("popstate", dockReapplySoon);
   function pointerDrag(panel, onMove) {
     function end() {
       document.removeEventListener("pointermove", move);
@@ -2154,15 +2200,23 @@
       e.preventDefault(); e.stopPropagation();
       if (isDocked()) return;
       p.classList.add("resizing");
-      p.style.right = "auto";
+      // Read the frame BEFORE changing insets: with all insets auto a fixed
+      // element jumps to its static position, which would corrupt the seed.
       var s = startFrame();
+      p.style.left = s.left + "px";
+      p.style.top = s.top + "px";
+      p.style.right = "auto";
+      p.style.bottom = "auto";
       var sx = e.clientX;
       pointerDrag(p, function (ev) {
         var delta = sx - ev.clientX; // >0 when dragging left
-        var nw = Math.max(PANEL_MIN_W, s.w + delta);
+        var nw = Math.min(Math.max(PANEL_MIN_W, s.w + delta), window.innerWidth - 16);
         p.style.width = nw + "px";
-        p.style.left = (s.left - (nw - s.w)) + "px";
-        panelPos.w = nw;
+        // Use the RENDERED width (CSS max-width may cap it below nw) so the
+        // left edge tracks the real growth, not the requested amount.
+        var rw = p.getBoundingClientRect().width;
+        p.style.left = (s.left - (rw - s.w)) + "px";
+        panelPos.w = rw;
         panelPos.x = parseFloat(p.style.left);
       });
       p.addEventListener("pointerup", function done() {
@@ -2179,16 +2233,74 @@
       e.preventDefault(); e.stopPropagation();
       if (isDocked()) return;
       p.classList.add("resizing");
-      p.style.bottom = "auto";
       var s = startFrame();
+      p.style.left = s.left + "px";
+      p.style.top = s.top + "px";
+      p.style.right = "auto";
+      p.style.bottom = "auto";
       var sy = e.clientY;
       pointerDrag(p, function (ev) {
         var delta = sy - ev.clientY; // >0 when dragging up
-        var nh = Math.max(PANEL_MIN_H, s.h + delta);
+        var nh = Math.min(Math.max(PANEL_MIN_H, s.h + delta), window.innerHeight - 16);
         p.style.height = nh + "px";
-        p.style.top = (s.top - (nh - s.h)) + "px";
-        panelPos.h = nh;
+        // Use the RENDERED height (CSS max-height may cap it below nh) so the
+        // top edge tracks the real growth, not the requested amount.
+        var rh = p.getBoundingClientRect().height;
+        p.style.top = (s.top - (rh - s.h)) + "px";
+        panelPos.h = rh;
         panelPos.y = parseFloat(p.style.top);
+      });
+      p.addEventListener("pointerup", function done() {
+        p.classList.remove("resizing");
+        clampPanel();
+        savePanelGeom();
+        p.removeEventListener("pointerup", done);
+      });
+    });
+    // Right edge: horizontal resize (drag right to WIDER). The left edge is
+    // the anchor, so only the width changes.
+    var rr = p.querySelector(".ai-chat-resize-r");
+    if (rr) rr.addEventListener("pointerdown", function (e) {
+      e.preventDefault(); e.stopPropagation();
+      if (isDocked()) return;
+      p.classList.add("resizing");
+      var s = startFrame();
+      p.style.left = s.left + "px"; // anchor left so width grows rightward
+      p.style.top = s.top + "px";
+      p.style.right = "auto";
+      p.style.bottom = "auto";
+      var sx = e.clientX;
+      pointerDrag(p, function (ev) {
+        var delta = ev.clientX - sx; // >0 when dragging right
+        var nw = Math.min(Math.max(PANEL_MIN_W, s.w + delta), window.innerWidth - 16);
+        p.style.width = nw + "px";
+        panelPos.w = nw;
+      });
+      p.addEventListener("pointerup", function done() {
+        p.classList.remove("resizing");
+        clampPanel();
+        savePanelGeom();
+        p.removeEventListener("pointerup", done);
+      });
+    });
+    // Bottom edge: vertical resize (drag down to TALLER). The top edge is
+    // the anchor, so only the height changes.
+    var rb = p.querySelector(".ai-chat-resize-h");
+    if (rb) rb.addEventListener("pointerdown", function (e) {
+      e.preventDefault(); e.stopPropagation();
+      if (isDocked()) return;
+      p.classList.add("resizing");
+      var s = startFrame();
+      p.style.left = s.left + "px";
+      p.style.top = s.top + "px"; // anchor top so height grows downward
+      p.style.right = "auto";
+      p.style.bottom = "auto";
+      var sy = e.clientY;
+      pointerDrag(p, function (ev) {
+        var delta = ev.clientY - sy; // >0 when dragging down
+        var nh = Math.min(Math.max(PANEL_MIN_H, s.h + delta), window.innerHeight - 16);
+        p.style.height = nh + "px";
+        panelPos.h = nh;
       });
       p.addEventListener("pointerup", function done() {
         p.classList.remove("resizing");
@@ -2305,9 +2417,13 @@
     // (Saved position/size are restored after the panel is appended to the
     // document — getElementById can't see it before then.)
 
-    // Resize handles: left edge (width) + top edge (height).
+    // Resize handles: all four edges. Left/top are "anchored" edges (dragging
+    // them moves that edge + size); right/bottom are "free" edges (dragging
+    // them just changes the size).
     panel.appendChild(el("div", { className: "ai-chat-resize", title: "Drag to resize width" }));
     panel.appendChild(el("div", { className: "ai-chat-resize-v", title: "Drag to resize height" }));
+    panel.appendChild(el("div", { className: "ai-chat-resize-r", title: "Drag to resize width" }));
+    panel.appendChild(el("div", { className: "ai-chat-resize-h", title: "Drag to resize height" }));
 
     var header = el("div", { className: "ai-chat-header", title: "Drag to move" });
     header.appendChild(el("h3", { textContent: "CS Admission FAQ" }));
@@ -2323,28 +2439,15 @@
       '<path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>' +
       '<path d="M10 11v6M14 11v6"/></svg>';
     actions.appendChild(clearBtn);
-    // Dock: pin the panel to the bottom edge and give the page content
-    // matching bottom padding so the docked chat covers nothing. The panel
-    // can't be dragged while docked; undock (toggle again) to float it.
+    // Dock: move the chat OUT of the floating layer and into the page grid as
+    // a full-width row at the very bottom — an actual part of the document
+    // flow (like the side panels are actual columns), so it occupies the
+    // bottom of the page and never covers content. Toggle again to undock.
     var dockBtn = el("button", {
       title: "Dock chat to the bottom of the page",
-      "aria-label": "Dock chat to bottom",
+      "aria-label": "Dock chat to the bottom of the page",
       className: "ai-chat-dock",
-      onclick: function () {
-        var p = document.getElementById("ai-chat-panel");
-        if (!p) return;
-        var docked = p.classList.toggle("docked");
-        document.body.classList.toggle("chat-docked", docked);
-        this.classList.toggle("active", docked);
-        try { localStorage.setItem("ai-chat-docked", docked ? "1" : "0"); } catch (e) {}
-        if (docked) {
-          // Reset any floating geometry so the docked layout is clean.
-          p.style.left = ""; p.style.top = ""; p.style.bottom = "";
-          p.style.width = ""; p.style.height = "";
-          panelPos.x = panelPos.y = panelPos.w = panelPos.h = null;
-          savePanelGeom();
-        }
-      }
+      onclick: function () { setDocked(!isDocked()); }
     });
     dockBtn.innerHTML =
       '<svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" fill="none" ' +
@@ -2402,9 +2505,10 @@
     document.documentElement.appendChild(panel);
 
     // Restore the visitor's saved position/size now that the panel is in the
-    // document (applyPanelGeom reads it via getElementById).
+    // document (applyPanelGeom reads it via getElementById). If they had the
+    // chat docked, applyDockState() moves it into the page grid instead.
     restorePanelGeom();
-    applyPanelGeom();
+    applyDockState();
 
     // Wire drag/resize now that the panel is in the document.
     wirePanelDrag();

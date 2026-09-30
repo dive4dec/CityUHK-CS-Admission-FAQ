@@ -91,42 +91,30 @@ html.chat-open .ai-chat-fab .fab-ico-close { display: block; }
   display: none;
 }
 
-/* ---- Docked mode: pin the panel to the bottom edge and make room ----
-   When docked, the panel becomes a fixed bar at the bottom of the viewport.
-   The body gets matching bottom padding (via a per-height variable) so the
-   page content is pushed up and never hidden behind the docked chat. */
-.ai-chat-panel.docked {
-  left: 0 !important;
-  right: 0 !important;
-  top: auto !important;
-  bottom: 0 !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  height: 42vh !important;
-  max-height: 42vh !important;
-  border-radius: 12px 12px 0 0;
-  box-shadow: 0 -6px 28px rgba(0, 0, 0, 0.22);
-}
-/* Hide the edge resize grips while docked (the bar is a fixed-height bottom
-   strip; undock via the header toggle to float + resize it). */
-.ai-chat-panel.docked .ai-chat-resize,
-.ai-chat-panel.docked .ai-chat-resize::after,
-.ai-chat-panel.docked .ai-chat-resize-v {
-  display: none;
-}
-/* Reserve space in the page so a docked chat covers nothing. (The grid body
-   is re-rendered on SPA nav; chat.js re-applies this class each nav.) */
-body.chat-docked #quartz-root {
-  padding-bottom: 42vh;
+/* ---- Docked mode: an in-flow page region at the bottom ----
+   When docked, chat.js reparents the panel into #quartz-body as its LAST
+   child. Grid auto-placement drops it into a new full-width row below the
+   footer — real document flow, so the page grows to contain it and nothing
+   is ever covered (the same mechanism the left/right side panels use to
+   occupy the edges of the same grid). No overlay, no padding hacks. */
+#quartz-body .ai-chat-panel.docked {
+  position: static;
+  /* Auto-placement alone would drop the panel into a single 320px column of
+     the new row; span ALL columns so it's full-width at every breakpoint
+     (single-column mobile grid included). */
+  grid-column: 1 / -1;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  height: 38vh;
+  min-height: 280px;
+  max-height: 560px;
+  border-radius: 12px;
 }
 @media (max-width: 480px) {
-  .ai-chat-panel.docked {
-    height: 62vh !important;
-    max-height: 62vh !important;
-    border-radius: 0;
-  }
-  body.chat-docked #quartz-root {
-    padding-bottom: 62vh;
+  #quartz-body .ai-chat-panel.docked {
+    height: 55vh;
+    min-height: 240px;
   }
 }
 
@@ -183,6 +171,64 @@ body.chat-docked #quartz-root {
   cursor: row-resize;
   z-index: 2;
 }
+.ai-chat-resize-r {
+  position: absolute;
+  right: 0;
+  top: 7px;
+  bottom: 7px;
+  width: 7px;
+  cursor: col-resize;
+  z-index: 2;
+}
+.ai-chat-resize-r::after {
+  content: "";
+  position: absolute;
+  right: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2px;
+  height: 34px;
+  border-radius: 2px;
+  background: var(--dark, #2b2b2b);
+  opacity: 0.25;
+}
+.ai-chat-resize-r:hover::after {
+  opacity: 0.7;
+}
+.ai-chat-resize-h {
+  position: absolute;
+  left: 7px;
+  right: 7px;
+  bottom: 0;
+  height: 7px;
+  cursor: row-resize;
+  z-index: 2;
+}
+.ai-chat-resize-h::after {
+  content: "";
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 34px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--dark, #2b2b2b);
+  opacity: 0.25;
+}
+.ai-chat-resize-h:hover::after {
+  opacity: 0.7;
+}
+/* Edge grips are useless on a docked (in-flow) panel. */
+#quartz-body .ai-chat-panel.docked .ai-chat-resize,
+#quartz-body .ai-chat-panel.docked .ai-chat-resize::after,
+#quartz-body .ai-chat-panel.docked .ai-chat-resize-v,
+#quartz-body .ai-chat-panel.docked .ai-chat-resize-r,
+#quartz-body .ai-chat-panel.docked .ai-chat-resize-r::after,
+#quartz-body .ai-chat-panel.docked .ai-chat-resize-h,
+#quartz-body .ai-chat-panel.docked .ai-chat-resize-h::after {
+  display: none;
+}
 
 .ai-chat-header {
   display: flex;
@@ -221,10 +267,19 @@ body.chat-docked #quartz-root {
   opacity: 1;
 }
 
-/* The dock toggle reads as "active" (accent colour) while the panel is docked. */
+/* The dock toggle reads as "active" while the panel is docked. IMPORTANT:
+   the header background IS var(--secondary), so the active state must use a
+   contrasting chip (light background + secondary-coloured icon) — the icon
+   would otherwise be invisible on its own accent colour. */
 .ai-chat-header-actions button.ai-chat-dock.active {
+  background: var(--light, #faf8f8);
   color: var(--secondary, #284b63);
   opacity: 1;
+  border-radius: 6px;
+}
+.ai-chat-header-actions button.ai-chat-dock.active:hover {
+  background: var(--light, #faf8f8);
+  color: var(--secondary, #284b63);
 }
 
 .ai-chat-status {
@@ -702,13 +757,20 @@ body.chat-docked #quartz-root {
 .ai-qr-card {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  padding: 14px 14px 16px;
+  padding: 12px 14px 4px;
   border-top: 1px solid var(--lightgray, #d8d8d8);
   margin-top: 6px;
 }
-.ai-qr-card.hidden {
+/* Only the BODY (QR + url + copy) collapses; the header row with the
+   show/hide toggle stays visible so the card can never be stuck hidden. */
+.ai-qr-card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0 12px;
+}
+.ai-qr-card-body.hidden {
   display: none;
 }
 .ai-qr-card-head {

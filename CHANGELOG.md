@@ -7,6 +7,24 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 ## [Unreleased]
 
 ### Fixed
+- **Docked chat now occupies the bottom of the page in-flow** (was a fixed
+  overlay that could cover the footer/content). Docking reparents the panel
+  into the Quartz page grid as a full-width row at the very bottom — the same
+  mechanism the left/right side panels use — so the page grows to contain it
+  and nothing is ever covered. The "undock" button was invisible when active
+  (it turned the same accent colour as its own header background); it now
+  shows as a light chip with the accent-coloured icon.
+- **All four edges resize correctly.** Added right + bottom edge handles to
+  the existing left/top ones. The resize math seeds from
+  `getBoundingClientRect()` *before* changing the fixed insets (with all
+  insets auto a fixed element jumps to its static position, corrupting the
+  seed) and tracks the rendered size, so at the max-height/width caps the
+  anchored edge simply stops instead of dragging the whole panel off-screen.
+- **"Share this page" QR could get stuck hidden.** The show/hide toggle
+  lived inside the part that hid, so once collapsed there was no way back.
+  The card header (title + eye toggle) is now always visible; only the QR
+  body collapses. (The card is in the right sidebar below Graph / TOC /
+  Backlinks.)
 - **Chat panel open/close + stuck-minimized state.** The separate minimise and
   close buttons (which could leave the panel with no way to bring it back)
   are removed. The chat FAB is now the single open/close toggle: always
