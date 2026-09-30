@@ -7,6 +7,16 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 ## [Unreleased]
 
 ### Fixed
+- **"Share this page" QR missing after some navigations (needed a refresh).**
+  On an in-app navigation Quartz re-renders the page in several DOM batches
+  and can briefly keep the previous page's sidebar alive next to the fresh
+  one. The re-injection logic could "succeed" by re-using the card in the
+  stale sidebar, which was then torn down — leaving no QR until a manual
+  refresh. Re-injection is now live-DOM-driven (it only trusts the card if it
+  is in the sidebar actually being rendered, sweeps stale duplicates, and
+  rebuilds otherwise) and runs from three independent layers: a persistent
+  MutationObserver (fires on DOM mutation even in a background tab, unlike
+  timers), a per-navigation frame poll, and a 500 ms self-heal.
 - **Docked chat now floats at the bottom of the SCREEN and covers nothing.**
   Docking pins the panel as a `position: fixed` bar at the bottom of the
   viewport — it stays in view while the page scrolls (it can no longer scroll

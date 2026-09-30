@@ -529,6 +529,10 @@
   function updatePageQr() {
     if (!qrCard) return;
     var url = currentPageFullUrl();
+    // No-op if nothing changed — this runs on every nav AND on a periodic
+    // self-heal tick, so avoid re-assigning img.src / textContent (which would
+    // flicker the QR) when the card already points at the current page.
+    if (qrCard.dataset.url === url) return;
     var img = qrCard.querySelector("img");
     var cap = qrCard.querySelector(".ai-qr-card-url");
     if (img) img.src = qrSvgDataUrl(url); // memoized: ~0 ms once generated
@@ -540,11 +544,56 @@
   // whole page body on every SPA navigation, so we re-inject the card each
   // time the sidebar element reappears. Its show/hide state is remembered.
   function buildSidebarQr() {
+    // Re-injection. Quartz does unpredictable DOM surgery on an SPA nav: it
+    // may REUSE the .sidebar.right node and just drop our card, or REPLACE the
+    // whole sidebar (and its ancestors) with fresh nodes. A one-shot check can
+    // therefore "succeed" while the card is still momentarily present, then
+    // Quartz removes it a few ms later with nobody watching — which is why the
+    // QR "sometimes" needs a manual refresh. Recovery is correct-by-construction
+    // via three independent layers (injectOnce is idempotent, so redundancy is
+    // cheap and safe):
+    //   1. A persistent MutationObserver (PRIMARY). It fires on DOM mutation
+    //      regardless of tab visibility — NOT throttled like timers/rAF — so
+    //      the moment Quartz mutates the sidebar (adds related-links, drops the
+    //      card, replaces the node) we re-inject.
+    //   2. On each nav, a short poll that re-checks every frame (no early bail)
+    //      — covers the beat before/after the observer fires.
+    //   3. A 500ms self-heal interval as a last resort.
+    // Find the right sidebar that is actually being rendered. During an SPA
+    // re-render Quartz can briefly have MULTIPLE .sidebar.right nodes alive
+    // (the previous page's stale node alongside the fresh one). Targeting the
+    // wrong one is exactly what made the QR "disappear" — the card was re-used
+    // in the stale node, then dropped when that node was torn down. So: scope
+    // to the rendered #quartz-body, and when several candidates exist pick the
+    // one that is actually laid out (has a layout box), preferring the newer.
+    function currentSidebar() {
+      var body = document.getElementById("quartz-body") || document;
+      var c = body.querySelectorAll(".sidebar.right");
+      if (!c.length) return null;
+      if (c.length === 1) return c[0];
+      for (var i = c.length - 1; i >= 0; i--)
+        if (c[i].getClientRects().length) return c[i];
+      return c[c.length - 1]; // nothing laid out yet — the newest render
+    }
     function injectOnce() {
-      var side = document.querySelector(".sidebar.right");
+      var side = currentSidebar();
       if (!side) return false;
-      if (qrCard && qrCard.isConnected) { updatePageQr(); return true; }
-      // (Re)build the card in this fresh sidebar. The header (title + show/hide
+      // Trust the live DOM only: the card is fine iff it is a child of the
+      // sidebar that is being rendered RIGHT NOW. A card left in a stale node
+      // from the previous page does not count.
+      var inSide = side.querySelectorAll("#ai-qr-card");
+      if (inSide.length) {
+        // Never allow stacked duplicates in the rendered sidebar.
+        for (var d = inSide.length - 1; d > 0; d--) inSide[d].remove();
+        qrCard = inSide[0];
+        updatePageQr();
+        return true;
+      }
+      // Not in the rendered sidebar: sweep stray copies out of any stale
+      // nodes left behind by the re-render, then build a fresh card here.
+      var all = document.querySelectorAll("#ai-qr-card");
+      for (var s = all.length - 1; s >= 0; s--) all[s].remove();
+      // (Re)build the card. The header (title + show/hide
       // toggle) is ALWAYS visible so the card can never get stuck hidden with
       // no way to bring it back; only the body collapses.
       var visible = localStorage.getItem("ai-qr-visible") !== "0";
@@ -583,17 +632,35 @@
       updatePageQr();
       return true;
     }
-    // The nav event can fire before the re-rendered sidebar exists, so after
-    // each nav keep polling for ~1.5s until the card is (re)present.
+    // Nav-triggered poll: re-check every frame for ~1.5s (do NOT bail early, or
+    // a card Quartz removes a few ms after the nav goes un-re-injected).
     function ensureInjected() {
-      if (injectOnce()) return;
       var tries = 0;
       (function poll() {
-        if (injectOnce()) return;
+        injectOnce();
         if (tries++ < 90) requestAnimationFrame(poll);
       })();
     }
+    // PRIMARY: a persistent MutationObserver on the (stable) document root.
+    // Quartz re-renders the page on every SPA nav — adding related links,
+    // removing our card, or replacing the whole sidebar. MutationObserver
+    // delivers its callback as a microtask and is NOT throttled or paused like
+    // setTimeout/rAF, so it catches the re-render even when the tab is in the
+    // background (where timers fire ~1/s and rAF is suspended). injectOnce()
+    // is idempotent — if the card is already correctly placed it just
+    // re-targets the URL and does nothing — so firing on every nav mutation is
+    // cheap. A reentrancy guard stops the observer from re-triggering on the
+    // mutation our own re-injection produces.
+    var qrObServing = false;
+    new MutationObserver(function () {
+      if (qrObServing) return;
+      qrObServing = true;
+      try { injectOnce(); } finally { qrObServing = false; }
+    }).observe(document.documentElement, { childList: true, subtree: true });
+    // Last-resort self-heal (covers any case the observer/poll miss).
+    setInterval(function () { injectOnce(); }, 500);
     ensureInjected();
+    // Re-inject + re-target the QR on every in-app (SPA) navigation.
     document.addEventListener("nav", ensureInjected);
     window.addEventListener("popstate", ensureInjected);
   }
@@ -2540,10 +2607,8 @@
     buildSidebarToggles();
 
     // "Share this page" QR card in the right sidebar (full published URL).
+    // buildSidebarQr also wires its own per-nav re-injection + URL re-target.
     buildSidebarQr();
-    // Re-target the QR to the current page on in-app (SPA) navigation.
-    document.addEventListener("nav", updatePageQr);
-    window.addEventListener("popstate", updatePageQr);
   }
 
   // ---- Debug / test hook (harmless in production) ----
