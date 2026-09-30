@@ -2065,9 +2065,9 @@
     showWelcome();
   }
 
-  // The chat button (FAB) is the ONE control to open OR collapse the panel —
-  // it never hides, so there is always a visible way to bring the chat back.
-  // (No separate close/minimise buttons on the panel.)
+  // The chat button (FAB) only OPENS the panel (it hides while the panel is
+  // open); closing is the small X in the panel header, plus Escape. Both
+  // controls are always reachable, so the chat can never get stuck.
   function togglePanel() {
     var panel = document.getElementById("ai-chat-panel");
     if (!panel) return;
@@ -2077,15 +2077,16 @@
     // flag must go on the document element for the `html.chat-open` selectors
     // to reach it. body keeps its own class for the docked-content padding.
     document.documentElement.classList.toggle("chat-open", panelOpen);
-    var fab = document.getElementById("ai-chat-fab");
-    if (fab) {
-      fab.title = panelOpen ? "Close chat" : "Open AI Chat Assistant";
-      fab.setAttribute("aria-expanded", panelOpen ? "true" : "false");
-    }
-    if (panelOpen) {
-      var ta = document.getElementById("ai-chat-input");
-      if (ta && !ta.disabled) ta.focus();
-    }
+  }
+  // Open from the FAB: undock first, then open, so it never lands docked.
+  function openPanel() {
+    if (isDocked()) setDocked(false);
+    if (!panelOpen) togglePanel();
+  }
+  // Close from the header X / Escape: undock first, then collapse.
+  function closePanel() {
+    if (isDocked()) setDocked(false);
+    if (panelOpen) togglePanel();
   }
 
   // ---- Draggable + resizable panel ----
@@ -2488,19 +2489,16 @@
       id: "ai-chat-fab",
       className: "ai-chat-fab",
       title: "Open AI Chat Assistant",
-      "aria-label": "Open or close the AI chat",
+      "aria-label": "Open the AI chat assistant",
       "aria-expanded": "false",
-      onclick: togglePanel
+      onclick: openPanel
     });
-    // Two inline SVGs: a chat bubble (closed state) and an X (open state).
-    // CSS swaps which one shows, so the button always reads as open/close.
+    // Single chat-bubble icon: the FAB only OPENS the panel (it hides while
+    // open); closing is the small X in the panel header, plus Escape.
     fab.innerHTML =
-      '<svg class="fab-ico-open" viewBox="0 0 24 24" aria-hidden="true" fill="none" ' +
+      '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" ' +
       'stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">' +
-      '<path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5c-1.5 0-2.9-.4-4.1-1L3 20l1.1-4.3A8.5 8.5 0 1 1 21 11.5z"/></svg>' +
-      '<svg class="fab-ico-close" viewBox="0 0 24 24" aria-hidden="true" fill="none" ' +
-      'stroke="currentColor" stroke-width="2.1" stroke-linecap="round">' +
-      '<path d="M6 6l12 12M18 6L6 18"/></svg>';
+      '<path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5c-1.5 0-2.9-.4-4.1-1L3 20l1.1-4.3A8.5 8.5 0 1 1 21 11.5z"/></svg>';
     document.documentElement.appendChild(fab);
 
     var panel = el("div", { id: "ai-chat-panel", className: "ai-chat-panel closed" });
@@ -2545,9 +2543,19 @@
       'stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' +
       '<path d="M12 3v8"/><path d="M8 7l4 4 4-4"/><path d="M4 15h16v6H4z"/></svg>';
     actions.appendChild(dockBtn);
-    // No close/minimise buttons here: the chat button (FAB) is the single
-    // toggle to open or collapse the panel, so the panel can never get stuck
-    // with no way back.
+    // Close (X) button — top-right of the header. Small and inline (not the
+    // big FAB), matching the other header icon buttons.
+    var closeBtn = el("button", {
+      title: "Close chat",
+      "aria-label": "Close chat",
+      className: "ai-chat-close",
+      onclick: closePanel
+    });
+    closeBtn.innerHTML =
+      '<svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" fill="none" ' +
+      'stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+      '<path d="M6 6l12 12M18 6L6 18"/></svg>';
+    actions.appendChild(closeBtn);
     header.appendChild(actions);
     panel.appendChild(header);
 
@@ -2632,6 +2640,10 @@
     buildUI();
     showWelcome();
     loadKnowledgeIndex();
+    // Escape closes the panel (when open) — the header X does the same.
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && panelOpen) closePanel();
+    });
     var savedCfg = endpointCfg();
     var savedModel = storageGetModel();
     if (savedCfg && savedCfg.kind === "external") {

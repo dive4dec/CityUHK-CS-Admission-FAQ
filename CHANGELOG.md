@@ -6,6 +6,14 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Changed
+- **Chat close button moved into the panel header.** The big floating action
+  button no longer doubles as the close control: while the chat is open it
+  now disappears, and a small close (X) icon sits in the top-right corner of
+  the panel header (beside the settings / clear / dock buttons). The FAB
+  stays in the bottom-right purely to *open* the chat again. Escape also
+  closes the panel, and closing while docked undocks (clearing the bottom
+  bar and the page padding it added).
 ### Fixed
 - **"Share this page" QR missing after some navigations (needed a refresh).**
   On an in-app navigation Quartz re-renders the page in several DOM batches

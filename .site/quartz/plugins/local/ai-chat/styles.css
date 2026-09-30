@@ -10,11 +10,9 @@
    text — matching how Quartz styles its own accent surfaces.
    ================================================================ */
 
-/* The chat button (FAB) is the ONE control that opens AND collapses the
-   panel — it is always visible and always above the panel (higher z-index),
-   so there is never a state where the chat is open with no way to close it.
-   Closed: round chat button in the bottom-right. Open: it moves to the
-   top-right and swaps to a close (X) glyph so its job is obvious. */
+/* The chat button (FAB) OPENS the panel. It sits in the bottom-right and
+   disappears while the panel is open — closing is the small X in the panel
+   header (plus Escape), so nothing big ever has to sit in the way. */
 .ai-chat-fab {
   position: fixed;
   bottom: 24px;
@@ -30,9 +28,8 @@
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-  z-index: 10002; /* above the panel (10000) so it stays clickable */
-  transition: transform 0.2s ease, box-shadow 0.2s ease, top 0.25s ease,
-    bottom 0.25s ease, border-radius 0.2s ease;
+  z-index: 10002;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   font-size: 24px;
   line-height: 1;
 }
@@ -47,24 +44,12 @@
   height: 26px;
 }
 
-/* Open state: relocate to the top-right so it clears the (usually bottom)
-   panel and read as a "close" control. The open flag is set on <html>
-   (document.documentElement) because the FAB + panel are children of <html>
-   (mounted there to survive SPA nav), not of <body>. */
+/* While the panel is open the FAB is hidden — the header X is the close
+   control. (The open flag lives on <html> because the FAB + panel are
+   children of <html>, mounted there to survive SPA nav.) */
 html.chat-open .ai-chat-fab {
-  top: 16px;
-  bottom: auto;
-  right: 16px;
+  display: none;
 }
-
-html.chat-open .ai-chat-fab:hover {
-  transform: scale(1.08);
-}
-
-/* Icon swap: chat bubble when the panel is closed, X when it's open. */
-.ai-chat-fab .fab-ico-close { display: none; }
-html.chat-open .ai-chat-fab .fab-ico-open { display: none; }
-html.chat-open .ai-chat-fab .fab-ico-close { display: block; }
 
 .ai-chat-panel {
   position: fixed;
