@@ -68,7 +68,12 @@ async function write(opts) {
 // ---------------------------------------------------------------------------
 // 1. KnowledgeIndex emitter
 // ---------------------------------------------------------------------------
-const MAX_TEXT_LENGTH = 1800
+// Store the note's FULL text (not just the first 1800 chars) so read_note /
+// find_notes_mentioning / run_python can reach the whole note — amounts,
+// threshold tables and requirements live in the body, often past char 1800.
+// The vault's longest note is ~5k chars; a 6000 cap keeps every note complete
+// while bounding the emitted index size (~1.5 MiB for the whole vault).
+const MAX_TEXT_LENGTH = 6000
 const MIN_TEXT_LENGTH = 20
 
 export const KnowledgeIndex = (opts) => {

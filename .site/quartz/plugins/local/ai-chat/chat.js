@@ -316,7 +316,7 @@
     if (!freeCfg) return;
     var mode = freeCfg.agent
       ? "full agent — I search the FAQ, look up scores and fees, and compute before answering."
-      : "I answer from the 1035 FAQ notes I retrieve for you.";
+      : "I answer from the FAQ notes I retrieve for you.";
     setStatus("ready", "Free server ready: " + freeModelName());
     var note = freeNote ? freeNote : "";
     addSystemMessage(
@@ -999,7 +999,7 @@
     w.innerHTML =
       "<p><strong>\uD83C\uDF93 CityUHK CS Admission FAQ Assistant</strong></p>" +
       "<p>Ask about admission, JUPAS scores, programmes, curriculum or tuition fees.</p>" +
-      "<p>I can <em>search the 1035 FAQ notes</em>, <em>open the source page</em> for you, and <em>read the page you are on</em> (with an agent model).</p>" +
+      "<p>I can <em>search the FAQ notes</em>, <em>open the source page</em> for you, and <em>read the page you are on</em> (with an agent model).</p>" +
       "<p>Retrieval runs <em>locally in your browser</em>. With the in-browser model nothing else leaves this machine; if you configure an OpenAI-compatible server in \u2699\uFE0F settings, the conversation is sent to that server.</p>" +
       "<p>Open \u2699\uFE0F settings to load a model or connect a server.</p>";
     box.appendChild(w);
@@ -1228,7 +1228,7 @@
   // fuller-sibling (e.g. score_history) it works anyway. External endpoints
   // (big contexts) keep the full TOOLS.
   var WEBLLM_TOOLS = [
-    { name: "search_notes", desc: "Keyword-search the 1035 FAQ notes. Returns results with a short_answer; use read_note(id) for full text.",
+    { name: "search_notes", desc: "Keyword-search the FAQ notes. Returns results with a short_answer; use read_note(id) for full text.",
       params: { query: strParam("Search keywords"), limit: intParam("Max results (default 5, max 10)") }, req: ["query"] },
     { name: "read_note", desc: "Full text of one note by id (from search_notes/list_notes).",
       params: { id: intParam("Note id"), slug: strParam("Or note slug"), max_chars: intParam("Max chars (default 2200)") }, req: [] },
@@ -1441,13 +1441,13 @@
     var page = currentPageMeta();
     var ctx =
       "You are the FAQ assistant for the CityUHK (City University of Hong Kong) " +
-      "Computer Science undergraduate admission site (1035 notes). " +
+      "Computer Science undergraduate admission site. " +
       "How to use your tools:\n" +
       "- If the user refers to the current/this page (e.g. \"summarize this page\"): " +
       "call read_current_page IMMEDIATELY and do NOT call search_notes — the page IS the source.\n" +
       "- For any other question: pick the MOST SPECIFIC tool that matches the intent. " +
       "There are purpose-specific tools — for JUPAS codes use get_jupas_code, for non-JUPAS " +
-      "codes get_nonjupas_code, for a score get_cityu_score (or get_rival_score), for grades " +
+      "codes get_nonjupas_code, for a score get_cityu_score, for grades " +
       "lookup_grade_score, for fees get_tuition_fees, for a programme get_programme_info, for a " +
       "course get_course_info, and so on. Only use the generic search_notes when no specific tool fits.\n" +
       "- After a tool returns data with ok=true, that data IS your source: answer from it. " +
@@ -1500,6 +1500,15 @@
     return s;
   }
 
+  // Enumeration queries ("list ALL …", "every …", "each …", "all the …") need
+  // to retrieve several notes before they can be answered completely, so the
+  // agent loop grants them a bigger tool-call budget than the default of 2.
+  function isEnumerative(query) {
+    var q = String(query || "").toLowerCase();
+    return /\b(all|every|each|a (list|roundup|round-up|breakdown|summary) of|all the)\b/.test(q)
+      || /\b(list|show|give me|tell me)\b[^.!?]{0,40}\b(all|every|each|different|distinct|whole|complete|entire)\b/.test(q);
+  }
+
   // ---- Agent loop for EXTERNAL OpenAI-compatible endpoints.
   // Standard OpenAI tool-calling loop: no grammar lock, so the model can
   // answer directly or call tools; tool results go back as role:"tool".
@@ -1519,6 +1528,12 @@
 
     var cited = {};
     var page = currentPageMeta();
+    // Enumeration queries ("all …", "every …", "each …") get a bigger tool-call
+    // budget so the agent can retrieve every matching note before answering;
+    // everything else keeps the fast 2-call default.
+    var enumerative = isEnumerative(query);
+    var maxToolCalls = enumerative ? 6 : 2;
+    var maxRounds = enumerative ? 8 : MAX_AGENT_TURNS;
     var systemPrompt =
       "You are the FAQ assistant for the CityUHK (City University of Hong Kong) " +
       "Computer Science undergraduate admission site. You have many purpose-specific " +
@@ -1527,8 +1542,11 @@
       "matches the intent (e.g. get_jupas_code, get_cityu_score, get_tuition_fees, " +
       "get_programme_info, lookup_grade_score, run_python for computation); use the generic " +
       "search_notes only when nothing specific fits. (3) Once a tool returns ok=true data, " +
-      "answer from it — do NOT re-call a similar tool to double-check; at most 2 tool calls " +
-      "per question, then answer. (4) Be concise and factual; if the tools have no answer, " +
+      "answer from it — do NOT re-call a similar tool to double-check; at most " + maxToolCalls + " tool calls " +
+      "per question, then answer. For a COMPLETE list (\"all\", \"every\", \"each\"), retrieve " +
+      "each matching note (search then read_note on each) before answering, and use the " +
+      "note's full text — read_note's offset/next_offset reads past the first part of a " +
+      "long note. (4) Be concise and factual; if the tools have no answer, " +
       "say so. (5) If the user wants a page opened, call navigate_to_page once AND still " +
       "write the answer. (6) The site is published at " + location.origin + BASE + ", so a " +
       "note's full public URL is " + location.origin + BASE + "/<slug>; if the user asks for a " +
@@ -1538,7 +1556,7 @@
       .concat(history)
       .concat([{ role: "user", content: buildAgentUserTurn(query) }]);
 
-    for (var round = 0; round < MAX_AGENT_TURNS; round++) {
+    for (var round = 0; round < maxRounds; round++) {
       showTyping(true);
       var req = {
         messages: msgs.slice(),
@@ -1757,6 +1775,65 @@
     }
 
     // ------------------------------------------------------------------
+    // PHASE 1.5 — optional SECOND tool round (enumeration queries only).
+    //
+    // The default path retrieves once then answers. For "all / every / each"
+    // questions a single retrieval is incomplete (e.g. "all double-degree
+    // programmes" needs more than the first match). When the query is
+    // enumerative and Phase 1 already retrieved something, run one more
+    // grammar-locked tool round so the model can read_note the remaining
+    // matching notes before the final answer. Bounded to a single extra round.
+    // ------------------------------------------------------------------
+    if (isEnumerative(query) && toolNote.trim()) {
+      if (window.__aiChatLog) console.log("[ai-chat] PHASE1.5 (2nd tool round) for enumerative query");
+      showTyping(true);
+      var toolRequest2 = {
+        messages: [{ role: "user", content:
+          "User question: " + query + "\n\nTool results so far:\n" + toolNote.slice(0, 4000) +
+          "\n\nTo answer a COMPLETE list, call read_note(id) on every matching note id you have not yet read, and/or search_notes with a narrower keyword to find any you missed. Retrieve ALL matching notes before answering."
+        }],
+        temperature: 0.3,
+        max_tokens: 1024,
+        stream: true,
+        tool_choice: "auto",
+        tools: WEBLLM_TOOLS
+      };
+      var stream1b = await providerCreate(toolRequest2);
+      var content1b = "";
+      var toolCalls1b = null;
+      var live1b = null;
+      for await (var chunk1b of stream1b) {
+        var c1b = chunk1b.choices && chunk1b.choices[0];
+        if (!c1b) continue;
+        var d1b = c1b.delta;
+        if (d1b && d1b.content) {
+          content1b += d1b.content;
+          if (!live1b) { showTyping(false); live1b = appendMessage("assistant", ""); }
+          live1b.innerHTML = renderMarkdown(content1b);
+          scrollBottom();
+        }
+        if (d1b && d1b.tool_calls) toolCalls1b = mergeToolCallsDelta(toolCalls1b, d1b.tool_calls);
+      }
+      showTyping(false);
+      if ((!toolCalls1b || !toolCalls1b.length) && content1b.trim()) {
+        var p1b = jsonParseLoose(content1b);
+        var co1b = coerceToolCalls(p1b);
+        if (co1b) toolCalls1b = co1b;
+      }
+      if (toolCalls1b && toolCalls1b.length) {
+        if (live1b) live1b.remove();
+        for (var ti1b = 0; ti1b < toolCalls1b.length; ti1b++) {
+          var tc1b = toolCalls1b[ti1b];
+          var args1b = safeParseArgs(tc1b.arguments);
+          var t1b = { name: tc1b.name, arguments: args1b };
+          addToolChip(t1b.name, t1b.arguments);
+          var r1b = await executeTool(t1b.name, t1b.arguments, cited);
+          toolNote += "Tool " + t1b.name + "(" + JSON.stringify(t1b.arguments) + ") returned:\n" + JSON.stringify(r1b).slice(0, TOOL_RESULT_MAX) + "\n\n";
+        }
+      }
+    }
+
+    // ------------------------------------------------------------------
     // PHASE 2 — plain-text answer (no tools).
     //
     // Because this request has NO `tools`, WebLLM does not grammar-lock the
@@ -1960,7 +2037,7 @@
     var freeSection = el("div", { className: "settings-section", id: "ai-chat-section-free" });
     var freeState = el("p", { className: "settings-hint" });
     if (isFree()) {
-      freeState.textContent = "Available now — " + freeModelName() + ". I answer from the 1035 FAQ notes I retrieve for you. No key or setup needed.";
+      freeState.textContent = "Available now — " + freeModelName() + ". I answer from the FAQ notes I retrieve for you. No key or setup needed.";
     } else {
       freeState.textContent = "Not currently available (the site's free AI service is off or its key is not active). If the site re-enables it, reload and choose this option again.";
     }
@@ -1996,7 +2073,7 @@
 
     var hint = el("p", { className: "settings-hint" });
     hint.textContent =
-      "Agent models can call tools: search the 1035 FAQ notes, open the source page in your browser, and read the page you are viewing. " +
+      "Agent models can call tools: search the FAQ notes, open the source page in your browser, and read the page you are viewing. " +
       "Fast models answer from the notes I retrieve for you. " +
       "The model downloads once and is cached in your browser. Nothing is sent to any server.";
     inSection.appendChild(hint);

@@ -109,6 +109,16 @@
     return false;
   }
   function capTitle(t) { return t.replace(/\([^)]*\)/g, "").trim(); }
+  // True if a note's folder slug starts with any of `prefixes` (case-insensitive,
+  // so "05_Programmes" matches the stored slug "05_programmes"). Pass [] to match all.
+  function folderPrefix(folder, prefixes) {
+    if (!prefixes || !prefixes.length) return true;
+    var f = String(folder || "").toLowerCase();
+    for (var i = 0; i < prefixes.length; i++) {
+      if (f.indexOf(String(prefixes[i]).toLowerCase()) === 0) return true;
+    }
+    return false;
+  }
 
   // ------------------------------------------------------------------
   // SEARCH cluster — generic retrieval. Each entry it returns carries
@@ -193,7 +203,7 @@
 
   tool({
     name: "search_notes",
-    description: "Keyword-search all 1035 CityUHK CS admission FAQ notes. The MAIN lookup tool. Returns ranked results with a 'short_answer' for each — usually enough to answer directly; call read_note(id) for the full text when you need more detail. If the user asks about the CURRENT/THIS page, use read_current_page instead.",
+    description: "Keyword-search all the CityUHK CS admission FAQ notes. The MAIN lookup tool. Returns ranked results with a 'short_answer' for each — usually enough to answer directly; call read_note(id) for the full text when you need more detail. If the user asks about the CURRENT/THIS page, use read_current_page instead.",
     parameters: {
       type: "object",
       properties: {
@@ -287,13 +297,15 @@
 
   tool({
     name: "read_note",
-    description: "Return the FULL text of one note by the id (or slug) from search_notes / list_notes / find_notes_mentioning. Use when the returned snippet or short_answer is not enough to answer accurately. This is how you get complete details (tables, dates, conditions) without navigating the user's page.",
+    description: "Return the full text of one note by the id (or slug) from search_notes / list_notes / find_notes_mentioning. Use when the returned snippet or short_answer is not enough to answer accurately — this is how you get complete details (tables, dates, conditions, full requirement lists) without navigating the user's page. For a LONG note, pass offset to read the part you have not seen yet (the result's `next_offset` tells you where to continue), or section to jump straight to a heading (e.g. 'Answer', 'Requirements', 'Examples').",
     parameters: {
       type: "object",
       properties: {
         id: intParam("Note id from a search/list result"),
         slug: strParam("Or the note slug"),
-        max_chars: intParam("Max characters to return (default 2200)")
+        offset: intParam("Character position to start from (default 0). Use the previous result's next_offset to continue."),
+        max_chars: intParam("Max characters to return (default 2200, max 6000)"),
+        section: strParam("Optional: start at the heading containing this text (e.g. 'Answer', 'Requirements', 'Examples')")
       },
       required: []
     },
@@ -302,10 +314,31 @@
       if (a.id != null) e = entryByIdx(parseInt(a.id, 10));
       else if (normStr(a.slug)) { for (var i = 0; i < (knowledgeIndex || []).length; i++) if (knowledgeIndex[i].slug === normStr(a.slug)) { e = knowledgeIndex[i]; break; } }
       if (!e) return { ok: false, error: "No note with that id/slug. Call search_notes or list_notes first." };
-      var max = Math.min(parseInt(a.max_chars, 10) || 2200, 4000);
-      var text = e.text;
-      var truncated = text.length > max;
-      return { ok: true, id: knowledgeIndex.indexOf(e), slug: e.slug, title: e.title, text: text.slice(0, max), truncated: truncated };
+      var text = e.text || "";
+      var off = Math.max(0, parseInt(a.offset, 10) || 0);
+      var max = Math.min(parseInt(a.max_chars, 10) || 2200, 6000);
+      // section: jump to the first heading ("##"/"###") whose text contains the
+      // term, so "section: Requirements" skips straight to that part of a long note.
+      if (a.section) {
+        var term = String(a.section).toLowerCase();
+        var headingRe = /^#{2,6}\s+[^\n]*$/gm;
+        var hm, bestAt = -1;
+        while ((hm = headingRe.exec(text))) {
+          if (hm[0].toLowerCase().indexOf(term) >= 0) { bestAt = hm.index; break; }
+        }
+        if (bestAt >= 0) off = bestAt;
+      }
+      if (off > text.length) off = text.length;
+      var slice = text.slice(off, off + max);
+      var nextOffset = off + slice.length;
+      var out = { ok: true, id: knowledgeIndex.indexOf(e), slug: e.slug, title: e.title, text: slice };
+      if (nextOffset < text.length) {
+        out.truncated = true;
+        out.next_offset = nextOffset;
+        out.total_chars = text.length;
+        out.more = "Note continues — call read_note again with offset=" + nextOffset + " (or a smaller max_chars) to read the rest.";
+      }
+      return out;
     }
   });
 
@@ -465,7 +498,11 @@
       var out = [];
       for (var i = 0; i < (knowledgeIndex || []).length; i++) {
         var e = knowledgeIndex[i];
-        if (e.folder !== "10_compare") continue;
+        // Comparison notes no longer live in a dedicated "10_compare" folder
+        // (removed from the vault); they are titled "… vs …" / "…Key
+        // Differences" inside 05_programmes / 04_curriculum / 02_jupas-scores.
+        var isCompare = /\bvs\b|differen|compar/.test(e.title.toLowerCase());
+        if (!isCompare) continue;
         var hay = e.title.toLowerCase() + " " + e.text.toLowerCase();
         if (want.length && !want.every(function (w) { return hay.indexOf(w.toLowerCase()) >= 0; })) continue;
         out.push({ id: i, slug: e.slug, title: e.title, short_answer: shortAnswer(e), summary: e.text.slice(0, 900) });
@@ -499,7 +536,7 @@
 
   // ------------------------------------------------------------------
   // SCORE cluster — parses the vault's per-year score notes
-  // (07_cityu-scores, 08_rival-scores, 02_jupas-scores) into numbers.
+  // (07_cityu-scores, 02_jupas-scores) into numbers.
   // ------------------------------------------------------------------
   function scoreFromNote(entry) {
     var t = entry.text || "";
@@ -554,26 +591,14 @@
 
   tool({
     name: "get_rival_score",
-    description: "Get a RIVAL university's (HKU, CUHK, HKUST, PolyU, HKBU, etc.) published JUPAS score for a programme in a given year. Warns that scales differ across universities and are not directly comparable. Use for 'how do CS scores compare between universities'.",
+    description: "NO LONGER POPULATED. Cross-university score comparisons (HKU, CUHK, HKUST, …) were removed from the vault, so this returns a 'removed' notice instead of data. For CityU's own published CS scores use get_cityu_score / get_all_cityu_scores / score_history.",
     parameters: { type: "object", properties: { code: strParam("The rival university's programme code, e.g. '6004' (HKU)"), university: strParam("e.g. 'HKU', 'CUHK', 'HKUST'"), year: yearParam() }, required: [] },
     fn: function (a) {
-      var e = findCodeScoreNote(a.code, "08_rival-scores", a.year);
-      if (!e) {
-        // try university-only narrowing via search
-        var r = searchCore((a.university || "") + " " + (a.code || ""), 3, "08_rival-scores", 0);
-        if (r.count) {
-          var best = null, bestM = -1;
-          for (var i = 0; i < r.results.length; i++) {
-            var ee = entryByIdx(r.results[i].id);
-            var s = ee && scoreFromNote(ee);
-            if (s && s.median != null && s.median > bestM) { bestM = s.median; best = ee; }
-          }
-          if (best) { var s2 = scoreFromNote(best); return { ok: true, university: a.university || null, code: a.code || null, year: s2.year, median: s2.median, lower_quartile: s2.lower_quartile, note: s2.short_answer, note_id: knowledgeIndex.indexOf(best), caveat: "Scales differ across universities — not directly comparable." }; }
-        }
-        return { ok: false, error: "No rival score note found. Use search_notes(query='" + (a.university || "") + " " + (a.code || "score") + "')." };
-      }
-      var s = scoreFromNote(e);
-      return { ok: true, university: a.university || null, code: a.code || null, programme: capTitle(e.title), year: s.year, median: s.median, lower_quartile: s.lower_quartile, note: s.short_answer, note_id: knowledgeIndex.indexOf(e), caveat: "Scales differ across universities — not directly comparable." };
+      return {
+        ok: false,
+        removed: true,
+        error: "Cross-university score comparisons are no longer on this site — the vault covers CityU's OWN published CS scores only. Use get_cityu_score / get_all_cityu_scores / score_history for CityU. You may add the general caution that admission score scales differ across universities and are not directly comparable."
+      };
     }
   });
 
@@ -698,7 +723,7 @@
     description: "Get CityUHK undergraduate tuition fees (local vs non-local, per year, per programme where noted) and whether CS programmes differ. Use for 'how much does it cost / tuition / fees'.",
     parameters: { type: "object", properties: { programme: strParam("Optional: a specific programme to check for fee differences, e.g. 'double degree'") }, required: [] },
     fn: function (a) {
-      var notes = topicNotes(a.programme || "tuition fee", ["11_misc", "05_programmes", "01_jupas-basics"], 3);
+      var notes = topicNotes(a.programme || "tuition fee", ["05_programmes", "01_jupas-basics"], 3);
       if (!notes.length) notes = topicNotes("fee", null, 3);
       if (!notes.length) return { ok: false, error: "No fee note found. Try search_notes(query='tuition fee')." };
       return { ok: true, count: notes.length, notes: notes.map(function (e) { return { id: knowledgeIndex.indexOf(e), slug: e.slug, title: e.title, short_answer: shortAnswer(e), summary: e.text.slice(0, 1000) }; }) };
@@ -756,7 +781,7 @@
         if (code && n.title.toUpperCase().indexOf(code) >= 0) { e = n; break; }
         if (name && n.title.toLowerCase().indexOf(name) >= 0) { e = n; break; }
       }
-      if (!e) e = (topicNotes("duration", ["05_programmes", "03_nonjupas", "11_misc"], 1))[0] || null;
+      if (!e) e = (topicNotes("duration", ["05_programmes", "03_nonjupas"], 1))[0] || null;
       if (!e) return { ok: false, error: "No duration note found. Try search_notes(query='programme duration years')." };
       return { ok: true, id: knowledgeIndex.indexOf(e), slug: e.slug, title: e.title, short_answer: shortAnswer(e), summary: e.text.slice(0, 900) };
     }
@@ -814,7 +839,7 @@
     description: "Get CityUHK CS academic rankings / reputation (QS, THE, subject world rankings, local standing). Use for 'how is CityU CS ranked / is it good / reputation'.",
     parameters: { type: "object", properties: {}, required: [] },
     fn: function (a) {
-      var notes = topicNotes("ranking", ["00_vault-map", "05_programmes", "11_misc"], 3);
+      var notes = topicNotes("ranking", ["00_vault-map", "05_programmes"], 3);
       if (!notes.length) notes = topicNotes("ranked", null, 3);
       if (!notes.length) return { ok: false, error: "No ranking note found. Try search_notes(query='QS ranking')." };
       return { ok: true, count: notes.length, notes: notes.map(function (e) { return { id: knowledgeIndex.indexOf(e), slug: e.slug, title: e.title, short_answer: shortAnswer(e), summary: e.text.slice(0, 900) }; }) };
@@ -986,12 +1011,12 @@
   // can answer concretely instead of re-searching.
   // ------------------------------------------------------------------
   tool({ name: "get_employment_outcomes", description: "Get CS graduate employment statistics (salaries, destinations, top employers) for a programme. Use for 'what do graduates do / starting salary / job prospects'.", parameters: { type: "object", properties: { code: codeParam(), name: strParam("Or programme name") }, required: [] }, fn: function (a) { var e = findTopic("employment", a); return e ? packNote(e, 1000) : { ok: false, error: "No employment note found. Try search_notes(query='employment outcomes')." }; } });
-  tool({ name: "get_research_areas", description: "Get the CS department's research areas / labs / focus topics. Use for 'what is CS research at CityU / research groups'.", parameters: { type: "object", properties: {}, required: [] }, fn: function () { var n = topicNotes("research", ["05_programmes", "00_vault-map", "11_misc"], 3); return packNotes(n, "research note"); } });
+  tool({ name: "get_research_areas", description: "Get the CS department's research areas / labs / focus topics. Use for 'what is CS research at CityU / research groups'.", parameters: { type: "object", properties: {}, required: [] }, fn: function () { var n = topicNotes("research", ["05_programmes", "00_vault-map"], 3); return packNotes(n, "research note"); } });
   tool({ name: "get_1_5x_weighting", description: "Explain the JUPAS 1.5x subject-weighting policy: what it does, which subjects count, its current status, and how it changes a candidate's admission score. Use for 'what is 1.5x weighting / how does weighting work'.", parameters: { type: "object", properties: {}, required: [] }, fn: function () { var n = topicNotes("1.5x", ["01_jupas-basics"], 2); if (!n.length) n = topicNotes("subject weighting", ["01_jupas-basics"], 2); return packNotes(n, "1.5x weighting note"); } });
   tool({ name: "get_double_degree_info", description: "Get details of the CS double degree (BSc CS + BSc Computational Finance & FinTech, JS1221): how it works, duration, fees, entry. Use for questions about the double degree / JS1221.", parameters: { type: "object", properties: {}, required: [] }, fn: function () { var n = topicNotes("double degree", ["05_programmes", "01_jupas-basics", "02_jupas-scores"], 2); return packNotes(n, "double degree note"); } });
   tool({ name: "get_admission_process", description: "Explain how JUPAS admission works end-to-end: applications, choices, Main Round, Supplementary Round, and how offers are made. Use for 'how does JUPAS work / how are offers decided'.", parameters: { type: "object", properties: {}, required: [] }, fn: function () { var n = topicNotes("JUPAS", ["01_jupas-basics"], 2); return packNotes(n, "JUPAS process note"); } });
   tool({ name: "get_flexible_admission", description: "Explain flexible admission: when CityU may make an offer even if the published score/quartile is not met (boundary cases, OEA, holistic review). Use for 'I'm just below the cut-off, any chance / what is flexible admission'.", parameters: { type: "object", properties: {}, required: [] }, fn: function () { var n = topicNotes("flexible admission", null, 2); return packNotes(n, "flexible admission note"); } });
-  tool({ name: "get_international_admission", description: "Get how international / non-local students apply to CityUHK CS (non-JUPAS international route, documents, fees, quotas). Use for 'I'm an international student, how do I apply / can foreigners apply'.", parameters: { type: "object", properties: {}, required: [] }, fn: function () { var n = topicNotes("non-local", ["03_nonjupas", "11_misc", "01_jupas-basics"], 2); if (!n.length) n = topicNotes("international", null, 2); return packNotes(n, "international admission note"); } });
+  tool({ name: "get_international_admission", description: "Get how international / non-local students apply to CityUHK CS (non-JUPAS international route, documents, fees, quotas). Use for 'I'm an international student, how do I apply / can foreigners apply'.", parameters: { type: "object", properties: {}, required: [] }, fn: function () { var n = topicNotes("non-local", ["03_nonjupas", "01_jupas-basics"], 2); if (!n.length) n = topicNotes("international", null, 2); return packNotes(n, "international admission note"); } });
   tool({ name: "get_advancement_transfer", description: "Get advanced standing / transfer / articulation routes into CityUHK CS (starting in year 2, credit transfer, associate-degree pathways). Use for 'can I start in year 2 / transfer into CS / advanced standing'.", parameters: { type: "object", properties: {}, required: [] }, fn: function () { var n = topicNotes("advanced standing", ["03_nonjupas"], 2); if (!n.length) n = topicNotes("transfer", null, 2); return packNotes(n, "advanced standing/transfer note"); } });
   tool({ name: "get_placement_career", description: "Get internship, industry placement, and career-services info for CS students. Use for 'is there an internship / placement programme / career support'.", parameters: { type: "object", properties: {}, required: [] }, fn: function () { var n = topicNotes("placement", null, 2); if (!n.length) n = topicNotes("internship", null, 2); return packNotes(n, "placement/internship note"); } });
   tool({ name: "get_campus_location", description: "Get the CityUHK Kowloon Tong campus location, how to get there, and facilities relevant to CS students. Use for 'where is the campus / how do I get to CityU'.", parameters: { type: "object", properties: {}, required: [] }, fn: function () { var n = topicNotes("campus", null, 2); if (!n.length) n = topicNotes("Kowloon Tong", null, 2); return packNotes(n, "campus note"); } });
@@ -1000,7 +1025,7 @@
   tool({ name: "get_language_requirement", description: "Get the English / DSE language subject requirement for CS admission (and any other subject minimums). Use for 'what English grade do I need / language requirement'.", parameters: { type: "object", properties: {}, required: [] }, fn: function () { var n = topicNotes("English", ["01_jupas-basics", "05_programmes"], 2); if (!n.length) n = topicNotes("language requirement", null, 2); return packNotes(n, "language requirement note"); } });
   tool({ name: "get_subject_weights", description: "Get how JUPAS weights the best-5 subjects for CityU CS (which subjects count, best-5 rule, bonus/penalty). Use for 'how is the admission score calculated / subject weighting for CityU CS'.", parameters: { type: "object", properties: { code: codeParam() }, required: [] }, fn: function (a) { var e = findCodeScoreNote(a.code, "07_cityu-scores"); if (e) { var s = scoreFromNote(e); return { ok: true, code: String(a.code).toUpperCase(), formula: s.formula, note: s.short_answer, note_id: knowledgeIndex.indexOf(e) }; } var n = topicNotes("weighting formula", ["01_jupas-basics", "02_jupas-scores"], 2); return packNotes(n, "weighting formula note"); } });
   tool({ name: "get_oae_info", description: "Get the OAE (Other Academic Exercises) / additional exercises for CS admission if any. Use for 'is there an interview / OAE / additional exercise for CS'.", parameters: { type: "object", properties: {}, required: [] }, fn: function () { var n = topicNotes("OAE", ["01_jupas-basics", "05_programmes"], 2); if (!n.length) n = topicNotes("additional exercise", null, 2); return packNotes(n, "OAE note"); } });
-  tool({ name: "get_application_fee", description: "Get the non-JUPAS / direct-application fee (e.g. HK$200 per programme) and whether JUPAS charges an application fee. Use for 'how much does it cost to apply / application fee'.", parameters: { type: "object", properties: {}, required: [] }, fn: function () { var n = topicNotes("application fee", ["03_nonjupas", "01_jupas-basics", "11_misc"], 2); if (!n.length) n = topicNotes("HK$200", null, 2); return packNotes(n, "application fee note"); } });
+  tool({ name: "get_application_fee", description: "Get the non-JUPAS / direct-application fee (e.g. HK$200 per programme) and whether JUPAS charges an application fee. Use for 'how much does it cost to apply / application fee'.", parameters: { type: "object", properties: {}, required: [] }, fn: function () { var n = topicNotes("application fee", ["03_nonjupas", "01_jupas-basics"], 2); if (!n.length) n = topicNotes("HK$200", null, 2); return packNotes(n, "application fee note"); } });
   tool({ name: "get_jupas_choices", description: "Explain JUPAS choices: how many choices you can enter, how to order them, and how to update them before/after results. Use for 'how many choices can I put / how do I fill in my JUPAS choices'.", parameters: { type: "object", properties: {}, required: [] }, fn: function () { var n = topicNotes("choices", ["01_jupas-basics"], 2); if (!n.length) n = topicNotes("update choices", null, 2); return packNotes(n, "JUPAS choices note"); } });
   tool({ name: "get_admission_rounds", description: "Explain the JUPAS rounds: Main Round vs Supplementary Round, when each offers, and what happens if you miss Main Round. Use for 'what is the Main Round / Supplementary Round / if I don't get in Main Round'.", parameters: { type: "object", properties: {}, required: [] }, fn: function () { var n = topicNotes("Main Round", ["01_jupas-basics", "02_jupas-scores"], 2); if (!n.length) n = topicNotes("Supplementary Round", null, 2); return packNotes(n, "admission rounds note"); } });
   tool({ name: "get_hkdse_best5", description: "Explain the 'Best 5 subjects' rule for CityU CS's JUPAS score: which 5 count, how DSE grades map to points, and the weighting. Use for 'how are my 5 subjects chosen / best 5 rule'.", parameters: { type: "object", properties: {}, required: [] }, fn: function () { var e = findCodeScoreNote("JS1204", "07_cityu-scores"); if (e) { var s = scoreFromNote(e); return { ok: true, formula: s.formula, note: s.short_answer, note_id: knowledgeIndex.indexOf(e) }; } var n = topicNotes("Best 5", ["01_jupas-basics", "02_jupas-scores"], 2); return packNotes(n, "best-5 rule note"); } });
@@ -1015,7 +1040,7 @@
 
   function findTopic(kw, a) {
     var code = normStr(a && a.code).toUpperCase(), name = normStr(a && a.name).toLowerCase();
-    var list = topicNotes(kw, ["05_programmes", "11_misc", "00_vault-map"], 4);
+    var list = topicNotes(kw, ["05_programmes", "00_vault-map"], 4);
     for (var i = 0; i < list.length; i++) {
       var e = list[i];
       if (code && e.title.toUpperCase().indexOf(code) >= 0) return e;
