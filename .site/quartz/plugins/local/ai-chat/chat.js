@@ -2217,7 +2217,12 @@
   // The header is the drag handle; the left/top edges resize. Position +
   // size are persisted so the visitor's layout survives a reload.
   var panelPos = { x: null, y: null, w: null, h: null };
-  var PANEL_MIN_W = 300, PANEL_MIN_H = 360;
+  // Responsive minimums so the panel can shrink on a phone:
+  //  - width: at least half the screen (a bit more on wider screens, up to 320px)
+  //  - height: just enough for header + ~1 message line + input (so a touch user
+  //    can resize down to roughly one line of AI response)
+  function panelMinW() { return Math.min(320, Math.max(160, Math.round(window.innerWidth * 0.5))); }
+  function panelMinH() { return Math.min(180, Math.max(140, Math.round(window.innerHeight * 0.24))); }
 
   function panelEl() { return document.getElementById("ai-chat-panel"); }
   function clampPanel() {
@@ -2325,19 +2330,35 @@
   }
   document.addEventListener("nav", dockReapplySoon);
   window.addEventListener("popstate", dockReapplySoon);
+  // True while a resize/drag gesture is active. Guards other pointer handlers
+  // so a stray touch that lands on the panel mid-gesture can't start a second
+  // grab or cancel the resize in progress.
+  var panelGestureActive = false;
+  function isPanelGesture() { return panelGestureActive; }
   function pointerDrag(panel, onMove) {
-    function end() {
+    var finished = false;
+    function end(e) {
+      if (finished) return;
+      finished = true;
       document.removeEventListener("pointermove", move);
       document.removeEventListener("pointerup", end);
+      document.removeEventListener("pointercancel", end);
       panel.classList.remove("dragging", "resizing");
+      panelGestureActive = false;
       document.body.style.userSelect = "";
     }
     function move(e) {
-      e.preventDefault();
+      if (e.cancelable) e.preventDefault();
       onMove(e);
     }
+    panelGestureActive = true;
     document.addEventListener("pointermove", move);
     document.addEventListener("pointerup", end);
+    // Touch: the browser cancels the pointer when it decides to scroll the
+    // page (hijacking the gesture). The handles' `touch-action: none` stops
+    // that, but if it still happens, end the gesture cleanly instead of
+    // leaving the panel stuck mid-drag.
+    document.addEventListener("pointercancel", end);
     panel.classList.add("dragging");
     document.body.style.userSelect = "none";
   }
@@ -2358,6 +2379,7 @@
         // ignore drags that start on a header button
         if (e.target && e.target.closest && e.target.closest("button")) return;
         if (isDocked()) return; // docked panel isn't movable
+        if (isPanelGesture()) return; // a resize/drag is already in progress
         e.preventDefault();
         var s = startFrame();
         var sx = e.clientX, sy = e.clientY;
@@ -2385,6 +2407,7 @@
     if (rl) rl.addEventListener("pointerdown", function (e) {
       e.preventDefault(); e.stopPropagation();
       if (isDocked()) return;
+      if (isPanelGesture()) return; // a resize/drag is already in progress
       p.classList.add("resizing");
       // Read the frame BEFORE changing insets: with all insets auto a fixed
       // element jumps to its static position, which would corrupt the seed.
@@ -2396,7 +2419,7 @@
       var sx = e.clientX;
       pointerDrag(p, function (ev) {
         var delta = sx - ev.clientX; // >0 when dragging left
-        var nw = Math.min(Math.max(PANEL_MIN_W, s.w + delta), window.innerWidth - 16);
+        var nw = Math.min(Math.max(panelMinW(), s.w + delta), window.innerWidth - 16);
         p.style.width = nw + "px";
         // Use the RENDERED width (CSS max-width may cap it below nw) so the
         // left edge tracks the real growth, not the requested amount.
@@ -2418,6 +2441,7 @@
     if (rt) rt.addEventListener("pointerdown", function (e) {
       e.preventDefault(); e.stopPropagation();
       if (isDocked()) return;
+      if (isPanelGesture()) return; // a resize/drag is already in progress
       p.classList.add("resizing");
       var s = startFrame();
       p.style.left = s.left + "px";
@@ -2427,7 +2451,7 @@
       var sy = e.clientY;
       pointerDrag(p, function (ev) {
         var delta = sy - ev.clientY; // >0 when dragging up
-        var nh = Math.min(Math.max(PANEL_MIN_H, s.h + delta), window.innerHeight - 16);
+        var nh = Math.min(Math.max(panelMinH(), s.h + delta), window.innerHeight - 16);
         p.style.height = nh + "px";
         // Use the RENDERED height (CSS max-height may cap it below nh) so the
         // top edge tracks the real growth, not the requested amount.
@@ -2449,6 +2473,7 @@
     if (rr) rr.addEventListener("pointerdown", function (e) {
       e.preventDefault(); e.stopPropagation();
       if (isDocked()) return;
+      if (isPanelGesture()) return; // a resize/drag is already in progress
       p.classList.add("resizing");
       var s = startFrame();
       p.style.left = s.left + "px"; // anchor left so width grows rightward
@@ -2458,7 +2483,7 @@
       var sx = e.clientX;
       pointerDrag(p, function (ev) {
         var delta = ev.clientX - sx; // >0 when dragging right
-        var nw = Math.min(Math.max(PANEL_MIN_W, s.w + delta), window.innerWidth - 16);
+        var nw = Math.min(Math.max(panelMinW(), s.w + delta), window.innerWidth - 16);
         p.style.width = nw + "px";
         panelPos.w = nw;
       });
@@ -2475,6 +2500,7 @@
     if (rb) rb.addEventListener("pointerdown", function (e) {
       e.preventDefault(); e.stopPropagation();
       if (isDocked()) return;
+      if (isPanelGesture()) return; // a resize/drag is already in progress
       p.classList.add("resizing");
       var s = startFrame();
       p.style.left = s.left + "px";
@@ -2484,7 +2510,7 @@
       var sy = e.clientY;
       pointerDrag(p, function (ev) {
         var delta = ev.clientY - sy; // >0 when dragging down
-        var nh = Math.min(Math.max(PANEL_MIN_H, s.h + delta), window.innerHeight - 16);
+        var nh = Math.min(Math.max(panelMinH(), s.h + delta), window.innerHeight - 16);
         p.style.height = nh + "px";
         panelPos.h = nh;
       });
