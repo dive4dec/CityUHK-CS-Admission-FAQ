@@ -42,6 +42,15 @@ configuration:
         highlight: rgba(143, 159, 169, 0.15)
         textHighlight: "#b3aa0288"
 plugins:
+  # Stamp valid created/modified dates into frontmatter (git commit date /
+  # mtime) so the date plugin below never falls back to the filesystem birth
+  # time — this filesystem reports birthtime = 0, which triggers the
+  # `invalid date "0"` warning for every note.
+  # ORDER MATTERS: must run AFTER note-properties (order 5, which parses
+  # frontmatter) and BEFORE created-modified-date (order 10). Hence 7.
+  - source: "./quartz/plugins/local/note-dates"
+    enabled: true
+    order: 7
   - source: "@quartz-community/created-modified-date"
     enabled: true
     options:

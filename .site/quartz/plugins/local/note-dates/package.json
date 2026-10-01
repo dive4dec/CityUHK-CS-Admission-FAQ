@@ -1,0 +1,19 @@
+{
+  "name": "note-dates",
+  "version": "0.1.0",
+  "description": "Stamp valid created/modified dates into note frontmatter at build time (git commit date / mtime), fixing the `invalid date \"0\"` warning on filesystems without birth times.",
+  "type": "module",
+  "exports": {
+    ".": { "import": "./index.js" },
+    "./package.json": "./package.json"
+  },
+  "quartz": {
+    "name": "note-dates",
+    "displayName": "Note Dates",
+    "description": "Frontmatter created/modified date fallback (git latest-commit / mtime) for filesystems without birth times.",
+    "version": "0.1.0",
+    "quartzVersion": ">=5.0.0",
+    "category": ["transformer"],
+    "defaultOrder": 7
+  }
+}
