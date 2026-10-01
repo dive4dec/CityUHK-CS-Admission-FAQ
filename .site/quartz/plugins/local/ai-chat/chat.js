@@ -2745,7 +2745,12 @@
     panel.appendChild(el("div", { className: "ai-chat-resize-h", title: "Drag to resize height" }));
 
     var header = el("div", { className: "ai-chat-header", title: "Drag to move" });
-    header.appendChild(el("h3", { textContent: "CS Admission FAQ" }));
+    // The provider status (state dot + "Model (where it runs)") is the header
+    // title now — one line instead of a title line plus a separate status bar.
+    var status = el("div", { className: "ai-chat-status", title: "AI model & provider" });
+    status.appendChild(el("span", { id: "ai-chat-status-dot", className: "status-dot" }));
+    status.appendChild(el("span", { id: "ai-chat-status-text", textContent: "Starting\u2026" }));
+    header.appendChild(status);
     var actions = el("div", { className: "ai-chat-header-actions" });
     actions.appendChild(el("button", { title: "Settings", textContent: "\u2699\uFE0F", onclick: openSettings }));
     // Inline SVG (not an emoji): emoji rendering depends on the OS emoji
@@ -2789,10 +2794,6 @@
     header.appendChild(actions);
     panel.appendChild(header);
 
-    var status = el("div", { className: "ai-chat-status" });
-    status.appendChild(el("span", { id: "ai-chat-status-dot", className: "status-dot" }));
-    status.appendChild(el("span", { id: "ai-chat-status-text", textContent: "Starting\u2026" }));
-    panel.appendChild(status);
 
     var msgBox = el("div", { id: "ai-chat-messages", className: "ai-chat-messages" });
     panel.appendChild(msgBox);

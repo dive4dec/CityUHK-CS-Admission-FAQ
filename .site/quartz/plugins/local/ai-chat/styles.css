@@ -300,10 +300,25 @@ html.chat-docked.chat-docked-closed .sidebar-toggle {
   flex-shrink: 0;
 }
 
-.ai-chat-header h3 {
+/* The provider status (dot + "Model (where it runs)") is the header title —
+   it takes the title slot and pushes the action buttons to the right. One
+   line instead of a title line plus a separate status bar. */
+.ai-chat-header .ai-chat-status {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
   margin: 0;
-  font-size: 15px;
+  background: none;
+  border: none;
+  gap: 8px;
+  font-size: 13px;
   font-weight: 600;
+  color: var(--light, #faf8f8);
+}
+.ai-chat-header .ai-chat-status-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .ai-chat-header-actions {
@@ -342,17 +357,13 @@ html.chat-docked.chat-docked-closed .sidebar-toggle {
   color: var(--secondary, #284b63);
 }
 
+/* The status now lives inside the header (see .ai-chat-header
+   .ai-chat-status above); this base rule only sets the flex row. */
 .ai-chat-status {
-  padding: 6px 16px;
-  font-size: 11px;
-  color: var(--darkgray, #4e4e4e);
-  background: var(--highlight, rgba(143, 159, 169, 0.15));
-  border-bottom: 1px solid var(--gray, #b8b8b8);
   display: flex;
   align-items: center;
   gap: 6px;
   flex-shrink: 0;
-  min-height: 28px;
 }
 
 .ai-chat-status .status-dot {
