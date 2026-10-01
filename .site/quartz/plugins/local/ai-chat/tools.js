@@ -119,9 +119,15 @@
   function searchCore(query, limit, folder, minTitleHits) {
     var q = normStr(query);
     var lim = Math.max(1, Math.min(parseInt(limit, 10) || 5, 10));
-    if (!q || !knowledgeIndex) return { ok: true, count: 0, results: [], hint: "No index or no query." };
+    if (!q || !knowledgeIndex) return { ok: false, count: 0, results: [], error: "search_notes needs a non-empty 'query' (e.g. \"JUPAS scholarship\"). Retry with keywords, not an empty string." };
     var terms = q.toLowerCase().split(/[^a-z0-9\u4e00-\u9fff]+/).filter(Boolean);
-    if (!terms.length) return { ok: true, count: 0, results: [] };
+    if (!terms.length) return { ok: false, count: 0, results: [], error: "No searchable words in that query. Retry with different keywords." };
+    // Topic boost: the longest query term (e.g. "scholarship" in
+    // "JS1204 Computer Science JUPAS scholarship tier") names the real
+    // topic. Doubling notes whose TITLE carries it stops off-topic but
+    // keyword-rich notes (e.g. every JS1204 score note) from crowding out
+    // the on-topic notes when the model appends the programme code.
+    var topic = terms.slice().sort(function (a, b) { return b.length - a.length; })[0] || "";
     var scored = [];
     for (var i = 0; i < knowledgeIndex.length; i++) {
       var e = knowledgeIndex[i];
@@ -136,11 +142,12 @@
         if (titleLower.indexOf(term) >= 0) titleHits++;
         score += Math.max(0, 5 - combined.indexOf(term) / 100);
       }
+      if (topic.length >= 6 && titleLower.indexOf(topic) >= 0) score *= 2;
       if (minTitleHits && titleHits < minTitleHits) continue;
       if (score > 0) scored.push({ e: e, score: score, titleHits: titleHits });
     }
     scored.sort(function (a, b) { return b.score - a.score; });
-    return {
+    var payload = {
       ok: true,
       count: scored.length,
       results: scored.slice(0, lim).map(function (s) {
@@ -151,10 +158,37 @@
           folder: s.e.folder,
           score: Math.round(s.score * 10) / 10,
           short_answer: shortAnswer(s.e),
-          snippet: s.e.text.slice(0, 300)
+          snippet: answerExcerpt(s.e)
         };
       })
     };
+    // The agent loop hard-truncates tool results (TOOL_RESULT_MAX). A cut
+    // mid-object makes the model receive INVALID JSON and silently drops
+    // the lowest-ranked (often most on-topic) results. Instead, shrink the
+    // result set ourselves so the JSON always fits intact: fewer complete
+    // results > broken JSON.
+    var budget = (typeof TOOL_RESULT_MAX !== "undefined" ? TOOL_RESULT_MAX : 6000) - 200;
+    var s = JSON.stringify(payload);
+    while (s.length > budget && payload.results.length > 1) {
+      payload.results.pop();
+      s = JSON.stringify(payload);
+    }
+    if (payload.results.length < Math.min(lim, scored.length)) {
+      payload.truncated = "Fewer results shown to fit the tool-result budget; the top-ranked ones are complete. Use read_note(id) for full text or re-search with a smaller limit.";
+    }
+    return payload;
+  }
+  // Excerpt anchored at the note's "## Answer" section (falls back to the
+  // start of the text). This is where the actual tables, amounts and
+  // thresholds live — a leading slice just re-serves the tip callout that
+  // short_answer already covers, wasting the (truncated) tool-result budget
+  // and hiding the data the model needs.
+  function answerExcerpt(entry) {
+    var text = entry.text || "";
+    var ai = text.indexOf("## Answer");
+    var start = ai >= 0 ? ai : 0;
+    var out = text.slice(start, start + 340).replace(/\n{2,}/g, "\n").trim();
+    return start > 0 ? "… " + out : out;
   }
 
   tool({

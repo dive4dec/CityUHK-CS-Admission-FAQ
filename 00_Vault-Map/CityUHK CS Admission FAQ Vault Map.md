@@ -20,12 +20,14 @@ Where do I start to understand CityUHK CS admission as a parent or student?
 
 This vault is organised into folders that follow the admission journey: how JUPAS scoring works, what the published scores are, the non-JUPAS routes (ASI / ASII), the curriculum and programmes, how CityUHK compares with other HK universities, and career outlook. **08_Scholarships** (23 notes) covers every entrance scholarship on [cityu.edu.hk/scholarship](https://www.cityu.edu.hk/scholarship/): Flagship (incl. ACT JS1070), Institutional and Dean's tiers for local JUPAS/non-JUPAS entrants, the scholarship scoring scale, international / Mainland / athlete schemes, and donor awards. Each note is an FAQ: a question, an answer, and concrete examples.
 
-Start with the key-programme notes for the codes you care about: [[JS1204 BSc Computer Science Overview]] and [[JS1218 BSc Cybersecurity Overview]]. Then work through the JUPAS scoring notes, especially [[JS1204 2026 JUPAS Score Formula]] and [[1.5x Subject Weighting Policy (Draft) Status]]. For costs and money back, read [[CityUHK Tuition Fees]] and [[CityUHK Scholarship Overview]].
+Start with the key-programme notes for the codes you care about: [[JS1204 BSc Computer Science Overview]] and [[JS1218 BSc Cybersecurity Overview]]; for the two double degrees see [[JS1221 Double Degree Overview]] (CS + Computational Finance) and [[JS1063 LLB and BScCS Double Degree Overview]] (Law + CS AI, new 2027/28). Then work through the JUPAS scoring notes, especially [[JS1204 2026 JUPAS Score Formula]] and [[1.5x Subject Weighting Policy (Draft) Status]]. For costs and money back, read [[CityUHK Tuition Fees]] and [[CityUHK Scholarship Overview]].
 
 ## Related
 
 - [[JS1204 BSc Computer Science Overview]]
 - [[JS1218 BSc Cybersecurity Overview]]
+- [[JS1221 Double Degree Overview]]
+- [[JS1063 LLB and BScCS Double Degree Overview]]
 - [[JS1204 2026 JUPAS Score Formula]]
 - [[1.5x Subject Weighting Policy (Draft) Status]]
 - [[JUPAS for CityUHK CS The Big Picture]]

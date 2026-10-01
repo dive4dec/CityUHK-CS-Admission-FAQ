@@ -81,7 +81,7 @@
   var AGENT_HISTORY = 4; // plain-text messages kept for agent mode
   var AGENT_TURN_TRIM = 400; // trim old assistant replies in agent history
   var MAX_AGENT_TURNS = 4; // max model calls per user query (agent)
-  var TOOL_RESULT_MAX = 2600; // chars of a tool result fed back to the model
+  var TOOL_RESULT_MAX = 6000; // chars of a tool result fed back to the model (searchCore self-trims to fit; see there)
   var PAGE_READ_MAX = 1200; // default chars for read_current_page
   var STORAGE_MODEL = "cityu-ai-chat-model";
   var STORAGE_ENDPOINT = "cityu-ai-chat-endpoint"; // {kind,baseUrl,key,model}
@@ -191,8 +191,26 @@
       });
       if (!res.ok) return null;
       var data = await res.json();
-      var id = (data && data.data && data.data.length) ? String(data.data[0].id) : "";
-      return { baseUrl: String(base).replace(/\/+$/, ""), key: String(key), model: id || model || "model" };
+      var id = (data && data.data && data.data.length) ? String(data.data[0].id) : model;
+      var probeModel = id || model || "model";
+      var out = { baseUrl: String(base).replace(/\/+$/, ""), key: String(key), model: probeModel, agent: false };
+      // One cheap non-streamed call to learn whether this endpoint actually
+      // honours tool calling. If it errors, we still keep the provider for
+      // grounded RAG-only answers (agent=false) — never go dark for that.
+      try {
+        var tRes = await fetch(String(base).replace(/\/+$/, "") + "/chat/completions", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Authorization": "Bearer " + key },
+          body: JSON.stringify({
+            model: probeModel, max_tokens: 20,
+            messages: [{ role: "user", content: "ping" }],
+            tools: [{ type: "function", function: { name: "ping", description: "Ping probe.", parameters: { type: "object", properties: {}, required: [] } } }],
+            tool_choice: "none"
+          })
+        });
+        if (tRes.ok) out.agent = true;
+      } catch (e2) { /* non-fatal: fall back to RAG-only */ }
+      return out;
     } catch (e) { return null; }
     finally { if (to) clearTimeout(to); }
   }
@@ -296,10 +314,13 @@
   // Switch to the free provider (no model download, no user input).
   function activateFree() {
     if (!freeCfg) return;
+    var mode = freeCfg.agent
+      ? "full agent — I search the FAQ, look up scores and fees, and compute before answering."
+      : "I answer from the 1035 FAQ notes I retrieve for you.";
     setStatus("ready", "Free server ready: " + freeModelName());
     var note = freeNote ? freeNote : "";
     addSystemMessage(
-      "Free AI is available now \u2014 I answer from the 1035 FAQ notes I retrieve for you. No setup needed." + note
+      "Free AI is available now \u2014 " + mode + " No setup needed." + note
     );
   }
 
@@ -787,6 +808,12 @@
     if (!knowledgeIndex || !knowledgeIndex.length) return [];
     var terms = query.toLowerCase().split(/[^a-z0-9\u4e00-\u9fff]+/).filter(Boolean);
     if (!terms.length) return [];
+    // Topic boost: when the query names a topic (e.g. scholarship), strongly
+    // favor notes whose TITLE carries that topic word. Without this, queries
+    // like "JUPAS scholarship requirement" are dominated by generic JUPAS
+    // notes and the few on-topic notes (08_scholarships) fall out of the top
+    // K, so the model gets no actual requirement tables and answers unsure.
+    var boostedTerms = terms.filter(function (t) { return t.length >= 5; });
     var scored = [];
     for (var i = 0; i < knowledgeIndex.length; i++) {
       var entry = knowledgeIndex[i];
@@ -800,6 +827,9 @@
           score += titleLower.indexOf(term) >= 0 ? 10 : 1;
           score += Math.max(0, 5 - idx / 100);
         }
+      }
+      for (var b = 0; b < boostedTerms.length; b++) {
+        if (titleLower.indexOf(boostedTerms[b]) >= 0) score *= 2;
       }
       if (score > 0) scored.push({ entry: entry, score: score });
     }
@@ -1092,7 +1122,9 @@
       stream: true,
       max_tokens: FREE_MAX_TOKENS
     });
-    delete body.tools; // the free model ignores them (and would hallucinate)
+    // The free model supports tool calling (verified at probe time):
+    // keep the tools the agent loop passes so it can search, look up
+    // and compute before answering.
     var headers = { "Content-Type": "application/json", "Authorization": "Bearer " + c.key };
     var res = await fetch(String(c.baseUrl).replace(/\/+$/, "") + "/chat/completions", {
       method: "POST",
@@ -1133,6 +1165,7 @@
       }
     })();
   }
+  function isFreeAgent() { return !!(freeCfg && freeCfg.agent); }
   // Dispatch a completions request to the active provider. Both paths
   // return an async iterable of OpenAI-format chunks.
   function providerCreate(request) {
@@ -1868,9 +1901,10 @@
     showTyping(true);
 
     try {
-      // The free provider is a reasoning model with no tool-calling, so it
-      // ALWAYS uses the grounded RAG path (never the agent/tool loop).
-      if (isFree() || !(isExternal() || isAgentModel(currentModelId))) await fastAnswer(query);
+      // The free provider runs the FULL agent when its endpoint supports
+      // tool calling (probed at startup); otherwise it stays on the
+      // grounded RAG-only path.
+      if (isFree() ? !isFreeAgent() : !(isExternal() || isAgentModel(currentModelId))) await fastAnswer(query);
       else await runAgent(query);
     } catch (e) {
       showTyping(false);

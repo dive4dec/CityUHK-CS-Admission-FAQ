@@ -31,6 +31,8 @@ Major leader (2026/27 page): Prof. Howard LEUNG (BEng McGill, MSc/PhD Carnegie M
 - [[CS First Year Courses and Credits]]
 - [[CS Study Streams Explained]]
 - [[ITPP IT Professional Internship Overview]]
+- [[JS1063 LLB and BScCS Double Degree Overview]]
+- [[Minor in Artificial Intelligence]]
 - [[JS1204 2026 JUPAS Score Formula]]
 - [[JS1204 JUPAS Admission Score History]]
 - [[JS1204 Graduate Employment Statistics]]

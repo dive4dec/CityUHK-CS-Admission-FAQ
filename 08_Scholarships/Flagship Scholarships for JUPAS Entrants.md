@@ -10,7 +10,7 @@ status: verified
 # Flagship Scholarships for JUPAS Entrants
 
 > [!tip] Short answer
-> For local JUPAS entrants registered for one of ten flagship programmes - for CS students that is JS1070 AI, Computing and Transformation (ACT). Full scholarship needs a minimum HKDSE scholarship score of 27.5 (half: 25); it covers 100% (or 50%) tuition and hall fees (double room) for the whole programme.
+> Only for the ten flagship programmes (CS-relevant: ACT JS1070) - NOT for plain JS1204/JS1218. Full = 100% tuition + hall fees (double room) at min scholarship score 27.5; Half = 50% at 25. Plus exchange up to HK$500,000 one-off and a guaranteed hall berth. **Scale: 5\*\*=8.5, 5\*=7, 5=5.5, 4=4, 3=3; score = 3 core (excl. CSDDD) + 2 best electives.**
 
 ## Question
 
@@ -33,9 +33,10 @@ Award value for the 2027 entry cycle (minimum HKDSE scholarship score - see [[Sc
 Flagship recipients also get **exchange sponsorships of up to HK$500,000 (one-off)** and a **guaranteed berth in the halls of residence**.
 
 ## Examples
-
-- A JUPAS applicant who places JS1070 ACT in an earlier band and is admitted with a scholarship score of 27.5 receives the ACT full Flagship Scholarship - 100% tuition and hall fees for the programme's full duration, no separate application.
-- A student admitted to JS1204 BSc Computer Science with the same 27.5 score does **not** get the Flagship; instead they qualify for the Institutional Scholarship (HK$69,000/yr if 4 subjects are 5**) and Dean's Tier 1 (HK$94,000/yr) - whichever is higher applies.
+- **Worked example (full):** Chinese 5, English 5, Maths 5, M1 5*, Chemistry 4, ICT 4 admitted to JS1070 ACT. Score = core (16.5) + electives (7 + 4) = **27.5** -> **Full Flagship Scholarship**: 100% tuition and hall fees (double room) for the whole programme + up to HK$500,000 one-off exchange sponsorship + guaranteed hall berth.
+- **Worked example (half):** the same profile with M1 at 5 instead of 5* scores 26.5 -> **Half Scholarship**: 50% tuition and 50% hall fees.
+- **Thresholds differ by programme:** most flagships (incl. ACT) 27.5/25; **BVM JS1801 38/35**; **LLB JS1061 30.5/27.5**.
+- **Same 27.5 admitted to JS1204 instead:** no Flagship (not a flagship programme) - the candidate falls to Dean's Tier 1 (HK$94,000/yr) instead. For a strong candidate choosing between ACT and JS1204, this is a real financial difference below 27.5 (ACT half = 50% tuition + free hall fees vs Dean's Tier 2 HK$35,000/yr).
 
 ## Related
 

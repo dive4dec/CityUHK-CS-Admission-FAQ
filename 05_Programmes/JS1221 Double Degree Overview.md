@@ -27,6 +27,7 @@ Graduates can pursue quantitative/finance/business analyst, cybersecurity analys
 ## Related
 
 - [[Double Degree Requirements and Structure]]
+- [[JS1063 LLB and BScCS Double Degree Overview]]
 - [[JS1221 Double Degree Admission Score History]]
 - [[JS1204 BSc Computer Science Overview]]
 - [[Dean's Scholarships for JUPAS Entrants]]

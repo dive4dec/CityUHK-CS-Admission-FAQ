@@ -22,7 +22,7 @@ The calculator computes your admission score **two ways** — CityUHK's publishe
 - **🎓 Competitive by design.** Most admitted students come from JUPAS Band A; the 2026 BSc CS median was 23 (lower quartile 22) under the published best-5, weight-1 formula.
 - **⚖️ The 1.5× weighting policy** rewards exactly the subjects a CS student takes — English, Mathematics, ICT, M1, M2, Physics, Chemistry and Biology counted at 1.5× level points (status: promoted by the CS admissions team; confirm the current year's published formula).
 - **💼 A mandatory 9-month ITPP internship** in Year 3 with real employers, plus 97.5% of BSc CS graduates in full-time employment (GES 2024).
-- **🧭 Five streams inside BSc CS** (AI, Data Science, Multimedia/SE, plus core and software engineering), plus BSc Cybersecurity (JS1218), the CS + Computational Finance double degree (JS1221), ACT and Data Science programmes.
+- **🧭 Five streams inside BSc CS** (AI, Data Science, Multimedia/SE, plus core and software engineering), plus BSc Cybersecurity (JS1218), the CS + Computational Finance double degree (JS1221), the new LLB + BSc CS (AI) double degree (JS1063, first intake 2027/28), ACT and Data Science programmes, and a CS Minor in Artificial Intelligence.
 - **🏫 Ranked** ~23rd (U.S. News 2025-26), 61st (THE 2026) and 59th (QS 2025) for Computer Science; the first HK CS programme to receive HKIE accreditation.
 
 ## Start here
@@ -56,6 +56,7 @@ The calculator computes your admission score **two ways** — CityUHK's publishe
 - [[Non-JUPAS Year 1 Admission]] — Year 1 / ASI / ASII, IB, GCE A-Level
 - [[CS Study Streams Explained]] — curriculum, streams, first year, ITPP internship
 - [[JS1221 Double Degree Overview]] — programme overviews and the double degree
+- [[JS1063 LLB and BScCS Double Degree Overview]] — the new Law + CS (AI) double degree (2027/28)
 - [[CS Core Courses Explained]] — one note per CS course (91 courses)
 - [[JS1204 BSc Computer Science (CityU 2026 Score)]] — every CityU programme, every year 2023–2026 (222 notes)
 - [🧮 What's My Score?](/static/score-checker.html) — "my grades are X → score + 1.5× version + recommendation" (replaces the old per-profile lookup notes)

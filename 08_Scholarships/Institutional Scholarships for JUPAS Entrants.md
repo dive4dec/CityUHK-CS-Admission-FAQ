@@ -10,7 +10,7 @@ status: verified
 # Institutional Scholarships for JUPAS Entrants
 
 > [!tip] Short answer
-> For local JUPAS entrants (incl. JS1204 and JS1218, but not the flagship programmes): 4 subjects at 5** => HK$69,000/yr; 3 at 5** => HK$59,000/yr; 2 at 5** plus scholarship score >= 25 => HK$35,000/yr - each with a one-off HK$25,000 exchange scholarship, for 4-6 years.
+> For local JUPAS entrants incl. JS1204/JS1218 (not flagships), per year: 4 subjects at 5** = HK$69,000; 3 subjects at 5** = HK$59,000; 2 subjects at 5** and scholarship score >= 25 = HK$35,000; each tier also gives a one-off HK$25,000 exchange scholarship. All 5** in one sitting; M1/M2 count (both = one subject). **Scale: 5\*\*=8.5, 5\*=7, 5=5.5, 4=4, 3=3; score = 3 core (excl. CSDDD) + 2 best electives.**
 
 ## Question
 
@@ -35,9 +35,10 @@ Rules to know:
 - **No application is required** - eligible students are notified by email on the JUPAS Main Round offer announcement date.
 
 ## Examples
-
-- A JS1204 entrant with 5** in English, Mathematics and M1 (three 5** subjects, all in one sitting) and Level 4 in Chinese gets HK$59,000/yr x 4 years = HK$236,000 plus the one-off HK$25,000 exchange scholarship - about HK$261,000 against ~HK$188,000 of total four-year tuition.
-- A JS1218 entrant with 2 subjects at 5**, Level 4 in both Chinese and English, and a scholarship score of 25+ gets HK$35,000/yr - still HK$140,000 over four years.
+- **Worked example (top tier):** English 5**, Chinese 5**, Maths 5**, M1 5*, ICT 5, History 4, all in one sitting. Three subjects at 5** and Level 4+ in both languages -> **HK$69,000/yr** x 4 = HK$276,000 + one-off HK$25,000 exchange scholarship (~HK$301,000 total against ~HK$188,000 tuition).
+- **Worked example (middle tier):** English 5**, Maths 5**, M1 5*, ICT 5, Chinese 4, History 4. Two 5** subjects; score = core (4 + 8.5 + 8.5 = 21) + electives (7 + 5.5) = 33.5 >= 25 -> **HK$35,000/yr** x 4 = HK$140,000 + HK$25,000 one-off exchange.
+- **English/Chinese cross-rule:** if English is one of the 5** subjects used, Chinese must be Level 4 or above (and vice versa); otherwise that 5** does not count toward the tier.
+- **M1/M2 rule:** extended modules count as 5** subjects, but M1 + M2 together count as ONE subject. Repeated subjects are not counted; all results must be from one sitting.
 
 ## Related
 

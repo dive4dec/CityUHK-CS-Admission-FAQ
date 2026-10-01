@@ -7,6 +7,31 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 ## [Unreleased]
 
 ### Added
+- **JS1063 LLB + BSc Computer Science (AI) double degree** note
+  (05_Programmes). JS1063 is a brand-new 5-year double degree (first
+  intake 2027/28, 8 local JUPAS places) jointly run by the School of
+  Law and the Department of Computer Science: qualifying LLB + BScCS
+  (AI stream), 158 CU, JUPAS minimums English 5 / Math 3 / Chinese 3 /
+  CSD + L3 science-ICT elective + second L3 elective, HK$49,500
+  first-year fee, self-financing beyond 144 CU / year 5, PCLL route for
+  law, HKIE-accredited CS. Also enriched the existing "Minor in
+  Artificial Intelligence" curriculum note with the full 15-CU
+  structure and CGPA 3.0 declaration rules. "Double Degree
+  Requirements and Structure", JS1221 Overview, JS1204 Overview,
+  index.md and the vault map updated to cover both double degrees.
+- **Free (no-setup) mode now runs the full agent.** The free endpoint
+  (Socrates via litellm) is probed at startup for tool-calling support;
+  when present, free mode uses the same multi-round agent loop as
+  external mode (all 62 tools: search/lookup/compute/page). If the
+  endpoint rejects tools it degrades gracefully to the grounded RAG-only
+  path. Also fixed the tool-result delivery that made the agent say
+  "not in the notes": `search_notes` snippets are now anchored at the
+  note's `## Answer` section (amounts/tables live there, not in the
+  tip-callout the old leading slice re-served), the tool-result budget
+  is 4200 chars (was 2600, which cut the JSON mid-object and dropped
+  the lowest-ranked but on-topic note), and `retrieve()` gained a
+  2x title-topic boost so on-topic notes aren't crowded out by
+  generic ones.
 - **`08_Scholarships` folder (23 new notes).** Full coverage of the
   [CityUHK scholarships page](https://www.cityu.edu.hk/scholarship/)
   (retrieved 25 September 2026): CityUHK Scholarships for Hong Kong Talents
