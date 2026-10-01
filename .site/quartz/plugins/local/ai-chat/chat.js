@@ -1271,6 +1271,8 @@
   var WEBLLM_TOOLS = [
     { name: "search_notes", desc: "Keyword-search the FAQ notes. Returns results with a short_answer; use read_note(id) for full text.",
       params: { query: strParam("Search keywords"), limit: intParam("Max results (default 5, max 10)") }, req: ["query"] },
+    { name: "web_search", desc: "Search the INTERNET (Wikipedia + DuckDuckGo) for topics the site notes do NOT cover (CS job market, salaries, industry news, general CS knowledge). Use as a FALLBACK when search_notes has no answer, so you can still give a best-effort answer.",
+      params: { query: strParam("Web search keywords"), limit: intParam("Max results (default 5, max 8)") }, req: ["query"] },
     { name: "read_note", desc: "Full text of one note by id (from search_notes/list_notes).",
       params: { id: intParam("Note id"), slug: strParam("Or note slug"), max_chars: intParam("Max chars (default 2200)") }, req: [] },
     { name: "list_folders", desc: "List the site's note sections with note counts.", params: {}, req: [] },
@@ -1491,11 +1493,19 @@
       "codes get_nonjupas_code, for a score get_cityu_score, for grades " +
       "lookup_grade_score, for fees get_tuition_fees, for a programme get_programme_info, for a " +
       "course get_course_info, and so on. Only use the generic search_notes when no specific tool fits.\n" +
+     "- FALLBACK TO THE WEB: if search_notes (or a specific tool) comes up empty or clearly " +
+     "lacks the answer (e.g. the CS job market / salaries / demand, industry trends, what " +
+     "graduates do, or any general-knowledge topic), call web_search(query) and answer from " +
+     "its results, citing the source title(s). Do NOT just reply 'the notes do not contain " +
+     "this'; give the best-effort answer. Site notes stay authoritative for CityU admission " +
+     "facts; web results are general knowledge.\n" +
       "- After a tool returns data with ok=true, that data IS your source: answer from it. " +
       "Do NOT call the same or a similar tool again to \"double-check\". At most 2 tool calls " +
-      "per question, then answer.\n" +
-      "Be concise and factual. Answer only from what the tools and the page return; if they " +
-      "have no answer, say so plainly. If the user asked you to open/show a page, call " +
+     "per question, then answer (a search that finds nothing does NOT count as an answer \u2014 " +
+     "it is the trigger for web_search).\n" +
+      "Be concise and factual. Answer from what the tools and the page return; if even the web " +
+      "fallback has nothing, say so plainly and give your best general-knowledge answer, clearly " +
+      "labelled as such. If the user asked you to open/show a page, call " +
       "navigate_to_page once AND still write the answer.\n" +
       "The site is published at " + location.origin + BASE + " — so a note's full public URL is " +
       location.origin + BASE + "/<slug> (e.g. " + location.origin + BASE + "/03_nonjupas/bsc-cs-non-jupas-code-1561a). " +
@@ -1511,10 +1521,14 @@
     return (
       "You are the FAQ assistant for the CityUHK (City University of Hong Kong) " +
       "Computer Science undergraduate admission site. The user asked a question " +
-      "and one site tool has already been run for you; its result is provided " +
+      "and a site tool has already been run for you; its result is provided " +
       "below. Write the final answer NOW in plain text (no JSON, no tool calls). " +
-      "Be concise and factual, and answer only from the provided content — if it " +
-      "does not contain the answer, say so. You may cite the note titles given."
+      "Be concise and factual, and answer from the provided content. If the site " +
+      "notes do not contain the answer (e.g. CS job market, salaries, industry " +
+      "trends), give a best-effort general-knowledge answer clearly labelled as " +
+      "such — do NOT just say 'the notes do not contain this'. Cite the note " +
+      "titles and any web source titles given; for CityU admission facts the " +
+      "site notes are authoritative."
     );
   }
 
@@ -1587,8 +1601,13 @@
       "per question, then answer. For a COMPLETE list (\"all\", \"every\", \"each\"), retrieve " +
       "each matching note (search then read_note on each) before answering, and use the " +
       "note's full text — read_note's offset/next_offset reads past the first part of a " +
-      "long note. (4) Be concise and factual; if the tools have no answer, " +
-      "say so. (5) If the user wants a page opened, call navigate_to_page once AND still " +
+      "long note. (3b) FALLBACK TO THE WEB: when the notes have no answer (job market, " +
+      "salaries, industry trends, general CS knowledge), call web_search and answer from its " +
+      "results, citing the source title(s) and noting it is general web knowledge — do NOT " +
+      "just reply 'the notes do not contain this'. (4) Be concise and factual; if even the web " +
+      "fallback has nothing, say so plainly and give your best general-knowledge answer, " +
+      "clearly labelled as such. (5) If the user wants a page opened, call navigate_to_page " +
+      "once AND still " +
       "write the answer. (6) The site is published at " + location.origin + BASE + ", so a " +
       "note's full public URL is " + location.origin + BASE + "/<slug>; if the user asks for a " +
       "page's link/URL, give the full URL (the navigate_to_page result includes it as url)." +

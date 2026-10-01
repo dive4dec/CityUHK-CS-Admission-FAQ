@@ -251,6 +251,113 @@
     }
   });
 
+  // ------------------------------------------------------------------
+  // WEB cluster — best-effort internet lookup for topics the vault does NOT
+  // cover (job market, salaries, industry news, competitor universities'
+  // non-CityU data, general CS knowledge). Calls Wikipedia (en + zh) and
+  // DuckDuckGo straight from the browser (both are CORS-open, no proxy /
+  // server / API key needed). Used ONLY after search_notes comes up empty —
+  // the vault is the source of truth for admission facts; the web is a
+  // fallback so the assistant never just says "not in the notes."
+  // ------------------------------------------------------------------
+  function decodeWikiSnippet(s) {
+    return String(s || "")
+      .replace(/<[^>]+>/g, "")
+      .replace(/&quot;/g, '"').replace(/&amp;/g, "&")
+      .replace(/&#39;|&apos;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">")
+      .replace(/\s+/g, " ").trim();
+  }
+  async function wikiSearch(lang, q, lim) {
+    var base = "https://" + lang + ".wikipedia.org/w/api.php";
+    var url = base + "?action=query&list=search&srsearch=" + encodeURIComponent(q) +
+      "&srlimit=" + lim + "&format=json&origin=*";
+    var res = await fetch(url, { cache: "no-store" });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    var data = await res.json();
+    var rows = (data && data.query && data.query.search) || [];
+    return rows.map(function (r) {
+      return {
+        source: "Wikipedia",
+        title: r.title,
+        snippet: decodeWikiSnippet(r.snippet),
+        url: "https://" + lang + ".wikipedia.org/wiki/" + encodeURIComponent(r.title.replace(/ /g, "_"))
+      };
+    });
+  }
+  async function ddgSearch(q, lim) {
+    // DuckDuckGo Instant Answer API (CORS-open). Returns topic/abstract/
+    // related topics rather than full web results — a good lightweight source.
+    var url = "https://api.duckduckgo.com/?q=" + encodeURIComponent(q) + "&format=json&no_html=1&no_redirect=1&skip_disambig=1";
+    var res = await fetch(url, { cache: "no-store" });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    var d = await res.json();
+    var out = [];
+    if (d.AbstractText) out.push({ source: "DuckDuckGo", title: d.Heading || q, snippet: String(d.AbstractText), url: d.AbstractURL || "" });
+    ((d.RelatedTopics) || []).slice(0, lim).forEach(function (t) {
+      var item = t.FirstURL ? t : (t.Topics && t.Topics[0]);
+      if (!item || !item.Text) return;
+      out.push({ source: "DuckDuckGo", title: item.Text.split(" - ")[0], snippet: item.Text, url: item.FirstURL || "" });
+    });
+    return out;
+  }
+
+  tool({
+    name: "web_search",
+    description: "Search the INTERNET (Wikipedia + DuckDuckGo) for information the site's notes do NOT cover — e.g. CS job market / salaries / demand in Hong Kong, industry trends, what a CS graduate does, general CS concepts. Use this as a FALLBACK when search_notes returns nothing or clearly lacks the answer, so you can still give a best-effort answer instead of just saying 'not in the notes'. Always frame web results as general knowledge (cite the source title), and note the site's own admission data is authoritative for CityU facts.",
+    parameters: {
+      type: "object",
+      properties: {
+        query: textParam("Web search keywords, e.g. \"Hong Kong computer science graduate salary job market\""),
+        limit: limitParam()
+      },
+      required: ["query"]
+    },
+    fn: async function (a) {
+      var q = normStr(a.query);
+      var lim = Math.max(1, Math.min(parseInt(a.limit, 10) || 5, 8));
+      if (!q) return { ok: false, error: "web_search needs a non-empty 'query'." };
+      var results = [];
+      var errors = [];
+      // Run Wikipedia (en + zh) and DuckDuckGo concurrently; tolerate any one
+      // failing (offline / blocked) and return what we got.
+      try {
+        var en = await wikiSearch("en", q, lim);
+        results = results.concat(en);
+      } catch (e) { errors.push("wikipedia-en: " + (e && e.message ? e.message : e)); }
+      try {
+        var zh = await wikiSearch("zh", q, Math.max(2, Math.floor(lim / 2)));
+        results = results.concat(zh);
+      } catch (e) { errors.push("wikipedia-zh: " + (e && e.message ? e.message : e)); }
+      try {
+        var ddg = await ddgSearch(q, Math.max(2, Math.floor(lim / 2)));
+        results = results.concat(ddg);
+      } catch (e) { errors.push("duckduckgo: " + (e && e.message ? e.message : e)); }
+      // De-dupe by (source+title), cap to limit.
+      var seen = {}, out = [];
+      for (var i = 0; i < results.length && out.length < lim; i++) {
+        var r = results[i];
+        if (!r || !r.snippet) continue;
+        var k = r.source + "|" + r.title;
+        if (seen[k]) continue;
+        seen[k] = true;
+        out.push(r);
+      }
+      if (!out.length) {
+        return {
+          ok: false,
+          error: "No web results (sources unreachable or no matches)." + (errors.length ? " (" + errors.join("; ") + ")" : ""),
+          hint: "If the internet is blocked in the user's browser, fall back to answering from the site notes or say you could not verify."
+        };
+      }
+      return {
+        ok: true,
+        count: out.length,
+        results: out,
+        caveat: "General web knowledge (Wikipedia / DuckDuckGo), NOT CityU's official admission data. Cite the source title(s); for CityU-specific admission facts the site notes are authoritative."
+      };
+    }
+  });
+
   tool({
     name: "list_folders",
     description: "List the site's note sections (folders) with note counts. Use to discover what topics exist before searching, or when a search returns nothing.",
