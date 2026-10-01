@@ -2301,18 +2301,85 @@
     if (!p) return;
     var docked = localStorage.getItem("ai-chat-docked") === "1";
     p.classList.toggle("docked", docked);
+    // `chat-docked` on <html> (not <body>): SPA nav REPLACES <body>, so a body
+    // class would be lost on navigation. It drives the top-frame inset CSS.
+    document.documentElement.classList.toggle("chat-docked", docked);
     document.body.classList.toggle("chat-docked", docked);
     var dockBtn = p.querySelector(".ai-chat-dock");
     if (dockBtn) dockBtn.classList.toggle("active", docked);
     if (docked) {
-      // A fixed bottom bar — the floating position/size don't apply.
-      p.style.top = ""; p.style.bottom = ""; p.style.right = "";
-      p.style.width = ""; p.style.height = "";
-      layoutDockBar(); // sizes left/width to the center column + body clearance
+      // A fixed full-width BOTTOM FRAME — the floating position/size don't apply.
+      p.style.left = ""; p.style.top = ""; p.style.bottom = ""; p.style.right = "";
+      p.style.width = "";
+      applyDockFrameHeight(); // restores the saved boundary position, if any
+      addDockStrip(p); // the draggable boundary between the two frames
+      layoutDockBar();
     } else {
+      removeDockStrip();
+      p.style.height = "";
+      document.documentElement.style.removeProperty("--dock-h");
       document.body.style.paddingBottom = "";
       applyPanelGeom();
     }
+  }
+  // ---- Draggable frame boundary (dock mode) ----
+  // The strip at the top edge of the bottom frame. Dragging it up makes the AI
+  // frame taller (and the content frame shorter); the saved height is a
+  // percentage of the viewport so the proportion survives resize + reload.
+  var dockStripEl = null;
+  var dockSavedVh = null; // e.g. 38 -> 38vh
+  function dockMinH() { return 140; }
+  function dockMaxH() { return Math.max(300, Math.round(window.innerHeight * 0.9)); }
+  function applyDockFrameHeight() {
+    var p = panelEl();
+    if (!p || !p.classList.contains("docked")) return;
+    try {
+      var s = parseFloat(localStorage.getItem("ai-chat-dockvh") || "");
+      if (isFinite(s) && s > 0) dockSavedVh = Math.min(90, Math.max(12, s));
+    } catch (e) {}
+    if (dockSavedVh == null) {
+      dockSavedVh = 38;
+      p.style.height = ""; // CSS default (38vh)
+    } else {
+      p.style.height = dockSavedVh + "vh";
+    }
+    document.documentElement.style.setProperty("--dock-h", p.style.height || "38vh");
+  }
+  // Mounted on <html> (like the panel) so SPA nav keeps it; positioned by the
+  // same --dock-h variable the top frame uses for its inset, so the strip is
+  // always exactly on the frame boundary.
+  function addDockStrip() {
+    if (dockStripEl && dockStripEl.parentNode) return;
+    dockStripEl = el("div", { id: "ai-chat-frame-boundary", className: "ai-chat-dock-strip", title: "Drag to resize" });
+    document.documentElement.appendChild(dockStripEl);
+    dockStripEl.addEventListener("pointerdown", function (e) {
+      var p = panelEl();
+      if (!p || !p.classList.contains("docked")) return;
+      if (isPanelGesture()) return;
+      e.preventDefault(); e.stopPropagation();
+      var sy = e.clientY;
+      var sh = p.getBoundingClientRect().height;
+      pointerDrag(p, function (ev) {
+        // Dragging UP (clientY decreases) makes the AI frame TALLER and the
+        // content frame shorter.
+        var delta = sy - ev.clientY;
+        var nh = Math.min(dockMaxH(), Math.max(dockMinH(), sh + delta));
+        p.style.height = nh + "px";
+        dockSavedVh = Math.round(100 * nh / window.innerHeight);
+        document.documentElement.style.setProperty("--dock-h", nh + "px");
+      });
+      dockStripEl.addEventListener("pointerup", function done() {
+        try { localStorage.setItem("ai-chat-dockvh", String(dockSavedVh)); } catch (e2) {}
+        // switch to vh so the saved proportion tracks window resizes
+        if (dockSavedVh != null) p.style.height = dockSavedVh + "vh";
+        layoutDockBar();
+        dockStripEl.removeEventListener("pointerup", done);
+      });
+    });
+  }
+  function removeDockStrip() {
+    if (dockStripEl && dockStripEl.parentNode) dockStripEl.parentNode.removeChild(dockStripEl);
+    dockStripEl = null;
   }
   // Quartz re-renders the page on every SPA nav and REPLACES <body> (wiping the
   // inline padding-bottom we set), so after each nav keep watching for ~1.5s
@@ -2533,24 +2600,15 @@
   // to edge. The same measurement drives body's padding-bottom so the
   // article + footer bottom stay clear of the bar.
   var dockBar = { left: null, w: null, h: 0 };
+  // Docked frame: always spans the full page width (CSS). This just keeps the
+  // --dock-h variable (which insets the top frame) in sync with the frame's
+  // actual height, so the top frame's inset tracks resizes of the frame.
   function layoutDockBar() {
     var p = panelEl();
-    if (!p) return;
-    var center = document.querySelector("#quartz-body .center");
-    if (!center) return;
-    var r = center.getBoundingClientRect();
-    var gap = 8;
-    var left = Math.max(gap, r.left - 4);
-    var w = r.width + 8;
-    if (w < 320) { left = 0; w = window.innerWidth; } // column too narrow to trust
-    var docked = p.classList.contains("docked");
-    if (docked) {
-      p.style.left = left + "px";
-      p.style.width = w + "px";
-    }
-    dockBar = { left: left, w: w, h: Math.max(p.offsetHeight, 0) };
-    var pad = docked && p.offsetHeight ? Math.min(p.offsetHeight + 8, window.innerHeight - 60) : 0;
-    document.body.style.paddingBottom = pad ? pad + "px" : "";
+    if (!p || !p.classList.contains("docked")) return;
+    var h = p.offsetHeight;
+    if (h > 0) document.documentElement.style.setProperty("--dock-h", h + "px");
+    dockBar = { left: 0, w: window.innerWidth, h: h };
   }
   window.addEventListener("resize", layoutDockBar);
   window.addEventListener("load", layoutDockBar);

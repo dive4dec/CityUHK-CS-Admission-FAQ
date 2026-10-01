@@ -76,29 +76,76 @@ html.chat-open .ai-chat-fab {
   display: none;
 }
 
-/* ---- Docked mode: a floating bar pinned to the bottom of the SCREEN ----
-   The panel stays on <html> (no reparenting, so SPA nav never loses it) and
-   becomes position:fixed at the bottom of the viewport — always in view,
-   never scrolled out of sight. chat.js sizes it (left/width) to exactly the
-   center article column, so it NEVER overlaps the sticky left/right side
-   panels. Matching body padding-bottom (set by chat.js to the bar's height)
-   keeps the article/footer bottom clear of the bar. */
+/* ---- Docked mode: a true BOTTOM FRAME spanning the full page width ----
+   The window becomes two horizontal frames: the site content (side panels +
+   article) occupies the TOP frame, this panel is the BOTTOM frame. The top
+   frame is inset by `--dock-h` (html.chat-docked #quartz-body, below) so no
+   content ever spills under the frame; the strip at the top edge of the frame
+   (.ai-chat-dock-strip) is the DRAGGABLE boundary — dragging it resizes the
+   bottom frame, changing the top/bottom proportion. */
 .ai-chat-panel.docked {
-  right: auto;
+  left: 0;
+  right: 0;
   bottom: 0;
-  width: auto; /* chat.js sets left/width to span the center column */
-  height: 38vh;
-  min-height: 280px;
-  max-height: 560px;
-  border-radius: 12px 12px 0 0;
+  width: auto;
+  height: 38vh; /* chat.js may override inline from the saved boundary drag */
+  min-height: 140px;
+  max-height: 90vh;
+  border-radius: 0;
+  border-top: 1px solid var(--gray, #b8b8b8);
   box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.18);
 }
-@media (max-width: 480px) {
-  .ai-chat-panel.docked {
-    height: 45vh;
-    min-height: 240px;
-    border-radius: 12px 12px 0 0;
-  }
+/* The draggable boundary between the two frames (drag up = taller AI frame,
+   drag down = taller content frame). Mounted on <html> by chat.js and shown
+   only while docked; positioned by the same --dock-h variable the top frame
+   uses for its inset, so it always sits exactly on the frame edge. Generous
+   18px hit strip + visible grip; touch-action:none so touch-resize is not
+   hijacked by page scroll. */
+.ai-chat-dock-strip {
+  display: none;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: calc(100vh - var(--dock-h, 38vh) - 6px);
+  height: 18px;
+  cursor: row-resize;
+  z-index: 10001;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+}
+html.chat-docked .ai-chat-dock-strip {
+  display: block;
+}
+/* No boundary when the panel is collapsed (docked but closed). */
+html.chat-docked:not(.chat-open) .ai-chat-dock-strip {
+  display: none;
+}
+.ai-chat-dock-strip::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 56px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--darkgray, #4e4e4e);
+  opacity: 0.4;
+}
+.ai-chat-dock-strip:hover::after {
+  opacity: 0.8;
+}
+/* The top frame: when the frame is docked, the Quartz body is inset from the
+   bottom by the frame height (via --dock-h) so the article, sidebars and
+   footer scroll INSIDE the top frame and can never end up under the AI frame. */
+html.chat-docked #quartz-body {
+  margin-bottom: calc(var(--dock-h, 38vh) + 12px);
+}
+/* The side-panel chevrons float at 50% of the viewport — on a tall frame they
+   would sit under it, so move them up to just above the frame boundary. */
+html.chat-docked .sidebar-toggle {
+  top: calc(100vh - var(--dock-h, 38vh) - 46px);
+  transform: none;
 }
 
 /* ---- Collapsible chat panel: drag the header, resize from the edge ---- */
