@@ -7,6 +7,20 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 ## [Unreleased]
 
 ### Added
+- **`08_Scholarships` folder (23 new notes).** Full coverage of the
+  [CityUHK scholarships page](https://www.cityu.edu.hk/scholarship/)
+  (retrieved 25 September 2026): CityUHK Scholarships for Hong Kong Talents
+  (Flagship incl. ACT JS1070 / Institutional / Dean's tiers for local JUPAS
+  and non-JUPAS entrants, with 2027-entry amounts and thresholds), the
+  scholarship HKDSE scoring scale (5** = 8.5...), no-application process and
+  2027 timeline, renewal/CGPA conditions, no-concurrent-awards rule,
+  recipient benefits (hall berth, exchanges, Golden Key), international
+  Entrance Scholarship Scheme (Top HK$210k / Full / Half tuition), Diversity
+  Grant, HKSAR Government Scholarship Fund, Chinese Mainland student
+  scholarships, Outstanding Athletes awards, 120+ donor scholarships, and a
+  "which CS programme to choose by scholarship value" comparison (ACT vs
+  JS1204 vs JS1221). Index, vault map, JS1204/JS1218/JS1221/JS1070 overview
+  and tuition notes cross-linked.
 - **"What's My Score?" calculator now computes the 1.5× weighting version too.**
   Besides the published best-5 weight-1 score, each of your five subjects is
   now tagged as English / Mathematics / ICT / M1 / M2 / Physics / Chemistry /

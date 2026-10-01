@@ -27,6 +27,7 @@ Compared with JS1204 CS: ACT is more elite/selective (higher score, mentorship +
 - [[JS1204 BSc Computer Science Overview]]
 - [[JS1071 Data Science Majors Overview]]
 - [[Double Major and Minor Options in Computing]]
+- [[AI Computing and Transformation (ACT) Flagship Scholarship]]
 
 ## Source
 

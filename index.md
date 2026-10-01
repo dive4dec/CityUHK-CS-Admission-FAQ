@@ -9,7 +9,7 @@ status: verified
 
 # CityUHK CS Admission FAQ
 
-A plain-language FAQ vault for **City University of Hong Kong (CityUHK) — Department of Computer Science** undergraduate admission: **700 interlinked notes** covering JUPAS scoring, published scores 2023–2026, the new 1.5× weighting policy, non-JUPAS routes (ASI / ASII / IB / GCE A-Level), the curriculum, all programmes, internships, careers, and how CityUHK CS compares with other universities. Built for **parents and students** deciding whether and how to apply.
+A plain-language FAQ vault for **City University of Hong Kong (CityUHK) — Department of Computer Science** undergraduate admission: **700+ interlinked notes** covering JUPAS scoring, published scores 2023–2026, the new 1.5× weighting policy, non-JUPAS routes (ASI / ASII / IB / GCE A-Level), the curriculum, all programmes, internships, careers, and how CityUHK CS compares with other universities, plus **23 scholarship notes** (cityu.edu.hk/scholarship). Built for **parents and students** deciding whether and how to apply.
 
 ## ⚡ Check your score right now
 
@@ -38,6 +38,8 @@ The calculator computes your admission score **two ways** — CityUHK's publishe
 - [[CityUHK CS Admission at a Glance Key Facts]] — every headline number
 - [[JUPAS 2027 Key Dates]] — the whole timeline
 - [[CityUHK Tuition Fees]] — what it costs
+- [[CityUHK Scholarship Overview]] — every entrance scholarship, one note each (23 notes)
+- [[Do Scholarships Change Which CS Programme to Choose]] — ACT vs JS1204 vs JS1221, by money
 - [[Advanced Standing I (Year 2) Admission]] and [[Advanced Standing II (Senior Year) Admission]] — entry for associate-degree / higher-diploma holders
 - [[JUPAS Fees and Charges]] — application and acceptance fees
 
@@ -58,6 +60,7 @@ The calculator computes your admission score **two ways** — CityUHK's publishe
 - [[JS1204 BSc Computer Science (CityU 2026 Score)]] — every CityU programme, every year 2023–2026 (222 notes)
 - [🧮 What's My Score?](/static/score-checker.html) — "my grades are X → score + 1.5× version + recommendation" (replaces the old per-profile lookup notes)
 - [[CityUHK Tuition Fees]] — costs and practicalities
+- [[CityUHK Scholarship Overview]] — scholarships: Flagship / Institutional / Dean's (local), international, Mainland, athletes, donors (23 notes)
 
 > [!warning] Before you apply
 > Published admission scores are **reference points, not cut-offs** — they describe where admitted students landed in past cycles and are not comparable across programmes or years. The **1.5× weighting policy** is promoted by the CS admissions team but **may or may not be reflected** in the published formula for your entry year: always confirm the current year's official formula on [admission.cs.cityu.edu.hk](https://admission.cs.cityu.edu.hk/). Every note states its source and its `retrieved` date — see [[Vault Freshness and Verification Status]].

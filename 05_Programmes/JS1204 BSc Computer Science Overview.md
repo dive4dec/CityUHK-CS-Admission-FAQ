@@ -34,6 +34,7 @@ Major leader (2026/27 page): Prof. Howard LEUNG (BEng McGill, MSc/PhD Carnegie M
 - [[JS1204 2026 JUPAS Score Formula]]
 - [[JS1204 JUPAS Admission Score History]]
 - [[JS1204 Graduate Employment Statistics]]
+- [[Do Scholarships Change Which CS Programme to Choose]]
 
 ## Source
 

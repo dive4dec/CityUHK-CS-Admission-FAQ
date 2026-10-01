@@ -34,6 +34,7 @@ Beyond tuition, expect typical University living/study costs (student union fees
 - [[JS1221 Double Degree Overview]]
 - [[Double Degree Requirements and Structure]]
 - [[JUPAS Fees and Charges]]
+- [[CityUHK Scholarship Overview]]
 
 ## Source
 

@@ -32,6 +32,7 @@ Enquiries: csadm@cityu.edu.hk, +852 3442 8580.
 - [[CS vs Cybersecurity Key Differences]]
 - [[JS1218 2026 JUPAS Score Formula]]
 - [[BSc Cybersecurity Non-JUPAS Code 1720A]]
+- [[Do Scholarships Change Which CS Programme to Choose]]
 
 ## Source
 

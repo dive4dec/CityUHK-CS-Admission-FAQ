@@ -709,14 +709,31 @@
 
   tool({
     name: "get_scholarships",
-    description: "Get scholarships / financial aid available to CityUHK CS students (amounts, eligibility). Use for 'scholarships / funding / bursaries / financial aid'.",
-    parameters: { type: "object", properties: {}, required: [] },
+    description: "Get scholarships / financial aid available to CityUHK CS students (amounts, eligibility, thresholds). Use for 'scholarships / funding / bursaries / financial aid'. Optionally set type to 'jupas', 'international', 'mainland', 'athlete', or 'donor' to narrow; omit for the main local entrance scholarships.",
+    parameters: { type: "object", properties: { type: strParam("Optional: 'jupas' (local JUPAS Flagship/Institutional/Dean's), 'international', 'mainland', 'athlete', or 'donor'") }, required: [] },
     fn: function (a) {
-      var notes = topicNotes("scholarship", null, 3);
-      if (!notes.length) notes = topicNotes("bursary", null, 3);
-      if (!notes.length) notes = topicNotes("financial aid", null, 3);
-      if (!notes.length) return { ok: false, error: "No scholarship note found in the FAQ. Try search_notes(query='scholarship')." };
-      return { ok: true, count: notes.length, notes: notes.map(function (e) { return { id: knowledgeIndex.indexOf(e), slug: e.slug, title: e.title, short_answer: shortAnswer(e), summary: e.text.slice(0, 800) }; }) };
+      var t = normStr(a.type).toLowerCase();
+      var queries = {
+        jupas: ["scholarship jupas", "scholarship", "bursary"],
+        international: ["scholarship international", "scholarship non-local", "scholarship"],
+        mainland: ["scholarship mainland", "scholarship"],
+        athlete: ["athletes entrance scholarship", "scholarship"],
+        donor: ["donor scholarships", "scholarship"]
+      };
+      var qs = queries[t] || ["scholarship", "bursary", "financial aid"];
+      var seen = {}, results = [];
+      for (var qi = 0; qi < qs.length && results.length < 6; qi++) {
+        var r = searchCore(qs[qi], 6);
+        for (var i = 0; i < r.count && results.length < 6; i++) {
+          var res = r.results[i];
+          if (seen[res.id]) continue;
+          seen[res.id] = true;
+          results.push(res);
+        }
+        if (results.length) break; // only fall back to next query if the first returned nothing
+      }
+      if (!results.length) return { ok: false, error: "No scholarship note found in the FAQ. Try search_notes(query='scholarship')." };
+      return { ok: true, count: results.length, notes: results.map(function (s) { return { id: s.id, slug: s.slug, title: s.title, short_answer: s.short_answer, snippet: s.snippet }; }) , hint: "For full requirement tables (minimum HKDSE scores, A*/IB thresholds, HK$ amounts) call read_note(id) on the relevant note." };
     }
   });
 
