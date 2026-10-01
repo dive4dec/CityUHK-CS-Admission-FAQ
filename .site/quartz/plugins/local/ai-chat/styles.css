@@ -137,15 +137,25 @@ html.chat-docked:not(.chat-open) .ai-chat-dock-strip {
 }
 /* The top frame: when the frame is docked, the Quartz body is inset from the
    bottom by the frame height (via --dock-h) so the article, sidebars and
-   footer scroll INSIDE the top frame and can never end up under the AI frame. */
+   footer scroll INSIDE the top frame and can never end up under the AI frame.
+   (The boundary strip's own :not(.chat-open) rule hides it while closed.) */
 html.chat-docked #quartz-body {
   margin-bottom: calc(var(--dock-h, 38vh) + 12px);
+}
+/* Docked but currently CLOSED: the dock intent persists (reopening restores
+   the frame), but the inset is suspended so the page uses the full height. */
+html.chat-docked.chat-docked-closed #quartz-body {
+  margin-bottom: 0;
 }
 /* The side-panel chevrons float at 50% of the viewport — on a tall frame they
    would sit under it, so move them up to just above the frame boundary. */
 html.chat-docked .sidebar-toggle {
   top: calc(100vh - var(--dock-h, 38vh) - 46px);
   transform: none;
+}
+html.chat-docked.chat-docked-closed .sidebar-toggle {
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 /* ---- Collapsible chat panel: drag the header, resize from the edge ---- */

@@ -120,11 +120,6 @@
   function providerReady() {
     return !!(engine || isExternal() || isFree());
   }
-  function providerStatusText() {
-    if (isExternal()) return "Server ready: " + endpointModelName();
-    if (isFree()) return "Free server ready: " + freeModelName();
-    return engine ? "Model ready" : "No model loaded";
-  }
   function endpointModelName() {
     var c = endpointCfg();
     return (c && c.model) ? String(c.model).trim() : "";
@@ -878,16 +873,36 @@
     _lastProvStatus = { state: state, msg: msg || "" };
     renderStatusLine();
   }
-  // The status line composes the provider state with the knowledge-index
-  // state so they no longer overwrite each other (previously the 2 MB index
-  // load could clobber "Free server ready" — or the reverse).
+  // Display name of the ACTIVE provider: "Model (where it runs)", e.g.
+  // "Socrates (Free server)", "gpt-4o (Your server)", "qwen2.5-7b (In-browser)".
+  function providerDisplayName() {
+    if (isFree()) return freeModelName() + " (Free server)";
+    if (isExternal()) {
+      var em = endpointModelName();
+      return em ? em + " (Your server)" : "Your server";
+    }
+    if (engine && currentModelId) {
+      var short = String(currentModelId).split("/").pop(); // drop the org prefix
+      return short + " (In-browser)";
+    }
+    return "";
+  }
+  // The status line shows the provider name (ready) or the live message
+  // (loading progress / error), with a state dot. No more "…ready:" prefix or
+  // knowledge-index count — the dot conveys readiness.
   function renderStatusLine() {
     var t = document.getElementById("ai-chat-status-text");
     var d = document.getElementById("ai-chat-status-dot");
-    if (_lastProvStatus) {
-      if (t) t.textContent = _lastProvStatus.msg + (knowledgeStatusMsg ? "  \u00B7  " + knowledgeStatusMsg : "");
+    if (!d || !_lastProvStatus) return;
+    d.className = "status-dot" + (_lastProvStatus.state ? " " + _lastProvStatus.state : "");
+    if (!t) return;
+    var st = _lastProvStatus.state;
+    if ((st === "loading" || st === "error") && _lastProvStatus.msg) {
+      t.textContent = _lastProvStatus.msg; // progress / error detail
+    } else {
+      var name = providerDisplayName();
+      t.textContent = name || _lastProvStatus.msg || "Starting\u2026";
     }
-    if (d && _lastProvStatus) d.className = "status-dot" + (_lastProvStatus.state ? " " + _lastProvStatus.state : "");
   }
   function setKnowledgeStatus(msg) {
     knowledgeStatusMsg = msg;
@@ -1043,10 +1058,7 @@
       });
       currentModelId = modelId;
       var agent = isAgentModel(modelId);
-      setStatus(
-        "ready",
-        "Model ready: " + modelId + (agent ? " (agent — tool calling on)" : " (fast — RAG only)")
-      );
+      setStatus("ready", "Ready"); // header shows "model (In-browser)"; the mode note is in the system message
       addSystemMessage(
         agent
           ? "Model loaded — I can search the FAQ notes, open source pages and read your current page."
@@ -2201,15 +2213,19 @@
     // flag must go on the document element for the `html.chat-open` selectors
     // to reach it. body keeps its own class for the docked-content padding.
     document.documentElement.classList.toggle("chat-open", panelOpen);
+    // Docked + closed: suspend the top-frame inset and boundary strip so the
+    // page uses the full height while the chat is hidden; the dock intent and
+    // saved frame height persist, so reopening restores the docked layout.
+    document.documentElement.classList.toggle("chat-docked-closed", !panelOpen && isDocked());
   }
-  // Open from the FAB: undock first, then open, so it never lands docked.
+  // Open from the FAB: restore whatever mode it was last in (docked or
+  // floating) — the dock state is a visitor setting that survives close.
   function openPanel() {
-    if (isDocked()) setDocked(false);
     if (!panelOpen) togglePanel();
   }
-  // Close from the header X / Escape: undock first, then collapse.
+  // Close from the header X / Escape: keep the dock state so reopening
+  // restores it (docked: same frame height; floating: same position/size).
   function closePanel() {
-    if (isDocked()) setDocked(false);
     if (panelOpen) togglePanel();
   }
 
@@ -2257,19 +2273,21 @@
     // A docked panel is a fixed bottom bar (see applyDockState/layoutDockBar)
     // — its position/size are managed there, so nothing to restore here.
     if (isDocked()) return;
-    // On phones the panel is full-screen (CSS), so a saved desktop layout
-    // must not override it.
-    if (window.innerWidth < 480) return;
     // Only reposition when the visitor has a saved layout; otherwise keep
-    // the CSS default (bottom-right) so first visits are unaffected.
+    // the CSS default (bottom-right / near-full on phones) so first visits
+    // are unaffected. (Phones no longer force full-screen, so a saved
+    // floating layout is restored there too — clamped to the viewport.)
     if (panelPos.x == null && panelPos.y == null) return;
-    if (panelPos.w) p.style.width = panelPos.w + "px";
-    if (panelPos.h) p.style.height = panelPos.h + "px";
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var w = panelPos.w ? Math.min(panelPos.w, vw - 8) : 0;
+    var h = panelPos.h ? Math.min(panelPos.h, vh - 8) : 0;
+    if (w) p.style.width = w + "px";
+    if (h) p.style.height = h + "px";
     p.style.position = "fixed";
     p.style.bottom = "auto";
     p.style.right = "auto";
-    if (panelPos.x != null) p.style.left = panelPos.x + "px";
-    if (panelPos.y != null) p.style.top = panelPos.y + "px";
+    if (panelPos.x != null) p.style.left = Math.max(4, Math.min(panelPos.x, vw - 88)) + "px";
+    if (panelPos.y != null) p.style.top = Math.max(4, Math.min(panelPos.y, vh - 60)) + "px";
   }
   function isDocked() {
     var p = panelEl();
@@ -2305,6 +2323,10 @@
     // class would be lost on navigation. It drives the top-frame inset CSS.
     document.documentElement.classList.toggle("chat-docked", docked);
     document.body.classList.toggle("chat-docked", docked);
+    // Docked but currently closed: suspend the inset/strip so the page uses
+    // the full height while hidden (see html.chat-docked:not(.chat-open) CSS);
+    // the dock intent + saved frame height persist for the next open.
+    document.documentElement.classList.toggle("chat-docked-closed", docked && !panelOpen);
     var dockBtn = p.querySelector(".ai-chat-dock");
     if (dockBtn) dockBtn.classList.toggle("active", docked);
     if (docked) {
@@ -2865,10 +2887,10 @@
       // up and the key works, visitors get free answers with zero setup.
       // If not (disabled / key revoked / offline), fall back to the
       // normal "open settings and configure" prompt.
-      setStatus("ready", "Checking free AI service\u2026");
+      setStatus("loading", "Checking free AI service\u2026");
       loadFreeConfig().then(function () {
         if (isFree()) activateFree();
-        else setStatus("ready", "Open \u2699 settings to load a model or connect a server");
+        else setStatus("idle", "Open \u2699 settings to load a model or connect a server");
       });
     }
   }
