@@ -539,13 +539,13 @@
     if (cap) cap.textContent = url;
     qrCard.dataset.url = url;
   }
-  // The "share this page" QR lives in the RIGHT SIDEBAR as a normal, flowing
-  // card (page-associated, not a floating overlay). Quartz re-renders the
+  // The "share this page" QR lives in the LEFT SIDEBAR (below the explorer)
+  // card (page-associated, not a floating overlay), as a normal, flowing
   // whole page body on every SPA navigation, so we re-inject the card each
   // time the sidebar element reappears. Its show/hide state is remembered.
   function buildSidebarQr() {
     // Re-injection. Quartz does unpredictable DOM surgery on an SPA nav: it
-    // may REUSE the .sidebar.right node and just drop our card, or REPLACE the
+    // may REUSE the .sidebar.left node and just drop our card, or REPLACE the
     // whole sidebar (and its ancestors) with fresh nodes. A one-shot check can
     // therefore "succeed" while the card is still momentarily present, then
     // Quartz removes it a few ms later with nobody watching — which is why the
@@ -560,7 +560,7 @@
     //      — covers the beat before/after the observer fires.
     //   3. A 500ms self-heal interval as a last resort.
     // Find the right sidebar that is actually being rendered. During an SPA
-    // re-render Quartz can briefly have MULTIPLE .sidebar.right nodes alive
+    // re-render Quartz can briefly have MULTIPLE .sidebar.left nodes alive
     // (the previous page's stale node alongside the fresh one). Targeting the
     // wrong one is exactly what made the QR "disappear" — the card was re-used
     // in the stale node, then dropped when that node was torn down. So: scope
@@ -568,7 +568,7 @@
     // one that is actually laid out (has a layout box), preferring the newer.
     function currentSidebar() {
       var body = document.getElementById("quartz-body") || document;
-      var c = body.querySelectorAll(".sidebar.right");
+      var c = body.querySelectorAll(".sidebar.left");
       if (!c.length) return null;
       if (c.length === 1) return c[0];
       for (var i = c.length - 1; i >= 0; i--)
@@ -628,7 +628,16 @@
       var st = el("div", { className: "ai-qr-card-status", textContent: "Scan with your phone" });
       body.appendChild(st);
       qrCard.appendChild(body);
-      side.appendChild(qrCard);
+      // Place the card in the LEFT sidebar directly below the explorer
+      // (the explorer's nav root is the last component in the left column).
+      var exNav = side.querySelector(".explorer");
+      if (exNav && exNav.parentNode === side && exNav.nextSibling) {
+        side.insertBefore(qrCard, exNav.nextSibling);
+      } else if (exNav && exNav.parentNode === side) {
+        side.appendChild(qrCard);
+      } else {
+        side.appendChild(qrCard);
+      }
       updatePageQr();
       return true;
     }
