@@ -856,7 +856,11 @@
     ].forEach(function (c) { if (!seen[c]) { seen[c] = true; candidates.push(c); } });
     for (var i = 0; i < candidates.length; i++) {
       try {
-        var res = await fetch(candidates[i], { cache: "force-cache" });
+        // no-store: this file is rewritten on every `make site-build` but its
+        // NAME is fixed (not content-hashed), so force-cache would pin the
+        // FIRST build's index in the browser forever and every later note
+        // (new programmes, scholarships...) would be invisible to the tools.
+        var res = await fetch(candidates[i], { cache: "no-store" });
         if (!res.ok) continue;
         var data = await res.json();
         if (data && data.length) {

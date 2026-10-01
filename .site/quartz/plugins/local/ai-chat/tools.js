@@ -374,28 +374,66 @@
 
   tool({
     name: "get_programme_info",
-    description: "Get one programme's profile from its overview note: what it is, streams/majors, duration, and the note's short answer. The single best first call when the user asks about a programme by name or code.",
-    parameters: { type: "object", properties: { code: codeParam(), name: strParam("Or the programme name, e.g. 'BSc Data Science'") }, required: [] },
+    description: "Get programme profiles from their overview notes: what they are, streams/majors, duration, and the note's short answer. The single best first call when the user asks about a programme by name or code. Pass code='all' (or a broad name like 'double degree') to list EVERY matching programme note at once.",
+    parameters: { type: "object", properties: { code: codeParam(), name: strParam("Or the programme name, e.g. 'BSc Data Science'; 'double degree' lists all double degrees") }, required: [] },
     fn: function (a) {
       var code = normStr(a.code), name = normStr(a.name);
       var variants = name ? programmeVariants(name) : [];
-      var e = null;
+      var all = [];
+      var wantAll = !code && !name || /^(all|list|every|all of them)$/i.test(code) || /^(all|list|every)$/i.test(name);
       for (var i = 0; i < (knowledgeIndex || []).length; i++) {
         var n = knowledgeIndex[i];
         if (n.folder !== "05_programmes") continue;
+        if (wantAll) { all.push(n); continue; }
         var isCode = code && (new RegExp("\\b" + code.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\b", "i").test(n.slug + " " + n.title));
         var isName = name && (programmeMatches(n.title, variants) || programmeMatches(n.title + " " + n.text.slice(0, 200), variants));
-        if (isCode || isName) { e = n; break; }
+        // Broad ask ("all", "double degree", "double") -> match every overview
+        // note whose title carries the topic word(s). "double degree" is two
+        // words, so word-boundary matching on the whole phrase would miss the
+        // titles ("...Double Degree Overview"); match per topic word instead.
+        var isBroad = false;
+        if (name && /^(all|list|every|each|double(\s+degrees?)?(\s+and\s+\w+)*|\w+\s+(degree|degrees))$/i.test(name)) {
+          var wts = name.toLowerCase().split(/\s+/).filter(function (w) { return w.length > 3 && w !== "degree" && w !== "degrees"; });
+          if (wts.length) {
+            var tl = n.title.toLowerCase();
+            var wmatch = wts.filter(function (w) { return new RegExp("\\b" + w + "\\b").test(tl); }).length;
+            isBroad = wmatch >= Math.ceil(wts.length / 2);
+          }
+        }
+        if (isCode || isName || isBroad) all.push(n);
       }
-      if (!e) return { ok: false, error: "No programme note for that code/name. Use list_folders + search_notes, or get_jupas_code to list all." };
+      if (!all.length) {
+        // Never fail blind: hand back the catalogue of codes so the model (or user) can pick.
+        var known = [];
+        for (var j = 0; j < (knowledgeIndex || []).length; j++) {
+          var k = knowledgeIndex[j];
+          if (k.folder !== "05_programmes") continue;
+          var cm = k.title.match(/(JS\d{4})/);
+          known.push(cm ? cm[1] + " " + k.title.replace(cm[1], "").trim() : k.title);
+        }
+        return { ok: false, error: "No programme note for that code/name.", known_codes: known.slice(0, 12), hint: "Pick a code from known_codes, or use search_notes." };
+      }
+      var first = all[0];
+      if (all.length > 1) {
+        // Multi-match: a compact list (full summaries for 14 notes would blow the budget).
+        return {
+          ok: true,
+          matched: all.length,
+          programmes: all.slice(0, 14).map(function (x) {
+            return { id: knowledgeIndex.indexOf(x), title: x.title, short_answer: shortAnswer(x).slice(0, 220) };
+          }),
+          more: "Full text of any one via read_note(id)."
+        };
+      }
       return {
         ok: true,
-        id: knowledgeIndex.indexOf(e),
-        slug: e.slug,
-        title: e.title,
-        short_answer: shortAnswer(e),
-        summary: e.text.slice(0, 1200),
-        more: "Full text via read_note(id)."
+        matched: all.length,
+        id: knowledgeIndex.indexOf(first),
+        slug: first.slug,
+        title: first.title,
+        short_answer: shortAnswer(first),
+        summary: first.text.slice(0, 1200),
+        more: "Full text via read_note(id)." + (all.length > 1 ? " Also matched: " + all.slice(1).map(function (x) { return x.title + " (id " + knowledgeIndex.indexOf(x) + ")"; }).join("; ") + "." : "")
       };
     }
   });
