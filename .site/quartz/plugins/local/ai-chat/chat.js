@@ -711,10 +711,39 @@
     var source = String(text);
     var hasMath = /\$\$?/.test(source);
     var codeMap = [];
-    source = source.replace(/^(?:[ \t]*```[^\n]*\n(?:(?:.*(?:\r\n?|\n)?)*)?[ \t]*```[ \t]*)/gm, function (m) {
-      codeMap.push(m.replace(/^[\s\S]*?```[^\n]*\n?/, "").replace(/\n?[ \t]*```[ \t]*$/, ""));
-      return "\u0001" + (codeMap.length - 1) + "a\u0001";
-    });
+    // Extract fenced code blocks with a LINEAR scan, not a single regex. The
+    // old pattern `(?:(?:.*(?:\r\n?|\n)?)*)?` had a nested unbounded
+    // quantifier that catastrophically backtracked on an OPENING ``` whose
+    // closing fence had not (yet) streamed in — and renderMarkdown re-runs on
+    // the whole growing message every streamed chunk, so a code block being
+    // generated (e.g. halting-problem pseudocode) froze the tab for seconds
+    // to minutes. Line-by-line scanning is O(n) with no backtracking. An
+    // unterminated fence (still streaming) is left as-is and re-extracted on
+    // the next chunk once the closing ``` arrives.
+    source = (function (src) {
+      var lines = src.split("\n");
+      var out = [];
+      var i = 0;
+      while (i < lines.length) {
+        var open = lines[i].match(/^[ \t]*```[^\n]*$/);
+        if (!open) { out.push(lines[i]); i++; continue; }
+        var j = i + 1, buf = [], closed = -1;
+        while (j < lines.length) {
+          if (/^[ \t]*```[ \t]*$/.test(lines[j])) { closed = j; break; }
+          buf.push(lines[j]);
+          j++;
+        }
+        if (closed >= 0) {
+          codeMap.push(buf.join("\n"));
+          out.push("\u0001" + (codeMap.length - 1) + "a\u0001");
+          i = closed + 1;
+        } else {
+          // Unterminated fence: keep the raw lines for now.
+          out.push(lines[i]); i++;
+        }
+      }
+      return out.join("\n");
+    })(source);
     source = source.replace(/`([^`\n]+)`/g, function (m, inner) {
       codeMap.push(inner);
       return "\u0001" + (codeMap.length - 1) + "b\u0001";
