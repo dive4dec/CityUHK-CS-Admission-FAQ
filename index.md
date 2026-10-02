@@ -9,7 +9,7 @@ status: verified
 
 # CityUHK CS Admission FAQ
 
-A plain-language FAQ for **City University of Hong Kong (CityUHK) — Department of Computer Science** undergraduate admission: **400+ interlinked notes** on the three majors, JUPAS scoring, published scores 2023–2026, the new 1.5× weighting policy, non-JUPAS routes, curriculum, programmes, internships, scholarships, and careers. Open the [🧮 What's My Score? calculator](/static/score-checker.html) to try your score live.
+A plain-language FAQ for **City University of Hong Kong (CityUHK) — Department of Computer Science** undergraduate admission: **400+ interlinked notes** on the three majors, JUPAS scoring, published scores 2023–2026, the new 1.5× weighting policy, non-JUPAS routes, curriculum, programmes, internships, scholarships, and careers. Open the <a href="/static/score-checker.html" data-router-ignore>🧮 What's My Score? calculator</a> to try your score live.
 
 ## The three majors
 
@@ -52,7 +52,7 @@ A plain-language FAQ for **City University of Hong Kong (CityUHK) — Department
 - **Best 5 DSE subjects** (Category A, excluding CSD and Liberal Studies), **all weight 1** in the published 2026 formula.
 - 2026: **median 23, lower quartile 22** (JS1204); Cybersecurity 20.5.
 - Minimum entrance: Eng 3, Chi 3, Math 3, CSD attained, **plus Level 3 in one of ICT / Physics / Chemistry / Biology / M1 / M2** and a second Level-3 elective.
-- [🧮 Try your score live in the What's My Score? calculator](/static/score-checker.html) — enter your DSE grades for the base score, the 1.5× version, and where you sit vs the medians.
+- <a href="/static/score-checker.html" data-router-ignore>🧮 Try your score live in the What's My Score? calculator</a> — enter your DSE grades for the base score, the 1.5× version, and where you sit vs the medians.
 
 **Read:** [[JS1204 2026 JUPAS Score Formula]] · [[Worked Example Computing JS1204 Admission Score]] · [[JUPAS Minimum Entrance Requirements for CS]]
 
@@ -98,7 +98,7 @@ A plain-language FAQ for **City University of Hong Kong (CityUHK) — Department
 ## Q10 — Scholarships and cost {#q10}
 
 - Local JUPAS entrants can be awarded **Flagship / Institutional / Dean's Scholarships** (up to 100% tuition + hall, no application needed) — thresholds from ~25 (most flagships) to 27.5+.
-- The [🧮 score calculator](/static/score-checker.html) shows where a student sits vs the medians.
+- The <a href="/static/score-checker.html" data-router-ignore>🧮 score calculator</a> shows where a student sits vs the medians.
 
 **Read:** [[CityUHK Scholarship Overview]] · [[CityUHK Tuition Fees]]
 
@@ -132,7 +132,7 @@ Some questions go beyond this site's notes (job market, CS vs IT, AI and jobs). 
 - [[CS Core Courses Explained]] — one note per CS course (91 courses)
 - [[JS1204 BSc Computer Science (CityU 2026 Score)]] — every CityU programme, every year 2023–2026
 - [[CityUHK Scholarship Overview]] — every entrance scholarship (23 notes)
-- [🧮 What's My Score?](/static/score-checker.html) — enter grades → score + 1.5× version + recommendation
+- <a href="/static/score-checker.html" data-router-ignore>🧮 What's My Score?</a> — enter grades → score + 1.5× version + recommendation
 
 > [!warning] Before you apply
 > Published admission scores are **reference points, not cut-offs** — they describe where admitted students landed in past cycles and are not comparable across programmes or years. The **1.5× weighting policy** is promoted by the CS admissions team but **may or may not be reflected** in the published formula for your entry year: always confirm the current year's official formula on [admission.cs.cityu.edu.hk](https://admission.cs.cityu.edu.hk/). Every note states its source and its `retrieved` date — see [[Vault Freshness and Verification Status]].
