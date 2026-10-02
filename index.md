@@ -9,11 +9,11 @@ status: verified
 
 # CityUHK CS Admission FAQ
 
-A plain-language FAQ for **City University of Hong Kong (CityUHK) — Department of Computer Science** undergraduate admission: **400+ interlinked notes** on JUPAS scoring, published scores 2023–2026, the new 1.5× weighting policy, non-JUPAS routes, curriculum, programmes, internships, scholarships, and careers. Use it for an **admission talk** (the sections below follow the talk order), or open the [🧮 What's My Score? calculator](/static/score-checker.html) to try it live.
+A plain-language FAQ for **City University of Hong Kong (CityUHK) — Department of Computer Science** undergraduate admission: **400+ interlinked notes** on the three majors, JUPAS scoring, published scores 2023–2026, the new 1.5× weighting policy, non-JUPAS routes, curriculum, programmes, internships, scholarships, and careers. Open the [🧮 What's My Score? calculator](/static/score-checker.html) to try your score live.
 
-## The three majors (introduce first)
+## The three majors
 
-| Major | One line | Intake 2026/27 | 2026 score |
+| Major | Summary | Intake 2026/27 | 2026 score |
 | --- | --- | --- | --- |
 | **BSc Computer Science [JS1204](/05_programmes/js1204-bsc-computer-science-overview.html)** | Flagship 4-year CS with **5 streams** (AI, Cybersecurity, Data Science, Multimedia, Software Engineering), **mandatory 9-month internship**, HKIE-accredited | ~85 local | median **23** |
 | **BSc Cybersecurity [JS1218](/05_programmes/js1218-bsc-cybersecurity-overview.html)** | 4-year degree for the cybersecurity talent gap (System/Software Security, Cryptography, Privacy, Cyber Risk) | ~29 local | median **20.5** |
@@ -23,7 +23,6 @@ A plain-language FAQ for **City University of Hong Kong (CityUHK) — Department
 
 ## Q1 — What makes these majors attractive? {#q1}
 
-**Key points to say:**
 - **Direct admission to the major** — students join Computer Science or Cybersecurity directly, not a broad "department" where seats are re-allocated.
 - **5 streams inside CS** (AI / Cybersecurity / Data Science / Multimedia / Software Engineering) — one major, many specialisations.
 - **Mandatory 9-month internship** (Q2) — every graduate works before graduating.
@@ -34,7 +33,6 @@ A plain-language FAQ for **City University of Hong Kong (CityUHK) — Department
 
 ## Q2 — The mandatory internship: arrangement and why it matters {#q2}
 
-**Key points to say:**
 - **9 months in Year 3**, credit-bearing, at real companies/government — after two full years of study.
 - Works **4 days a week with Fridays off for classes** — the internship runs alongside study, it doesn't pause the degree.
 - Jointly assessed by a CityU supervisor **and** the employer; a deliberate differentiator vs programmes where internships are optional.
@@ -43,7 +41,6 @@ A plain-language FAQ for **City University of Hong Kong (CityUHK) — Department
 
 ## Q3 — Main courses and how they are arranged {#q3}
 
-**Key points to say:**
 - 4-year degree (~120 CU) in four layers: **Gateway Education → College courses (programming from Year 1) → Calculus/Linear Algebra → CS core + electives**.
 - Year 1 (33 CU) already includes programming (CS1302A), Computer Organisation, and computational probability modelling.
 - Students then **specialise with 3 stream courses** (or a mixed 5 electives).
@@ -52,16 +49,15 @@ A plain-language FAQ for **City University of Hong Kong (CityUHK) — Department
 
 ## Q4 — How is the JUPAS score calculated? {#q4}
 
-**Key points to say:**
 - **Best 5 DSE subjects** (Category A, excluding CSD and Liberal Studies), **all weight 1** in the published 2026 formula.
 - 2026: **median 23, lower quartile 22** (JS1204); Cybersecurity 20.5.
 - Minimum entrance: Eng 3, Chi 3, Math 3, CSD attained, **plus Level 3 in one of ICT / Physics / Chemistry / Biology / M1 / M2** and a second Level-3 elective.
+- [🧮 Try your score live in the What's My Score? calculator](/static/score-checker.html) — enter your DSE grades for the base score, the 1.5× version, and where you sit vs the medians.
 
 **Read:** [[JS1204 2026 JUPAS Score Formula]] · [[Worked Example Computing JS1204 Admission Score]] · [[JUPAS Minimum Entrance Requirements for CS]]
 
 ## Q5 — 🆕 NEW: the 1.5× subject-weighting policy {#q5}
 
-**Key points to say (emphasise this is new):**
 - CityUHK is promoting a policy where **English, Mathematics, ICT, M1, M2, Physics, Chemistry and Biology count at 1.5×** level points — strongly rewarding the exact subjects a CS student takes.
 - Same profile, very different score under 1.5× (e.g. 5-5-5-4-4 in CS-relevant subjects: 24.5 → **36.75**).
 - ⚠️ The **published 2026 formula is still best-5 weight 1** — always confirm the current year's official formula before applying.
@@ -70,7 +66,6 @@ A plain-language FAQ for **City University of Hong Kong (CityUHK) — Department
 
 ## Q6 — How competitive is it? Which bands get in? {#q6}
 
-**Key points to say:**
 - Most admitted students come from **Band A** (2026 median 23 ≈ 5-4-4-4-4+ profiles).
 - Around the **lower quartile (22)** is borderline (flexible admission may apply); **Bands D and E normally have no chance**.
 - Selection is **score-first**; bands are used as a tie-breaker.
@@ -79,7 +74,6 @@ A plain-language FAQ for **City University of Hong Kong (CityUHK) — Department
 
 ## Q7 — Is there a JUPAS interview? {#q7}
 
-**Key points to say:**
 - **No JUPAS interview is planned** — selection is by admission score.
 - Competition achievements (OEA) and Principal's Nominations exist but act as **tie-breakers**, not substitutes for the score.
 
@@ -87,7 +81,6 @@ A plain-language FAQ for **City University of Hong Kong (CityUHK) — Department
 
 ## Q8 — Non-JUPAS routes {#q8}
 
-**Key points to say:**
 - **Year 1 (both CS and Cyber):** open to other qualifications including **IB and GCE A-Level** (codes 1561A / 1720A, HK$200 per programme).
 - **ASI (Year 2) and ASII (Senior Year):** for AD/HD holders — **available for both CS and Cybersecurity in the coming year** (normally a computing-related AD/HD, ~CGPA 3.0).
 
@@ -95,7 +88,6 @@ A plain-language FAQ for **City University of Hong Kong (CityUHK) — Department
 
 ## Q9 — What about the double degrees? {#q9}
 
-**Key points to say:**
 - **5 years**, two awards (CS + Computational Finance & FinTech, or CS (AI) + LLB).
 - DSE **Mathematics level 4** required (JS1221); the LLB route needs **English 5**.
 - The **final year is self-financed** (credits beyond the 4-year/144-CU norm).
@@ -105,7 +97,6 @@ A plain-language FAQ for **City University of Hong Kong (CityUHK) — Department
 
 ## Q10 — Scholarships and cost {#q10}
 
-**Key points to say:**
 - Local JUPAS entrants can be awarded **Flagship / Institutional / Dean's Scholarships** (up to 100% tuition + hall, no application needed) — thresholds from ~25 (most flagships) to 27.5+.
 - The [🧮 score calculator](/static/score-checker.html) shows where a student sits vs the medians.
 
@@ -130,7 +121,7 @@ Some questions go beyond this site's notes (job market, CS vs IT, AI and jobs). 
 
 ---
 
-## Browse all topics
+## See also
 
 - [[CityUHK CS Admission FAQ Vault Map]] — hubs, key facts, code cheat sheet, rankings
 - [[JUPAS for CityUHK CS The Big Picture]] — JUPAS mechanics: formulas, level points, bands, dates
