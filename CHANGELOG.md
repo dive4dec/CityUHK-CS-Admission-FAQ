@@ -35,6 +35,14 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 - Note "back to cover page" links previously 404'd / no-anchored; they now
   jump to the correct cover-page section.
 
+### Fixed
+- **Score checker showed an empty input box when opened from the cover
+  page** (worked only after a refresh). The SPA router morphs the page body
+  on link clicks without re-running the calculator's inline script, which
+  builds the whole UI. All cover-page calculator links now carry
+  `data-router-ignore`, so the browser does a normal full page load and the
+  subject input rows always render.
+
 ### Changed
 - Cover page: removed the "admission talk" framing (intro line,
   "Key points to say" labels, "(introduce first)"); majors-table column
