@@ -35,6 +35,12 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 - Note "back to cover page" links previously 404'd / no-anchored; they now
   jump to the correct cover-page section.
 
+### Changed
+- Cover page: removed the "admission talk" framing (intro line,
+  "Key points to say" labels, "(introduce first)"); majors-table column
+  "One line" → "Summary"; "Browse all topics" → "See also"; added the
+  What's My Score? calculator link under Q4 (score calculation).
+
 - **JS1063 LLB + BSc Computer Science (AI) double degree** note
   (05_Programmes). JS1063 is a brand-new 5-year double degree (first
   intake 2027/28, 8 local JUPAS places) jointly run by the School of
