@@ -2923,6 +2923,29 @@
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && panelOpen) closePanel();
     });
+
+    // ---- Ask-the-AI question list (cover page) ----
+    // Each .ask-ai-list <li> is tap-to-ask: the click opens the chat and
+    // sends the question straight away, so a student never has to retype it.
+    // Event delegation (on document, not the <li>s) keeps this working across
+    // SPA navigation, where the morph router replaces the article content and
+    // any per-item listeners would be destroyed.
+    document.addEventListener("click", function (e) {
+      var t = e.target && e.target.closest ? e.target : null;
+      var li = t ? t.closest(".ask-ai-list li") : null;
+      if (!li) return;
+      e.preventDefault();
+      var q = (li.textContent || "").replace(/\s+/g, " ").trim();
+      if (!q) return;
+      if (!panelOpen) togglePanel();
+      var inputEl = document.getElementById("ai-chat-input");
+      if (!inputEl) return;
+      // Brief visual confirmation on the tapped question.
+      li.classList.add("asked");
+      setTimeout(function () { li.classList.remove("asked"); }, 1200);
+      inputEl.value = q;
+      sendMessage();
+    });
     var savedCfg = endpointCfg();
     var savedModel = storageGetModel();
     if (savedCfg && savedCfg.kind === "external") {

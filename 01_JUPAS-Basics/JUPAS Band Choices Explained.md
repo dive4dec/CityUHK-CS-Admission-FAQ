@@ -12,6 +12,8 @@ status: verified
 > [!tip] Short answer
 > In JUPAS you list up to 10 programme choices, each in one of three bands: Band A (up to 3 choices), Band B (up to 3), Band C (up to 4). You can hold at most one offer in each band. Band A is for your strongest preferences. For a student who wants…
 
+> [!info] 🎓 **Admission talk Q6** — how competitive it is · [⬅ back to cover page](../index.html#q6)
+
 ## Question
 
 How do Band A, B and C choices work when applying to CS?

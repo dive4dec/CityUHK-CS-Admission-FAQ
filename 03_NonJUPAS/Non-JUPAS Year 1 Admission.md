@@ -12,6 +12,8 @@ status: verified
 > [!tip] Short answer
 > Non-JUPAS Year 1 admission is CityUHK's route for local applicants who do NOT use HKDSE/JUPAS. It is open to: current students or graduates of a recognized Associate Degree (AD) or Higher Diploma (HD); students or graduates of high school…
 
+> [!info] 🎓 **Admission talk Q8** — non-JUPAS routes · [⬅ back to cover page](../index.html#q8)
+
 ## Question
 
 What is non-JUPAS Year 1 admission and who can use it?

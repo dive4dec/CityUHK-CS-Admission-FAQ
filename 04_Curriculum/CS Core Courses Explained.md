@@ -12,6 +12,8 @@ status: verified
 > [!tip] Short answer
 > The core courses form the technical spine of the degree. From the programme and catalogue pages, representative core/foundational courses include: CS1302A/CS2310 Computer Programming, CS2115 Computer Organisation, CS2116 Computer Systems, CS2066…
 
+> [!info] 🎓 **Admission talk Q3** — main courses and their arrangement · [⬅ back to cover page](../index.html#q3)
+
 ## Question
 
 What are the core CS courses and why do they matter?

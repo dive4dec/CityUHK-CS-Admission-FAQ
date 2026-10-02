@@ -12,6 +12,8 @@ status: verified
 > [!tip] Short answer
 > For JS1204 BSc Computer Science (and the same structure applies to JS1218 Cybersecurity and JS1221, except JS1221 needs Math 4):
 
+> [!info] 🎓 **Admission talk Q4** — how the JUPAS score is calculated · [⬅ back to cover page](../index.html#q4)
+
 ## Question
 
 What are the minimum HKDSE levels to be eligible for BSc Computer Science?

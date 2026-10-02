@@ -12,6 +12,8 @@ status: verified
 > [!tip] Short answer
 > Yes, but only in specific ways. Under JUPAS you can submit OEA (Other Experiences and Achievements in Competitions/Activities) - e.g., a nationally ranked olympiad in math or informatics, robotics, or IT projects. CityUHK's selection criteria for…
 
+> [!info] 🎓 **Admission talk Q7** — JUPAS interview? · [⬅ back to cover page](../index.html#q7)
+
 ## Question
 
 Can competition achievements or a principal's nomination help me get into CS?

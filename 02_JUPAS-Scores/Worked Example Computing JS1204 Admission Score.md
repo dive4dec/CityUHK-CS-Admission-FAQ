@@ -12,6 +12,8 @@ status: verified
 > [!tip] Short answer
 > Formula (2026, published): best 5 countable subjects, each at weight 1, using the 2025+ conversion (5**=8.5, 5*=7, 5=5.5, 4=4, 3=3, 2=2, 1=1). CSD and Liberal Studies are excluded.
 
+> [!info] 🎓 **Admission talk Q4** — how the JUPAS score is calculated · [⬅ back to cover page](../index.html#q4)
+
 ## Question
 
 Can you show me how to actually compute a JS1204 admission score from HKDSE results?

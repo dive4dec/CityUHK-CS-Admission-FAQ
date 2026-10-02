@@ -12,6 +12,8 @@ status: verified
 > [!tip] Short answer
 > CityUHK weights each subject differently per programme. A subject marked "1.5" contributes 1.5 x its level points to the total; "2" contributes 2x, etc. The admission score is the sum over the subjects in the programme's formula.
 
+> [!info] 🎓 **Admission talk Q5** — the NEW 1.5x weighting policy · [⬅ back to cover page](../index.html#q5)
+
 ## Question
 
 What does 'weighting' mean and how is it applied in CityUHK's admission score?

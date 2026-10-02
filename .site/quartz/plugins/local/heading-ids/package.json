@@ -1,0 +1,19 @@
+{
+  "name": "heading-ids",
+  "version": "0.1.0",
+  "description": "Turn {#id} markers in headings into real short anchor ids and strip the marker text.",
+  "type": "module",
+  "exports": {
+    ".": { "import": "./index.js" },
+    "./package.json": "./package.json"
+  },
+  "quartz": {
+    "name": "heading-ids",
+    "displayName": "Heading Ids",
+    "description": "{#id} heading markers -> real short anchor ids (marker text stripped).",
+    "version": "0.1.0",
+    "quartzVersion": ">=5.0.0",
+    "category": ["transformer"],
+    "defaultOrder": 35
+  }
+}

@@ -12,13 +12,15 @@ status: verified
 > [!tip] Short answer
 > Advanced Standing II (ASII), also called senior-year admission, admits students to the final (Year 3) year of a four-year degree, taking a minimum of 60 credit units instead of 120-121. It is only available to local students.
 
+> [!info] 🎓 **Admission talk Q8** — non-JUPAS routes · [⬅ back to cover page](../index.html#q8)
+
 ## Question
 
 What is Advanced Standing II and can I join CS in the final year?
 
 ## Answer
 
-Advanced Standing II (ASII), also called senior-year admission, admits students to the **final (Year 3) year** of a four-year degree, taking a minimum of 60 credit units instead of 120-121. It is only available to **local** students.
+Advanced Standing II (ASII), also called senior-year admission, admits students to the **final (Year 3) year** of a four-year degree, taking a minimum of 60 credit units instead of 120-121. It is only available to **local** students. **For the coming year ASII is available for BOTH BSc Computer Science (JS1204) and BSc Cybersecurity (JS1218).**
 
 Eligibility: final-year students or graduates of an AD/HD programme recognized by CityUHK. No CGPA or overall-mark requirement is set for applying, but because competition is keen, accepted applicants are normally expected to have completed AD/HD with CGPA 3.0 or an equivalent overall mark, or a credit award. Individual programmes may set higher requirements.
 

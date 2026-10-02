@@ -12,6 +12,8 @@ status: verified
 > [!tip] Short answer
 > Year 1 (33 credit units), by subject area:
 
+> [!info] 🎓 **Admission talk Q3** — main courses and their arrangement · [⬅ back to cover page](../index.html#q3)
+
 ## Question
 
 What exactly do CS students study in Year 1 at CityUHK?

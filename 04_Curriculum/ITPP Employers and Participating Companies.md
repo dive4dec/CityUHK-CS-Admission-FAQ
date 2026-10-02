@@ -12,6 +12,8 @@ status: verified
 > [!tip] Short answer
 > Past participating companies include: ASM Pacific Technology, Boxland HK, Castco Testing Centre, Cherrypicks, CLP Power HK, Deloitte China, East Technologies, FUJIFILM Business Innovation HK, Global eSolutions HK, HKBN JOS, HK Convention &…
 
+> [!info] 🎓 **Admission talk Q2** — the mandatory 9-month internship · [⬅ back to cover page](../index.html#q2)
+
 ## Question
 
 Which companies have hosted CS students on the internship?

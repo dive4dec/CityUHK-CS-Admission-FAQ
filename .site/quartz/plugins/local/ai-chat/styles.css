@@ -1041,6 +1041,63 @@ html.chat-docked.chat-docked-closed .sidebar-toggle {
   }
 }
 
+/* ---- Ask-the-AI question list (cover page) ----
+   Plain <li> rows in a .ask-ai-list, made into tap-to-ask chips by the
+   chat.js delegated click handler. */
+.ask-ai-list {
+  list-style: none;
+  margin: 0.75rem 0 0.25rem;
+  padding: 0;
+  display: grid;
+  gap: 0.4rem;
+}
+.ask-ai-list li {
+  position: relative;
+  padding: 0.55rem 2.4rem 0.55rem 2.5rem;
+  border: 1px solid var(--gray, #b8b8b8);
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  line-height: 1.35;
+  transition: background 0.12s ease, border-color 0.12s ease, transform 0.06s ease;
+}
+.ask-ai-list li::before {
+  content: "\1F916"; /* robot */
+  position: absolute;
+  left: 0.7rem;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.8;
+}
+.ask-ai-list li::after {
+  content: "Ask";
+  position: absolute;
+  right: 0.7rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  opacity: 0.5;
+}
+.ask-ai-list li:hover {
+  background: var(--highlight, rgba(143, 159, 169, 0.15));
+  border-color: var(--secondary, #284b63);
+}
+.ask-ai-list li:active {
+  transform: scale(0.99);
+}
+.ask-ai-list li.asked {
+  border-color: #4caf7d;
+  background: rgba(76, 175, 125, 0.12);
+}
+.ask-ai-list li.asked::after {
+  content: "Sent \2713";
+  color: #4caf7d;
+  opacity: 1;
+}
+
 /* ---- Mobile (<800px): single-column stacked grid ----
    Quartz already stacks the side panels above/below the article here.
    The left panel (search + explorer tree) can still push the article

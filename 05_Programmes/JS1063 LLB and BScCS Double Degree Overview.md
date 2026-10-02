@@ -12,6 +12,8 @@ status: verified
 > [!tip] Short answer
 > JS1063 is a brand-new 5-year double degree (first intake 2027/28, 8 local JUPAS places) run jointly by the School of Law and the Department of Computer Science: a **qualifying LLB** plus a **BSc Computer Science (Stream: Artificial Intelligence)** in 5 years instead of the ~8 for two separate degrees. JUPAS minimums are **English 5**, Math 3, Chinese 3, CSD attained, plus a Level-3 science/ICT elective (Physics / ICT / M1 / M2 / Biology / Chemistry) and a second Level-3 elective. First-year fee HK$49,500; credits above 144 in year 1-4 and all year-5 credits are self-financing.
 
+> [!info] 🎓 **Admission talk Q9** — the double degrees · [⬅ back to cover page](../index.html#q9)
+
 ## Question
 
 What is the LLB + BSc Computer Science (AI) double degree (JS1063), and who is it for?

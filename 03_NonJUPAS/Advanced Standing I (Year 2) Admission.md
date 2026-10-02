@@ -12,13 +12,15 @@ status: verified
 > [!tip] Short answer
 > Advanced Standing I (ASI) admits students to Year 2 of a four-year degree, so they take fewer credits to graduate (minimum 90-91 credit units instead of 120-121). It is the main 'direct entry' route for AD/HD holders into CS.
 
+> [!info] 🎓 **Admission talk Q8** — non-JUPAS routes · [⬅ back to cover page](../index.html#q8)
+
 ## Question
 
 What is Advanced Standing I and how do I start CityUHK CS in Year 2?
 
 ## Answer
 
-Advanced Standing I (ASI) admits students to **Year 2** of a four-year degree, so they take fewer credits to graduate (minimum 90-91 credit units instead of 120-121). It is the main 'direct entry' route for AD/HD holders into CS.
+Advanced Standing I (ASI) admits students to **Year 2** of a four-year degree, so they take fewer credits to graduate (minimum 90-91 credit units instead of 120-121). It is the main 'direct entry' route for AD/HD holders into CS. **For the coming year ASI is available for BOTH BSc Computer Science (JS1204) and BSc Cybersecurity (JS1218).**
 
 To be eligible for ASI in CS you generally need: a final-year or graduated Associate Degree / Higher Diploma (or equivalent) in a computing-related discipline, meeting the General Entrance Requirements. Students admitted with ASI are not entitled to further credit transfer; instead they may be granted **course exemptions** based on prior study (no credit units are earned for exempted courses).
 

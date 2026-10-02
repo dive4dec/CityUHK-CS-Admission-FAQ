@@ -7,6 +7,34 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 ## [Unreleased]
 
 ### Added
+- **Admission-talk cover page (index.md) reorganised** to talk order with a
+  "three majors first" table, then Q1–Q10 as talk prompts: (Q1) what makes the
+  majors attractive, (Q2) the mandatory 9-month internship, (Q3) main courses
+  & arrangement, (Q4) JUPAS best-5 score calculation, (Q5) 🆕 the 1.5× subject
+  weighting policy (emphasised as NEW), (Q6) band competitiveness (Band A
+  most, D/E no chance), (Q7) no JUPAS interview, (Q8) non-JUPAS routes (Yr 1
+  IB/GCE A-Level; ASI/ASII for CS **and** Cyber next year), (Q9) double
+  degrees (5-yr, Math L4, self-financed final yr, JUPAS only), (Q10)
+  scholarships. Each question links to its source note(s); each source note
+  carries a "⬅ back to cover page" callout so the talk can move back and forth
+  without scrolling.
+- **"🤖 Ask the AI" section** on the cover page: a tap-to-ask list of
+  general questions the site notes don't answer (9-month vs summer internship
+  benefit, CS/cyber job market in HK, Cyber vs CS, CS vs IT, CS-major/IT-job,
+  will-AI-replace-jobs). Tapping a question opens the AI chat and sends it
+  immediately (no retyping); the tapped row flashes "Sent ✓".
+- **`{#id}` heading-anchor plugin** (local Quartz transformer, order 51): turns
+  `{#id}` markers in headings into real short anchor ids AND rewrites the
+  sidebar TOC to match, so `#q1`–`#q10` / `#ask-ai` are stable short anchors
+  for the back-links (previously the marker rendered as literal text and the
+  auto-slugger produced long, mismatched ids).
+
+### Fixed
+- Cover-page section anchors were broken (the `{#qN}` marker rendered as
+  literal text; back-links pointed at non-existent ids). Now resolved.
+- Note "back to cover page" links previously 404'd / no-anchored; they now
+  jump to the correct cover-page section.
+
 - **JS1063 LLB + BSc Computer Science (AI) double degree** note
   (05_Programmes). JS1063 is a brand-new 5-year double degree (first
   intake 2027/28, 8 local JUPAS places) jointly run by the School of

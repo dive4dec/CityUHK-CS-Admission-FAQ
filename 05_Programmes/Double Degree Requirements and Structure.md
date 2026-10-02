@@ -12,6 +12,8 @@ status: verified
 > [!tip] Short answer
 > CityUHK runs two CS double degrees. JS1221 (CS + Computational Finance & FinTech): 5 years, 151 CU minimum, JUPAS Math 4. JS1063 (LLB + BSc CS AI stream, new 2027/28): 5 years, 158 CU, JUPAS English 5. Both charge self-financing fees for credits above 144 in years 1-4 and all year-5 credits.
 
+> [!info] 🎓 **Admission talk Q9** — the double degrees · [⬅ back to cover page](../index.html#q9)
+
 ## Question
 
 How do the CS double degrees work in terms of requirements?

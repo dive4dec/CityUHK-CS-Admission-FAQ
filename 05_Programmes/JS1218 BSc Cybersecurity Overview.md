@@ -12,6 +12,8 @@ status: verified
 > [!tip] Short answer
 > BSc Cybersecurity (JS1218) is a 4-year degree in the Department of Computer Science, newly launched (first JUPAS entry 2025) for the growing demand for skilled cybersecurity experts. It equips students to safeguard digital assets, respond to…
 
+> [!info] 🎓 **Admission talk Q1** — what makes the majors attractive · [⬅ back to cover page](../index.html#q1)
+
 ## Question
 
 What is BSc Cybersecurity (JS1218) at CityUHK?

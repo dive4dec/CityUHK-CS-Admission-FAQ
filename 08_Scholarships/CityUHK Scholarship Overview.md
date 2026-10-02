@@ -12,6 +12,8 @@ status: verified
 > [!tip] Short answer
 > CityUHK offers three university-wide entrance scholarships for local entrants (Flagship, Institutional, Dean's) plus separate schemes for international, Chinese Mainland and student-athlete students. All are merit-based, need no separate application, and the biggest can cover 100% tuition (plus hall fees) for up to six years.
 
+> [!info] 🎓 **Admission talk Q10** — scholarships and cost · [⬅ back to cover page](../index.html#q10)
+
 ## Question
 
 What scholarships are available for a student applying to a CityUHK CS programme?

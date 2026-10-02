@@ -74,6 +74,14 @@ plugins:
       enableInHtmlEmbed: true
       enableCheckbox: true
     order: 30
+  # {#id} heading markers -> real short anchor ids + clean TOC entries.
+  # Runs AFTER table-of-contents (50) so it can rewrite the TOC's slugs/text
+  # in place, and its heading id is set on the mdast before rehype-slug
+  # (html phase) sees the heading — so the short id wins on the rendered <h2>.
+  # Powers the cover page's #q1..#q10 / #ask-ai back-link targets.
+  - source: "./quartz/plugins/local/heading-ids"
+    enabled: true
+    order: 51
   - source: "@quartz-community/github-flavored-markdown"
     enabled: true
     order: 40

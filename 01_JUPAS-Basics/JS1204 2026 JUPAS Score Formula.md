@@ -12,6 +12,8 @@ status: verified
 > [!tip] Short answer
 > JS1204 BSc Computer Science (2026 JUPAS):
 
+> [!info] 🎓 **Admission talk Q4** — how the JUPAS score is calculated · [⬅ back to cover page](../index.html#q4)
+
 ## Question
 
 How is the JUPAS admission score for BSc Computer Science calculated?

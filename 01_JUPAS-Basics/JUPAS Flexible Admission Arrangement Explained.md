@@ -12,6 +12,8 @@ status: verified
 > [!tip] Short answer
 > The Flexible Admissions Arrangement lets CityUHK consider applicants who fall slightly short of the main admission score but meet a lower threshold, typically when their weaker subject is exactly at the minimum required level. For 2026 entry the…
 
+> [!info] 🎓 **Admission talk Q7** — JUPAS interview? · [⬅ back to cover page](../index.html#q7)
+
 ## Question
 
 What is the JUPAS Flexible Admission Arrangement and what does the threshold score mean?

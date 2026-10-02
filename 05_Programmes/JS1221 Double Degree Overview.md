@@ -12,6 +12,8 @@ status: verified
 > [!tip] Short answer
 > JS1221 is a 5-year double degree jointly offered by the Department of Computer Science and the College of Business, training professionals who blend computer science with computational finance and financial technology (AI, big data analytics, derivatives pricing, financial econometrics, portfolio management, software engineering, blockchain).
 
+> [!info] 🎓 **Admission talk Q9** — the double degrees · [⬅ back to cover page](../index.html#q9)
+
 ## Question
 
 What is the BSc CS + BSc Computational Finance and FinTech double degree (JS1221)?

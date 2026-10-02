@@ -12,6 +12,8 @@ status: verified
 > [!tip] Short answer
 > CityUHK CS is among the more competitive local computing programmes but sits below HKU/HKUST top-ranked computing in raw JUPAS scores. The 2026 median JS1204 score of 23 corresponds to a typical admitted profile of roughly 544AA-plus in the…
 
+> [!info] 🎓 **Admission talk Q6** — how competitive it is · [⬅ back to cover page](../index.html#q6)
+
 ## Question
 
 How competitive is CityUHK CS and do I need Band A results?

@@ -12,6 +12,8 @@ status: verified
 > [!tip] Short answer
 > The IT Professional Internship (ITPP) is a mandatory, credit-bearing, 9-month placement taken in the third year (after completing the first two years of full-time study). It is an integral component of the CS curriculum - all students acquire…
 
+> [!info] 🎓 **Admission talk Q2** — the mandatory 9-month internship · [⬅ back to cover page](../index.html#q2)
+
 ## Question
 
 What is the mandatory IT Professional Internship (ITPP) in CS?

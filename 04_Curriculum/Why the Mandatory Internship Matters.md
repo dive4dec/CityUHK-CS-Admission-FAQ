@@ -12,6 +12,8 @@ status: verified
 > [!tip] Short answer
 > It removes the single biggest objection parents and students have about a CS degree - 'will this get me a job?'. Because ITPP is mandatory, every CS graduate leaves with a full 9-month, industry-supervised work experience and a reference from a…
 
+> [!info] 🎓 **Admission talk Q2** — the mandatory 9-month internship · [⬅ back to cover page](../index.html#q2)
+
 ## Question
 
 Why does the mandatory internship matter so much for a CS applicant?

@@ -12,6 +12,8 @@ status: verified
 > [!tip] Short answer
 > BSc CS (JS1204) lets students specialise in one of five streams:
 
+> [!info] 🎓 **Admission talk Q1** — what makes the majors attractive · [⬅ back to cover page](../index.html#q1)
+
 ## Question
 
 What are the five streams within BSc Computer Science?

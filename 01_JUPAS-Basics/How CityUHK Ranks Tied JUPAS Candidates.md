@@ -12,6 +12,8 @@ status: verified
 > [!tip] Short answer
 > CityUHK's published JS1204 selection criteria say that with equal scores, the university refers to: (1) results in discipline-related subjects (e.g., Mathematics, ICT, Physics), (2) band choices, (3) school principal's nominations, and (4) OEA.…
 
+> [!info] 🎓 **Admission talk Q6** — how competitive it is · [⬅ back to cover page](../index.html#q6)
+
 ## Question
 
 If two students have the same JUPAS score, who gets the offer?
