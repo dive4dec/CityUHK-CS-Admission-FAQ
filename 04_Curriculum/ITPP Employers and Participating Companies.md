@@ -3,7 +3,7 @@ title: "ITPP Employers and Participating Companies"
 type: faq
 area: 04_Curriculum
 vault: CityUHK-CS-Admission-FAQ
-retrieved: "2026-09"
+retrieved: "2026-10"
 status: verified
 ---
 
@@ -12,7 +12,7 @@ status: verified
 > [!tip] Short answer
 > Past participating companies include: ASM Pacific Technology, Boxland HK, Castco Testing Centre, Cherrypicks, CLP Power HK, Deloitte China, East Technologies, FUJIFILM Business Innovation HK, Global eSolutions HK, HKBN JOS, HK Convention &…
 
-> [!info] 🎓 **Admission talk Q2** — the mandatory 9-month internship · [⬅ back to cover page](../index.html#q2)
+> [!info] 🎓 **Admission talk Q2** — the industry internship · [⬅ back to cover page](../index.html#q2)
 
 ## Question
 
@@ -27,7 +27,7 @@ The employer mix is deliberately broad: banks (HSBC, BEA, Shanghai Commercial), 
 ## Related
 
 - [[ITPP IT Professional Internship Overview]]
-- [[Why the Mandatory Internship Matters]]
+- [[Why the Industry Internship Matters]]
 - [[JS1204 Graduate Employment Statistics]]
 
 ## Source

@@ -15,7 +15,7 @@ A plain-language FAQ for **City University of Hong Kong (CityUHK) — Department
 
 | Major | Summary | Intake 2026/27 | 2026 score |
 | --- | --- | --- | --- |
-| **BSc Computer Science [JS1204](/05_programmes/js1204-bsc-computer-science-overview.html)** | Flagship 4-year CS with **5 streams** (AI, Cybersecurity, Data Science, Multimedia, Software Engineering), **mandatory 9-month internship**, HKIE-accredited | ~85 local | median **23** |
+| **BSc Computer Science [JS1204](/05_programmes/js1204-bsc-computer-science-overview.html)** | Flagship 4-year CS with **5 streams** (AI, Cybersecurity, Data Science, Multimedia, Software Engineering), **industry internship (9-month ITPP or shorter career-dev option)**, HKIE-accredited | ~85 local | median **23** |
 | **BSc Cybersecurity [JS1218](/05_programmes/js1218-bsc-cybersecurity-overview.html)** | 4-year degree for the cybersecurity talent gap (System/Software Security, Cryptography, Privacy, Cyber Risk) | ~29 local | median **20.5** |
 | **Double degrees [JS1221](/05_programmes/js1221-double-degree-overview.html) / [JS1063](/05_programmes/js1063-llb-and-bsccs-double-degree-overview.html)** | 5-year CS + Computational Finance & FinTech / CS (AI) + Law — **only ~10 places**, JUPAS only | ~10–18 local | median **23** |
 
@@ -25,19 +25,19 @@ A plain-language FAQ for **City University of Hong Kong (CityUHK) — Department
 
 - **Direct admission to the major** — students join Computer Science or Cybersecurity directly, not a broad "department" where seats are re-allocated.
 - **5 streams inside CS** (AI / Cybersecurity / Data Science / Multimedia / Software Engineering) — one major, many specialisations.
-- **Mandatory 9-month internship** (Q2) — every graduate works before graduating.
+- **Industry internship built into Year 3** (Q2) — every student takes a credit-bearing placement: the full 9-month ITPP, or a shorter career-development internship in lieu of 3 electives (2026/27 onwards).
 - **97.5% full-time employment** of BSc CS graduates (2024 survey); HKIE accreditation (first CS programme in HK).
 - Joint Bachelor's with **Columbia University** (direct Year-1 admission from 2026/27).
 
 **Read:** [[JS1204 BSc Computer Science Overview]] · [[JS1218 BSc Cybersecurity Overview]] · [[CS Study Streams Explained]]
 
-## Q2 — The mandatory internship: arrangement and why it matters {#q2}
+## Q2 — The industry internship: arrangement and why it matters {#q2}
 
-- **9 months in Year 3**, credit-bearing, at real companies/government — after two full years of study.
-- Works **4 days a week with Fridays off for classes** — the internship runs alongside study, it doesn't pause the degree.
+- **Year 3, credit-bearing, at real companies/government** — after two full years of study. Two routes (2026/27 onwards): **CS3505 ITPP** (9 months, 9 CU) or **CS3000** Professional Career Development Internship (shorter) + 3 extra electives.
+- For the 9-month ITPP: works **4 days a week with Fridays off for classes** — the internship runs alongside study, it doesn't pause the degree.
 - Jointly assessed by a CityU supervisor **and** the employer; a deliberate differentiator vs programmes where internships are optional.
 
-**Read:** [[ITPP IT Professional Internship Overview]] · [[Why the Mandatory Internship Matters]] · [[ITPP Employers and Participating Companies]]
+**Read:** [[ITPP IT Professional Internship Overview]] · [[Why the Industry Internship Matters]] · [[ITPP Employers and Participating Companies]]
 
 ## Q3 — Main courses and how they are arranged {#q3}
 

@@ -4,7 +4,7 @@ Interlinked Obsidian FAQ vault for **City University of Hong Kong (CityUHK) — 
 
 - **~700 notes** across 9 topic areas, all cross-linked with `[[wikilinks]]`
 - JUPAS score formulas, the **1.5× weighting policy**, published score history (2023–2026), worked examples
-- Non-JUPAS routes, programme overviews (BSc CS `JS1204`, BSc Cybersecurity `JS1218`, double degree `JS1221`, ACT, Data Science), curriculum and the mandatory **ITPP internship**
+- Non-JUPAS routes, programme overviews (BSc CS `JS1204`, BSc Cybersecurity `JS1218`, double degree `JS1221`, ACT, Data Science), curriculum and the **ITPP industry internship** (9-month ITPP or shorter career-development option, 2026/27)
 - the **"What's My Score?" calculator** (weight-1 + 1.5× versions + recommendation)
 
 ## Read Online (GitHub Pages)

@@ -18,7 +18,7 @@ How much software engineering is in the CS degree?
 
 ## Answer
 
-A substantial amount. Beyond the core, there is a whole Software Engineering and Project Management stream (CS3343 Software Engineering Practice, CS3346 Software Testing and Maintenance, CS3347 SE Principles and Practice, CS3356 Managing Software Projects, CS3367 Essentials of SE, CS4348 Software Quality Management, CS4381 Advanced Software Design, CS4385 Topics in SE) plus CS3383 AI for Software Engineering. The degree also emphasizes professional skills through CS2066 IT Professionals and Society and the mandatory internship.
+A substantial amount. Beyond the core, there is a whole Software Engineering and Project Management stream (CS3343 Software Engineering Practice, CS3346 Software Testing and Maintenance, CS3347 SE Principles and Practice, CS3356 Managing Software Projects, CS3367 Essentials of SE, CS4348 Software Quality Management, CS4381 Advanced Software Design, CS4385 Topics in SE) plus CS3383 AI for Software Engineering. The degree also emphasizes professional skills through CS2066 IT Professionals and Society and the built-in Year-3 industry internship (9-month ITPP or the shorter CS3000 career-development placement).
 
 This makes the CS graduate strong on the 'professional software developer / system architect / system analyst' career track that the department explicitly targets - not just research or pure theory.
 

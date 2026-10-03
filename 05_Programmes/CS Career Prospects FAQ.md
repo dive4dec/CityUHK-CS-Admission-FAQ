@@ -3,7 +3,7 @@ title: "CS Career Prospects FAQ"
 type: faq
 area: 05_Programmes
 vault: CityUHK-CS-Admission-FAQ
-retrieved: "2026-09"
+retrieved: "2026-10"
 status: verified
 ---
 
@@ -22,7 +22,7 @@ The department's stated target roles: professional software developers, system a
 
 By sector, graduates work in business services (34.7%), financial institutions (13.3%) and government (13.3%) - consistent with the internship employer list (banks, HKEX, OGCIO, Huawei, Deloitte, KPMG, PwC). The double degree (JS1221) adds quant/finance/FinTech roles: quantitative analyst, cybersecurity analyst, AI/ML specialist, data scientist, risk & compliance specialist, blockchain developer.
 
-For parents and students: the career story is 'broad technology employment with a strong software/systems core, plus a mandatory industry internship that de-risks the first job.'
+For parents and students: the career story is 'broad technology employment with a strong software/systems core, plus a built-in Year-3 industry internship (9-month ITPP or shorter career-development placement) that de-risks the first job.'
 
 ## Examples
 

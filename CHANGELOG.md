@@ -6,6 +6,21 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Changed
+- **ITPP internship is no longer mandatory (2026/27 cohort).** Verified against the
+  published BSc CS Curriculum Information Record for cohort 2026 (cs.cityu.edu.hk,
+  last updated 11 Aug 2026): the degree requirement is now "**choose either CS3000
+  or CS3505**" (exclusive). CS3505 remains the full 9-month, 9-CU ITPP; students
+  who pick CS3000 Professional Career Development Internship (9 CU) instead take
+  3 additional electives in lieu of the 9-credit CS3505. CS3000 is not available
+  to ACT (JS1070) AI, Computing and Transformation stream students, for whom
+  CS3505 is a stream core. Updated: ITPP Overview (now explains both routes),
+  "Why the Mandatory Internship Matters" → renamed "Why the Industry Internship
+  Matters" (all wikilinks updated), ITPP Employers, index.md (majors table, Q1
+  bullet, Q2 section), JS1204 Overview, CS Career Prospects, CS3000 & CS3505
+  course FAQs, JS1070 ACT Overview, SE-in-Curriculum, JS1072 + DS-stream
+  comparison notes, and README.
+
 ### Added
 - **Admission-talk cover page (index.md) reorganised** to talk order with a
   "three majors first" table, then Q1–Q10 as talk prompts: (Q1) what makes the
