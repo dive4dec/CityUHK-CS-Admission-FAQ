@@ -25,7 +25,7 @@ For the internships, contact pms@cs.cityu.edu.hk. Major leader for BSc CS (2026/
 ## Related
 
 - [[Non-JUPAS Application Steps]]
-- [[ITPP IT Professional Internship Overview]]
+- [[IT Professional Internship Overview]]
 
 ## Source
 

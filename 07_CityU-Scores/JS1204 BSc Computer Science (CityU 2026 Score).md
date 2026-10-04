@@ -34,7 +34,7 @@ These are weighted admission scores and are not comparable across programmes or 
 
 - [[JS1204 BSc Computer Science Overview]]
 - [[CS Study Streams Explained]]
-- [[ITPP IT Professional Internship Overview]]
+- [[IT Professional Internship Overview]]
 - [[1.5x Subject Weighting Policy (Draft) Status]]
 - [[JS1204 BSc Computer Science (CityU 2025 Score)]]
 - [[JS1204 BSc Computer Science (CityU 2024 Score)]]

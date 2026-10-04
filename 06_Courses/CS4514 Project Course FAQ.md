@@ -28,7 +28,7 @@ Course levels in CityUHK CS follow the digit convention: 1000-series = first yea
 
 ## Related
 
-- [[ITPP IT Professional Internship Overview]]
+- [[IT Professional Internship Overview]]
 - [[CS Study Streams Explained]]
 - [[Curriculum of BSc Computer Science]]
 

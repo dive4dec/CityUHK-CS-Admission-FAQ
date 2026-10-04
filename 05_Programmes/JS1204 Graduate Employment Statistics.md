@@ -26,7 +26,7 @@ Job nature: **System Analysis and Computer Programmers 68.4%**, Engineers 10.5%,
 
 ## Related
 
-- [[ITPP IT Professional Internship Overview]]
+- [[IT Professional Internship Overview]]
 - [[Why the Industry Internship Matters]]
 - [[CS Career Prospects FAQ]]
 

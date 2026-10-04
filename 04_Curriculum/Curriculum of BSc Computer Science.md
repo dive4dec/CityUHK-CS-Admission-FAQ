@@ -31,7 +31,7 @@ Students then specialise in one of five streams by taking 3 courses of the chose
 - [[CS First Year Courses and Credits]]
 - [[CS Core Courses Explained]]
 - [[CS Study Streams Explained]]
-- [[ITPP IT Professional Internship Overview]]
+- [[IT Professional Internship Overview]]
 
 ## Source
 

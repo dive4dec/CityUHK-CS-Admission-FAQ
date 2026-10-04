@@ -22,7 +22,7 @@ The department's stated target roles: professional software developers, system a
 
 By sector, graduates work in business services (34.7%), financial institutions (13.3%) and government (13.3%) - consistent with the internship employer list (banks, HKEX, OGCIO, Huawei, Deloitte, KPMG, PwC). The double degree (JS1221) adds quant/finance/FinTech roles: quantitative analyst, cybersecurity analyst, AI/ML specialist, data scientist, risk & compliance specialist, blockchain developer.
 
-For parents and students: the career story is 'broad technology employment with a strong software/systems core, plus a built-in Year-3 industry internship (9-month ITPP or shorter career-development placement) that de-risks the first job.'
+For parents and students: the career story is 'broad technology employment with a strong software/systems core, plus a built-in Year-3 industry internship (9 months at a company, or 160 hours of industry/research work with 3 extra CS electives) that de-risks the first job.'
 
 ## Examples
 
@@ -31,7 +31,7 @@ For parents and students: the career story is 'broad technology employment with 
 ## Related
 
 - [[JS1204 Graduate Employment Statistics]]
-- [[ITPP Employers and Participating Companies]]
+- [[Internship Employers and Participating Companies]]
 - [[JS1221 Double Degree Overview]]
 
 ## Source

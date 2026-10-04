@@ -25,7 +25,7 @@ The department's research foci (AI, cloud, data science, security, multimedia, v
 ## Related
 
 - [[Curriculum of BSc Computer Science]]
-- [[ITPP IT Professional Internship Overview]]
+- [[IT Professional Internship Overview]]
 - [[CS AI Stream Courses]]
 
 ## Source

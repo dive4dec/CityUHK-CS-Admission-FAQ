@@ -1,5 +1,5 @@
 ---
-title: "ITPP Employers and Participating Companies"
+title: "Internship Employers and Participating Companies"
 type: faq
 area: 04_Curriculum
 vault: CityUHK-CS-Admission-FAQ
@@ -7,7 +7,7 @@ retrieved: "2026-10"
 status: verified
 ---
 
-# ITPP Employers and Participating Companies
+# Internship Employers and Participating Companies
 
 > [!tip] Short answer
 > Past participating companies include: ASM Pacific Technology, Boxland HK, Castco Testing Centre, Cherrypicks, CLP Power HK, Deloitte China, East Technologies, FUJIFILM Business Innovation HK, Global eSolutions HK, HKBN JOS, HK Convention &…
@@ -26,7 +26,7 @@ The employer mix is deliberately broad: banks (HSBC, BEA, Shanghai Commercial), 
 
 ## Related
 
-- [[ITPP IT Professional Internship Overview]]
+- [[IT Professional Internship Overview]]
 - [[Why the Industry Internship Matters]]
 - [[JS1204 Graduate Employment Statistics]]
 

@@ -4,7 +4,7 @@ Interlinked Obsidian FAQ vault for **City University of Hong Kong (CityUHK) — 
 
 - **~700 notes** across 9 topic areas, all cross-linked with `[[wikilinks]]`
 - JUPAS score formulas, the **1.5× weighting policy**, published score history (2023–2026), worked examples
-- Non-JUPAS routes, programme overviews (BSc CS `JS1204`, BSc Cybersecurity `JS1218`, double degree `JS1221`, ACT, Data Science), curriculum and the **ITPP industry internship** (9-month ITPP or shorter career-development option, 2026/27)
+- Non-JUPAS routes, programme overviews (BSc CS `JS1204`, BSc Cybersecurity `JS1218`, double degree `JS1221`, ACT, Data Science), curriculum and the **IT Professional Internship** (9-month internship, or 160 hours + 3 CS electives, 2026/27)
 - the **"What's My Score?" calculator** (weight-1 + 1.5× versions + recommendation)
 
 ## Read Online (GitHub Pages)
@@ -49,7 +49,7 @@ CityUHK-CS-Admission-FAQ/
 ├── 01_JUPAS-Basics/    # formulas, conversion, bands, dates, 1.5x policy
 ├── 02_JUPAS-Scores/    # score history, worked examples, competitiveness
 ├── 03_NonJUPAS/        # Year 1 / ASI / ASII, IB, GCE A-Level
-├── 04_Curriculum/      # streams, cybersecurity, ITPP internship
+├── 04_Curriculum/      # streams, cybersecurity, internship
 ├── 05_Programmes/      # programme overviews, double degree
 ├── 06_Courses/         # one note per CS course (91)
 ├── 07_CityU-Scores/    # per programme per year 2023-2026 (222)

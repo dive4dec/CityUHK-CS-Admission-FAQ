@@ -22,7 +22,7 @@ What is BSc Computer Science (JS1204) at CityUHK?
 
 BSc Computer Science (JS1204) is the flagship 4-year programme of the Department of Computer Science, offering a well-balanced curriculum in both the theoretical and practical aspects of computing, with five streams: **Artificial Intelligence, Cybersecurity, Data Science, Multimedia Computing, and Software Engineering and Project Management**.
 
-Key features: a focused core plus wide electives; a **credit-bearing Year-3 industry internship** — the 9-month IT Professional Internship (CS3505) or, from 2026/27, the shorter CS3000 career-development internship as an alternative; HKIE accreditation (first CS programme in HK); 97.5% full-time employment (2024 survey); and a joint Bachelor's Degree Programme with Columbia University (direct Year-1 admission from 2026/27).
+Key features: a focused core plus wide electives; a **credit-bearing Year-3 industry internship** — 9 months at a company (CS3505 IT Professional Internship), or 160 hours of industry/research work (CS3000) + 3 extra CS electives; HKIE accreditation (first CS programme in HK); 97.5% full-time employment (2024 survey); and a joint Bachelor's Degree Programme with Columbia University (direct Year-1 admission from 2026/27).
 
 Indicative local intake (2026/27): 85 places for JS1204 (first year + ASI combined). JUPAS minimums: Eng 3, Chi 3, Math 3, CSD attained, plus Level 3 in one of Bio/Chem/ICT/M1/M2/Physics and a second Level-3 elective. 2026 JUPAS score: median 23 / lower quartile 22 (best 5, weight 1).
 
@@ -32,7 +32,7 @@ Major leader (2026/27 page): Prof. Howard LEUNG (BEng McGill, MSc/PhD Carnegie M
 
 - [[CS First Year Courses and Credits]]
 - [[CS Study Streams Explained]]
-- [[ITPP IT Professional Internship Overview]]
+- [[IT Professional Internship Overview]]
 - [[JS1063 LLB and BScCS Double Degree Overview]]
 - [[Minor in Artificial Intelligence]]
 - [[JS1204 2026 JUPAS Score Formula]]
